@@ -67,6 +67,11 @@ extension WidgetExtensions on Widget {
         child: this,
       );
 
+  Widget paddingBottom([double padding = 8.0]) => Padding(
+        padding: EdgeInsets.only(bottom: padding),
+        child: this,
+      );
+
   Widget paddingRight([double padding = 8.0]) => Padding(
         padding: EdgeInsets.only(right: padding),
         child: this,

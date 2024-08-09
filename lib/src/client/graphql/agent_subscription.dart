@@ -1,11 +1,11 @@
 import 'package:graphql/client.dart';
 
-agentSubscription(String conversationId, String message) {
-  return gql('''
-   subscription {
+agentSubscription() {
+  return gql(r'''
+   subscription agent($conversationId: String!, $messages: [MessageInput!]!) {
     agent(request: {
       conversationContext: {
-        conversationId: "$conversationId",
+        conversationId: $conversationId,
         anonymizationEntities: []
       },
       systemContext: [
@@ -28,13 +28,7 @@ agentSubscription(String conversationId, String message) {
           }
         ]
       },
-      messages: [
-        {
-          content: "$message",
-          role: "user",
-          format: "text"
-        }
-      ]
+      messages: $messages
     }) {
       anonymizationEntities {
         replacement,

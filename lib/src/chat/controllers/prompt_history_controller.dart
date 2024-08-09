@@ -24,7 +24,7 @@ class PromptHistoryController extends _$PromptHistoryController {
       if (oldState.contains(prompt)) return;
       if (oldState.length > 15) oldState.removeLast();
       newState = [prompt, ...oldState];
-      _sharedPreferences.setStringList(_promptHistoryKey, newState);
+      //_sharedPreferences.setStringList(_promptHistoryKey, newState);
     } else {
       newState = [prompt];
     }

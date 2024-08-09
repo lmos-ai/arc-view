@@ -6,7 +6,7 @@ part of 'oneai_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$oneAIClientHash() => r'1a3d342c1c2bda39f1e95f54a9862cdb37908721';
+String _$oneAIClientHash() => r'7abce55c3528ff33f52b0bdc7d5d523dabfe8ab5';
 
 /// See also [oneAIClient].
 @ProviderFor(oneAIClient)

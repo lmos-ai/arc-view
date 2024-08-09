@@ -37,7 +37,7 @@ class ChatController extends _$ChatController {
         conversationId: state.conversationId,
       )
     ]);
-    ref.read(oneAIClientProvider).sendMessage(msg).listen((value) {
+    ref.read(oneAIClientProvider).sendMessage(state.messages).listen((value) {
       final newMessages = [];
       for (final message in state.messages) {
         if (message.type != MessageType.loading) {

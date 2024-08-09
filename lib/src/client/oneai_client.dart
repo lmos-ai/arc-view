@@ -10,31 +10,50 @@ part 'oneai_client.g.dart';
 @riverpod
 OneAIClient oneAIClient(OneAIClientRef ref) {
   final agentUrl = ref.watch(agentUrlProvider);
-  final httpLink = HttpLink('http://$agentUrl/graphql');
+  final httpLink = HttpLink('${agentUrl.$1}/graphql');
+
   final websocketLink = WebSocketLink(
-    'ws://$agentUrl/subscriptions',
+    '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.$1.host}:${agentUrl.$1.port}/subscriptions',
     subProtocol: GraphQLProtocol.graphqlTransportWs,
   );
   Link link =
       Link.split((request) => request.isSubscription, websocketLink, httpLink);
   final GraphQLClient client = GraphQLClient(cache: GraphQLCache(), link: link);
-
+  print(websocketLink.url);
   return OneAIClient(client);
 }
 
 class OneAIClient {
-  OneAIClient(this.client);
+  OneAIClient(this._client);
 
-  final GraphQLClient client;
+  final GraphQLClient _client;
 
-  Stream<String> sendMessage(ChatMessage message) {
-    final subscription = client.subscribe(SubscriptionOptions(
-        document: agentSubscription(message.conversationId, message.content)));
-    return subscription.map((e) => e.data!['agent']['messages'][0]['content']);
+  Stream<String> sendMessage(List<ChatMessage> messages) {
+    if (messages.isEmpty) return const Stream.empty();
+    final subscription = _client.subscribe(
+      SubscriptionOptions(
+        document: agentSubscription(),
+        variables: {
+          'conversationId': messages.first.conversationId,
+          'messages': messages
+              .where((e) => e.type != MessageType.loading)
+              .map((e) => {
+                    'content': e.content,
+                    'role': e.type == MessageType.user ? 'user' : 'assistant',
+                    'format': 'text',
+                  })
+              .toList(),
+        },
+      ),
+    );
+    return subscription.map((e) {
+      if (e.hasException) return e.exception.toString();
+      return e.data!['agent']['messages'][0]['content'];
+    });
   }
 
   Future<bool> isConnected() async {
-    final result = await client.query(QueryOptions(document: agentQuery()));
+    final result = await _client.query(QueryOptions(document: agentQuery()));
     return !result.hasException;
   }
 }

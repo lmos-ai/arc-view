@@ -2,12 +2,16 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_url.g.dart';
 
+typedef AgentUrlData = (Uri url, {bool secure});
+
 @riverpod
 class AgentUrl extends _$AgentUrl {
   @override
-  String build() => 'localhost:8090';
+  AgentUrlData build() => (Uri.parse('http://localhost:8090'), secure: false);
 
   setUrl(String url) {
-    state = url;
+    final uri = Uri.parse(url);
+    final secure = uri.isScheme('https');
+    state = (uri, secure: secure);
   }
 }
