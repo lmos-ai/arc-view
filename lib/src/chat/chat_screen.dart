@@ -1,10 +1,10 @@
 import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
-import 'package:arc_view/src/chat/controllers/chat_controller.dart';
-import 'package:arc_view/src/chat/controllers/prompt_history_controller.dart';
+import 'package:arc_view/src/chat/prompts/prompt_history.dart';
 import 'package:arc_view/src/chat/tool_bar.dart';
 import 'package:arc_view/src/client/providers.dart';
+import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -96,10 +96,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
-    ref.read(chatControllerProvider.notifier).addUserChat(_textController.text);
-    ref
-        .read(promptHistoryControllerProvider.notifier)
-        .add(_textController.text);
+    ref.read(conversationProvider.notifier).addUserChat(_textController.text);
+    ref.read(promptHistoryProvider.notifier).add(_textController.text);
     ref.read(currentPromptControllerProvider.notifier).clear();
     _textController.text = '';
   }
@@ -111,7 +109,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         onPressed: () {
           ref.invalidate(conversationIdProvider);
-          ref.read(chatControllerProvider.notifier).clear();
+          ref.read(conversationProvider.notifier).clear();
           ref.read(currentPromptControllerProvider.notifier).clear();
         },
       );

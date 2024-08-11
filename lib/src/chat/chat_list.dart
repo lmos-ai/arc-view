@@ -1,9 +1,9 @@
+import 'package:arc_view/src/chat/chat_message_card.dart';
+import 'package:arc_view/src/conversation/chat_message.dart';
+import 'package:arc_view/src/conversation/conversation.dart';
+import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:arc_view/src/chat/chat_message_card.dart';
-import 'package:arc_view/src/chat/controllers/chat_controller.dart';
-import 'package:arc_view/src/chat/models/chat_message.dart';
-import 'package:arc_view/src/core/extensions.dart';
 
 class ChatList extends ConsumerWidget {
   const ChatList({super.key});
@@ -11,7 +11,7 @@ class ChatList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref
-        .watch(chatControllerProvider.select((c) => c.messages))
+        .watch(conversationProvider.select((c) => c.messages))
         .reversed
         .toList();
 

@@ -1,10 +1,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'prompt_history_controller.g.dart';
+part 'prompt_history.g.dart';
 
 @Riverpod(keepAlive: true)
-class PromptHistoryController extends _$PromptHistoryController {
+class PromptHistory extends _$PromptHistory {
   final _promptHistoryKey = 'prompt_history';
   late SharedPreferences _sharedPreferences;
 
@@ -45,7 +45,7 @@ class CurrentPromptController extends _$CurrentPromptController {
   }
 
   rotate() {
-    final history = ref.read(promptHistoryControllerProvider).valueOrNull;
+    final history = ref.read(promptHistoryProvider).valueOrNull;
     if (history == null || history.isEmpty) return;
 
     if (_promptIndex < 0) {

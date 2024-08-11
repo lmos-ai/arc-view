@@ -1,6 +1,6 @@
 import 'package:arc_view/src/chat/copy_to_clipboard_button.dart';
-import 'package:arc_view/src/chat/models/chat_message.dart';
 import 'package:arc_view/src/chat/rerun_message_button.dart';
+import 'package:arc_view/src/conversation/chat_message.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

@@ -1,4 +1,4 @@
-import 'package:arc_view/src/chat/controllers/chat_controller.dart';
+import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,7 +12,7 @@ class RerunMessageButton extends ConsumerWidget {
     return IconButton(
       icon: const Icon(Icons.refresh, size: 16),
       onPressed: () {
-        ref.read(chatControllerProvider.notifier).addUserChat(_text);
+        ref.read(conversationProvider.notifier).addUserChat(_text);
       },
     );
   }

@@ -1,7 +1,7 @@
-import 'package:arc_view/src/chat/models/chat_message.dart';
 import 'package:arc_view/src/client/agent_url.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
+import 'package:arc_view/src/conversation/chat_message.dart';
 import 'package:graphql/client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
