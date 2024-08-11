@@ -50,6 +50,7 @@ dependencies:
   dio: ^5.3.3
   graphql: ^5.2.0-beta.8
   loading_animation_widget: ^1.2.1
+  file_selector: ^1.0.3
 
 dev_dependencies:
   flutter_test:

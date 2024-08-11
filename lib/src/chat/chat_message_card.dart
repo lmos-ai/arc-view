@@ -17,7 +17,7 @@ class ChatMessageCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
-          chatMessage.content.txt.padding().paddingBottom(24),
+          chatMessage.content.txt.pad(8, 8, 32, 8),
           Positioned(
             bottom: 0,
             right: 0,
@@ -30,7 +30,7 @@ class ChatMessageCard extends StatelessWidget {
           ),
         ],
       ),
-    ).max(maxWidth: 600);
+    ).size(maxWidth: 600, minWidth: 100);
   }
 }
 
@@ -56,11 +56,14 @@ class BotChatMessageCard extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 0,
-            child: CopyToClipBoardButton(chatMessage.content),
+            child: CopyToClipBoardButton(
+              chatMessage.content,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           ),
         ],
       ),
-    ).max(maxWidth: 600);
+    ).max(width: 600);
   }
 }
 

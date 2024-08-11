@@ -11,7 +11,8 @@ class PromptHistoryController extends _$PromptHistoryController {
   @override
   Future<List<String>> build() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    return _sharedPreferences.getStringList(_promptHistoryKey) ?? List.empty();
+    //return _sharedPreferences.getStringList(_promptHistoryKey) ?? List.empty();
+    return List.empty();
   }
 
   add(String prompt) {

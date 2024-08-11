@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CopyToClipBoardButton extends StatelessWidget {
-  const CopyToClipBoardButton(this._text, {super.key});
+  const CopyToClipBoardButton(this._text, {this.color, super.key});
 
   final String _text;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.copy, size: 12),
+      icon: Icon(Icons.copy, size: 12, color: color),
       onPressed: () {
         Clipboard.setData(ClipboardData(text: _text)).then((_) {
           //if (context.mounted) {

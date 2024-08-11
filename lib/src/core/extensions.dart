@@ -62,6 +62,12 @@ extension WidgetExtensions on Widget {
         child: this,
       );
 
+  Widget pad(double top, double right, double bottom, double left) => Padding(
+        padding:
+            EdgeInsets.only(left: left, top: top, right: right, bottom: bottom),
+        child: this,
+      );
+
   Widget paddingLeft([double padding = 8.0]) => Padding(
         padding: EdgeInsets.only(left: padding),
         child: this,
@@ -87,10 +93,33 @@ extension WidgetExtensions on Widget {
         child: this,
       );
 
-  Widget max({double? maxWidth, double? maxHeight}) => ConstrainedBox(
+  Widget size(
+          {double? maxWidth,
+          double? maxHeight,
+          double? minWidth,
+          double? minHeight}) =>
+      ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: maxWidth ?? double.infinity,
           maxHeight: maxHeight ?? double.infinity,
+          minWidth: minWidth ?? 0.0,
+          minHeight: minHeight ?? 0.0,
+        ),
+        child: this,
+      );
+
+  Widget max({double? width, double? height}) => ConstrainedBox(
+        constraints: BoxConstraints(
+          maxWidth: width ?? double.infinity,
+          maxHeight: height ?? double.infinity,
+        ),
+        child: this,
+      );
+
+  Widget min({double? width, double? height}) => ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: width ?? double.infinity,
+          minHeight: height ?? double.infinity,
         ),
         child: this,
       );

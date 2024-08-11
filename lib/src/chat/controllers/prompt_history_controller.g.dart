@@ -7,7 +7,7 @@ part of 'prompt_history_controller.dart';
 // **************************************************************************
 
 String _$promptHistoryControllerHash() =>
-    r'b7e4e2446f48f8630671de037af08b488e35233a';
+    r'f4fa3f560e3601d70dfc8c5105c6cead611248ab';
 
 /// See also [PromptHistoryController].
 @ProviderFor(PromptHistoryController)

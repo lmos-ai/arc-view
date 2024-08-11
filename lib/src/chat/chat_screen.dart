@@ -3,6 +3,7 @@ import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/controllers/chat_controller.dart';
 import 'package:arc_view/src/chat/controllers/prompt_history_controller.dart';
+import 'package:arc_view/src/chat/tool_bar.dart';
 import 'package:arc_view/src/client/providers.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
@@ -45,12 +46,12 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const AddressBar(),
-                // const ErrorBar(),
+                const ToolBar(),
                 Expanded(
                   child: const Align(
                     alignment: Alignment.topCenter,
                     child: ChatList(),
-                  ).max(maxWidth: 800),
+                  ).max(width: 800),
                 ),
                 Card(
                   elevation: 6,
@@ -63,7 +64,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _sendButton(ref),
                     ],
                   ).padding(),
-                ).max(maxWidth: 800),
+                ).max(width: 800),
               ],
             ),
           );
