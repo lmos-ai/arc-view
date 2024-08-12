@@ -25,7 +25,7 @@ final lightTheme = ThemeData(
     brightness: Brightness.light,
     seedColor: const Color.fromARGB(255, 171, 0, 111),
     secondaryContainer: const Color.fromARGB(255, 247, 247, 248),
-    onSurface: Colors.black.withOpacity(0.5),
+    onSurface: Colors.black.withOpacity(0.6),
     outline: Colors.black.withOpacity(0.2),
     //surface: Colors.blue
     //background: Colors.black,

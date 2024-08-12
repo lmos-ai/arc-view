@@ -51,6 +51,7 @@ dependencies:
   graphql: ^5.2.0-beta.8
   loading_animation_widget: ^1.2.1
   file_selector: ^1.0.3
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -118,3 +119,13 @@ flutter:
       fonts:
         - asset: fonts/static/RobotoMono-Bold.ttf
           weight: 700
+
+# flutter pub run flutter_launcher_icons
+flutter_launcher_icons:
+  android: true
+  ios: true
+  macos:
+    generate: true
+    image_path: "assets/launcher.png"
+  image_path: "assets/launcher.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
