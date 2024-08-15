@@ -2,32 +2,14 @@ import 'package:graphql/client.dart';
 
 agentSubscription() {
   return gql(r'''
-   subscription agent($conversationId: String!, $messages: [MessageInput!]!) {
+   subscription agent($conversationId: String!, $messages: [MessageInput!]!, $userContext: UserContextInput!, $systemContext: SystemContextInput!) {
     agent(request: {
       conversationContext: {
         conversationId: $conversationId,
         anonymizationEntities: []
       },
-      systemContext: [
-         {
-          key: "channelId",
-          value: "ONEAPPWEB"
-        },
-        {
-          key: "tenantId",
-          value: "de"
-        }  
-      ]
-      userContext: {
-        userId: "1234",
-        userToken: "token",
-        profile: [
-          {
-            key: "hasMobile",
-            value: "true"
-          }
-        ]
-      },
+      systemContext: $systemContext,
+      userContext: $userContext,
       messages: $messages
     }) {
       anonymizationEntities {

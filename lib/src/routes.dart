@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:arc_view/src/chat/chat_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
-import 'package:arc_view/src/layout/side_navigation.dart';
+import 'package:arc_view/src/settings/settings_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -22,16 +22,10 @@ final appRoutes =
         path: '/',
         builder: (context, state) => const ChatScreen(),
       ),
+      GoRoute(
+        path: '/settings',
+        builder: (context, state) => const SettingsScreen(),
+      ),
     ],
   ),
 ]);
-
-/// Side Navigation
-final navigation = [
-  // NavigationItem(
-  //   title: 'Agent Assistant', route: '/agent', icon: Icons.accessibility),
-  NavigationItem(title: 'Chat', route: '/', icon: Icons.line_weight_sharp),
-  NavigationItem(
-      title: 'Prompts', route: '/prompts', icon: Icons.text_fields_outlined),
-  NavigationItem(title: 'Settings', route: '/settings', icon: Icons.settings),
-];

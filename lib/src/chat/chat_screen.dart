@@ -4,7 +4,7 @@ import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/prompts/prompt_history.dart';
 import 'package:arc_view/src/chat/tool_bar.dart';
 import 'package:arc_view/src/client/providers.dart';
-import 'package:arc_view/src/conversation/conversation.dart';
+import 'package:arc_view/src/conversation/conversations.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
@@ -96,7 +96,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
-    ref.read(conversationProvider.notifier).addUserChat(_textController.text);
+    ref
+        .read(conversationsProvider.notifier)
+        .addUserMessage(_textController.text);
     ref.read(promptHistoryProvider.notifier).add(_textController.text);
     ref.read(currentPromptControllerProvider.notifier).clear();
     _textController.text = '';
@@ -109,7 +111,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         onPressed: () {
           ref.invalidate(conversationIdProvider);
-          ref.read(conversationProvider.notifier).clear();
+          ref.read(conversationsProvider.notifier).clear();
           ref.read(currentPromptControllerProvider.notifier).clear();
         },
       );

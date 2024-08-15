@@ -2,6 +2,7 @@ import 'package:arc_view/src/conversation/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/conversation_importer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ToolBar extends ConsumerWidget {
   const ToolBar({super.key});
@@ -12,6 +13,16 @@ class ToolBar extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        IconButton(
+          onPressed: () {
+            context.push("/settings");
+          },
+          icon: Icon(
+            Icons.settings,
+            size: 16,
+            color: colorScheme.onSurface,
+          ),
+        ),
         IconButton(
           onPressed: () {
             ref.read(conversationImporterProvider).load();

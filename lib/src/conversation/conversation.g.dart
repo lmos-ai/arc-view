@@ -3,23 +3,25 @@
 part of 'conversation.dart';
 
 // **************************************************************************
-// RiverpodGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-String _$conversationHash() => r'61bae089fc4009f50172ce52c7c9d7d720ae57a2';
+_$ConversationImpl _$$ConversationImplFromJson(Map<String, dynamic> json) =>
+    _$ConversationImpl(
+      messages: (json['messages'] as List<dynamic>)
+          .map((e) => ConversationMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      userContext:
+          UserContext.fromJson(json['userContext'] as Map<String, dynamic>),
+      systemContext:
+          SystemContext.fromJson(json['systemContext'] as Map<String, dynamic>),
+      conversationId: json['conversationId'] as String,
+    );
 
-/// See also [Conversation].
-@ProviderFor(Conversation)
-final conversationProvider =
-    AutoDisposeNotifierProvider<Conversation, ConversationData>.internal(
-  Conversation.new,
-  name: r'conversationProvider',
-  debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$conversationHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _$Conversation = AutoDisposeNotifier<ConversationData>;
-// ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+Map<String, dynamic> _$$ConversationImplToJson(_$ConversationImpl instance) =>
+    <String, dynamic>{
+      'messages': instance.messages,
+      'userContext': instance.userContext,
+      'systemContext': instance.systemContext,
+      'conversationId': instance.conversationId,
+    };

@@ -7,7 +7,7 @@ part of 'conversation_importer.dart';
 // **************************************************************************
 
 String _$conversationImporterHash() =>
-    r'32fcf66b877debb2de3dbb5404558d86bea833cb';
+    r'3ad4bfb1509cee951ad4bfd87d5dda2a160d6321';
 
 /// See also [conversationImporter].
 @ProviderFor(conversationImporter)

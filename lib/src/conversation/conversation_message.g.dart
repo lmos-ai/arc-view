@@ -1,19 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'chat_message.dart';
+part of 'conversation_message.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatMessageImpl _$$ChatMessageImplFromJson(Map<String, dynamic> json) =>
-    _$ChatMessageImpl(
+_$ConversationMessageImpl _$$ConversationMessageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConversationMessageImpl(
       type: $enumDecode(_$MessageTypeEnumMap, json['type']),
       conversationId: json['conversationId'] as String,
       content: json['content'] as String,
     );
 
-Map<String, dynamic> _$$ChatMessageImplToJson(_$ChatMessageImpl instance) =>
+Map<String, dynamic> _$$ConversationMessageImplToJson(
+        _$ConversationMessageImpl instance) =>
     <String, dynamic>{
       'type': _$MessageTypeEnumMap[instance.type]!,
       'conversationId': instance.conversationId,

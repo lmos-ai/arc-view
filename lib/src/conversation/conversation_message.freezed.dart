@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'chat_message.dart';
+part of 'conversation_message.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,46 +14,46 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-ChatMessage _$ChatMessageFromJson(Map<String, dynamic> json) {
-  return _ChatMessage.fromJson(json);
+ConversationMessage _$ConversationMessageFromJson(Map<String, dynamic> json) {
+  return _ConversationMessage.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ChatMessage {
+mixin _$ConversationMessage {
   MessageType get type => throw _privateConstructorUsedError;
   String get conversationId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
 
-  /// Serializes this ChatMessage to a JSON map.
+  /// Serializes this ConversationMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ChatMessage
+  /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ChatMessageCopyWith<ChatMessage> get copyWith =>
+  $ConversationMessageCopyWith<ConversationMessage> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ChatMessageCopyWith<$Res> {
-  factory $ChatMessageCopyWith(
-          ChatMessage value, $Res Function(ChatMessage) then) =
-      _$ChatMessageCopyWithImpl<$Res, ChatMessage>;
+abstract class $ConversationMessageCopyWith<$Res> {
+  factory $ConversationMessageCopyWith(
+          ConversationMessage value, $Res Function(ConversationMessage) then) =
+      _$ConversationMessageCopyWithImpl<$Res, ConversationMessage>;
   @useResult
   $Res call({MessageType type, String conversationId, String content});
 }
 
 /// @nodoc
-class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
-    implements $ChatMessageCopyWith<$Res> {
-  _$ChatMessageCopyWithImpl(this._value, this._then);
+class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
+    implements $ConversationMessageCopyWith<$Res> {
+  _$ConversationMessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ChatMessage
+  /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -80,25 +80,25 @@ class _$ChatMessageCopyWithImpl<$Res, $Val extends ChatMessage>
 }
 
 /// @nodoc
-abstract class _$$ChatMessageImplCopyWith<$Res>
-    implements $ChatMessageCopyWith<$Res> {
-  factory _$$ChatMessageImplCopyWith(
-          _$ChatMessageImpl value, $Res Function(_$ChatMessageImpl) then) =
-      __$$ChatMessageImplCopyWithImpl<$Res>;
+abstract class _$$ConversationMessageImplCopyWith<$Res>
+    implements $ConversationMessageCopyWith<$Res> {
+  factory _$$ConversationMessageImplCopyWith(_$ConversationMessageImpl value,
+          $Res Function(_$ConversationMessageImpl) then) =
+      __$$ConversationMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({MessageType type, String conversationId, String content});
 }
 
 /// @nodoc
-class __$$ChatMessageImplCopyWithImpl<$Res>
-    extends _$ChatMessageCopyWithImpl<$Res, _$ChatMessageImpl>
-    implements _$$ChatMessageImplCopyWith<$Res> {
-  __$$ChatMessageImplCopyWithImpl(
-      _$ChatMessageImpl _value, $Res Function(_$ChatMessageImpl) _then)
+class __$$ConversationMessageImplCopyWithImpl<$Res>
+    extends _$ConversationMessageCopyWithImpl<$Res, _$ConversationMessageImpl>
+    implements _$$ConversationMessageImplCopyWith<$Res> {
+  __$$ConversationMessageImplCopyWithImpl(_$ConversationMessageImpl _value,
+      $Res Function(_$ConversationMessageImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ChatMessage
+  /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -107,7 +107,7 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
     Object? conversationId = null,
     Object? content = null,
   }) {
-    return _then(_$ChatMessageImpl(
+    return _then(_$ConversationMessageImpl(
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -126,14 +126,14 @@ class __$$ChatMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ChatMessageImpl implements _ChatMessage {
-  _$ChatMessageImpl(
+class _$ConversationMessageImpl implements _ConversationMessage {
+  _$ConversationMessageImpl(
       {required this.type,
       required this.conversationId,
       required this.content});
 
-  factory _$ChatMessageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatMessageImplFromJson(json);
+  factory _$ConversationMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConversationMessageImplFromJson(json);
 
   @override
   final MessageType type;
@@ -144,14 +144,14 @@ class _$ChatMessageImpl implements _ChatMessage {
 
   @override
   String toString() {
-    return 'ChatMessage(type: $type, conversationId: $conversationId, content: $content)';
+    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ChatMessageImpl &&
+            other is _$ConversationMessageImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.conversationId, conversationId) ||
                 other.conversationId == conversationId) &&
@@ -162,30 +162,31 @@ class _$ChatMessageImpl implements _ChatMessage {
   @override
   int get hashCode => Object.hash(runtimeType, type, conversationId, content);
 
-  /// Create a copy of ChatMessage
+  /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ChatMessageImplCopyWith<_$ChatMessageImpl> get copyWith =>
-      __$$ChatMessageImplCopyWithImpl<_$ChatMessageImpl>(this, _$identity);
+  _$$ConversationMessageImplCopyWith<_$ConversationMessageImpl> get copyWith =>
+      __$$ConversationMessageImplCopyWithImpl<_$ConversationMessageImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ChatMessageImplToJson(
+    return _$$ConversationMessageImplToJson(
       this,
     );
   }
 }
 
-abstract class _ChatMessage implements ChatMessage {
-  factory _ChatMessage(
+abstract class _ConversationMessage implements ConversationMessage {
+  factory _ConversationMessage(
       {required final MessageType type,
       required final String conversationId,
-      required final String content}) = _$ChatMessageImpl;
+      required final String content}) = _$ConversationMessageImpl;
 
-  factory _ChatMessage.fromJson(Map<String, dynamic> json) =
-      _$ChatMessageImpl.fromJson;
+  factory _ConversationMessage.fromJson(Map<String, dynamic> json) =
+      _$ConversationMessageImpl.fromJson;
 
   @override
   MessageType get type;
@@ -194,10 +195,10 @@ abstract class _ChatMessage implements ChatMessage {
   @override
   String get content;
 
-  /// Create a copy of ChatMessage
+  /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChatMessageImplCopyWith<_$ChatMessageImpl> get copyWith =>
+  _$$ConversationMessageImplCopyWith<_$ConversationMessageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

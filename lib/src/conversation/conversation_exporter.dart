@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:arc_view/src/conversation/chat_message.dart';
 import 'package:arc_view/src/conversation/conversation.dart';
-import 'package:arc_view/src/conversation/conversation_data.dart';
+import 'package:arc_view/src/conversation/conversation_message.dart';
+import 'package:arc_view/src/conversation/conversations.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,13 +11,13 @@ part 'conversation_exporter.g.dart';
 
 @riverpod
 ConversationExporter conversationExporter(ConversationExporterRef ref) {
-  return ConversationExporter(ref.watch(conversationProvider));
+  return ConversationExporter(ref.watch(conversationsProvider));
 }
 
 class ConversationExporter {
   ConversationExporter(this.conversation);
 
-  final ConversationData conversation;
+  final Conversation conversation;
 
   export() async {
     const String fileName = 'conversation.json';

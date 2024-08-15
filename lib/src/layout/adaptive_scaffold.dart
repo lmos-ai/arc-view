@@ -1,5 +1,3 @@
-import 'package:arc_view/src/core/extensions.dart';
-import 'package:arc_view/src/layout/drawer_navigation.dart';
 import 'package:flutter/material.dart';
 
 class AdaptiveScaffold extends StatelessWidget {
@@ -16,7 +14,7 @@ class AdaptiveScaffold extends StatelessWidget {
       appBar: appBar,
       resizeToAvoidBottomInset: true,
       floatingActionButton: floatingActionButton,
-      drawer: context.isMobile() ? const DrawerNavigation() : null,
+      // drawer: context.isMobile() ? const DrawerNavigation() : null,
       body: body,
     );
   }

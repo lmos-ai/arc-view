@@ -14,7 +14,7 @@ class _AddressBarState extends State<AddressBar> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final agentUrl = ref.watch(agentUrlProvider);
+      final agentUrl = ref.read(agentUrlProvider);
       return Container(
         padding: const EdgeInsets.all(8),
         height: 64,

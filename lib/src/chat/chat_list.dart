@@ -1,6 +1,6 @@
-import 'package:arc_view/src/chat/chat_message_card.dart';
-import 'package:arc_view/src/conversation/chat_message.dart';
-import 'package:arc_view/src/conversation/conversation.dart';
+import 'package:arc_view/src/chat/message/chat_message_card.dart';
+import 'package:arc_view/src/conversation/conversation_message.dart';
+import 'package:arc_view/src/conversation/conversations.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,7 @@ class ChatList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref
-        .watch(conversationProvider.select((c) => c.messages))
+        .watch(conversationsProvider.select((c) => c.messages))
         .reversed
         .toList();
 
@@ -23,7 +23,7 @@ class ChatList extends ConsumerWidget {
         final message = messages[index];
         return switch (message.type) {
           MessageType.user => ChatMessageCard(chatMessage: message).toLeft(),
-          MessageType.bot => BotChatMessageCard(chatMessage: message).toRight(),
+          MessageType.bot => BotChatMessageCard(message: message).toRight(),
           MessageType.loading => const LoadingChatMessageCard().toRight()
         };
       },

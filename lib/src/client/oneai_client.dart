@@ -1,7 +1,8 @@
 import 'package:arc_view/src/client/agent_url.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
-import 'package:arc_view/src/conversation/chat_message.dart';
+import 'package:arc_view/src/conversation/conversation.dart';
+import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:graphql/client.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -28,14 +29,16 @@ class OneAIClient {
 
   final GraphQLClient _client;
 
-  Stream<String> sendMessage(List<ChatMessage> messages) {
-    if (messages.isEmpty) return const Stream.empty();
+  Stream<String> sendMessage(Conversation conversation) {
+    if (conversation.messages.isEmpty) return const Stream.empty();
     final subscription = _client.subscribe(
       SubscriptionOptions(
         document: agentSubscription(),
         variables: {
-          'conversationId': messages.first.conversationId,
-          'messages': messages
+          'conversationId': conversation.conversationId,
+          'userContext': conversation.userContext.toJson(),
+          'systemContext': conversation.userContext.toJson(),
+          'messages': conversation.messages
               .where((e) => e.type != MessageType.loading)
               .map((e) => {
                     'content': e.content,
