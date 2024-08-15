@@ -1,6 +1,6 @@
 import 'package:arc_view/src/chat/message/chat_message_card.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
-import 'package:arc_view/src/conversation/conversations.dart';
+import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +11,7 @@ class ChatList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref
-        .watch(conversationsProvider.select((c) => c.messages))
+        .watch(conversationNotifierProvider.select((c) => c.messages))
         .reversed
         .toList();
 

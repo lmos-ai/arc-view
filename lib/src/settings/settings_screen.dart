@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:arc_view/src/conversation/conversations.dart';
+import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/core/gaps.dart';
 import 'package:arc_view/src/settings/context_field.dart';
@@ -21,7 +21,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final conversation = ref.read(conversationsProvider);
+      final conversation = ref.read(conversationNotifierProvider);
 
       return Scaffold(
         appBar: AppBar(title: 'Settings'.txt),

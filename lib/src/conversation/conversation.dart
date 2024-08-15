@@ -1,5 +1,7 @@
-import 'package:arc_view/src/client/user_context.dart';
+import 'dart:convert';
+
 import 'package:arc_view/src/client/system_context.dart';
+import 'package:arc_view/src/client/user_context.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -15,6 +17,6 @@ class Conversation with _$Conversation {
     required String conversationId,
   }) = _Conversation;
 
-  factory Conversation.fromJson(Map<String, Object?> json) =>
-      _$ConversationFromJson(json);
+  factory Conversation.fromJson(String json) =>
+      _$ConversationFromJson(jsonDecode(json));
 }

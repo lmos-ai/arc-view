@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
-import 'package:arc_view/src/conversation/conversations.dart';
+import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/settings/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -32,19 +30,19 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   commit() {
-    final conversation = ref.read(conversationsProvider);
+    final conversation = ref.read(conversationNotifierProvider);
 
     final updatedConversation = conversation.copyWith(
       userContext: state.newUserContext == null
           ? conversation.userContext
-          : UserContext.fromJson(jsonDecode(state.newUserContext!)),
+          : UserContext.fromJson(state.newUserContext!),
       systemContext: state.newSystemContext == null
           ? conversation.systemContext
-          : SystemContext.fromJson(jsonDecode(state.newSystemContext!)),
+          : SystemContext.fromJson(state.newSystemContext!),
     );
 
     ref
-        .read(conversationsProvider.notifier)
+        .read(conversationNotifierProvider.notifier)
         .updateConversation(updatedConversation);
 
     state = state.copyWith(changed: false);

@@ -17,7 +17,7 @@ class ChatMessageCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
-          chatMessage.content.txt.pad(8, 8, 32, 8),
+          chatMessage.content.txt.pad(16, 16, 32, 16),
           Positioned(
             bottom: 0,
             right: 0,
@@ -51,7 +51,7 @@ class BotChatMessageCard extends StatelessWidget {
               .style(
                 color: Theme.of(context).colorScheme.onPrimary,
               )
-              .padding()
+              .padding(16)
               .paddingBottom(24),
           Positioned(
             bottom: 0,

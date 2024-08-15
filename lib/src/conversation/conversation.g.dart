@@ -11,10 +11,8 @@ _$ConversationImpl _$$ConversationImplFromJson(Map<String, dynamic> json) =>
       messages: (json['messages'] as List<dynamic>)
           .map((e) => ConversationMessage.fromJson(e as Map<String, dynamic>))
           .toList(),
-      userContext:
-          UserContext.fromJson(json['userContext'] as Map<String, dynamic>),
-      systemContext:
-          SystemContext.fromJson(json['systemContext'] as Map<String, dynamic>),
+      userContext: UserContext.fromJson(json['userContext'] as String),
+      systemContext: SystemContext.fromJson(json['systemContext'] as String),
       conversationId: json['conversationId'] as String,
     );
 

@@ -31,13 +31,19 @@ class OneAIClient {
 
   Stream<String> sendMessage(Conversation conversation) {
     if (conversation.messages.isEmpty) return const Stream.empty();
+
     final subscription = _client.subscribe(
       SubscriptionOptions(
         document: agentSubscription(),
         variables: {
           'conversationId': conversation.conversationId,
           'userContext': conversation.userContext.toJson(),
-          'systemContext': conversation.userContext.toJson(),
+          'systemContext': conversation.systemContext.entries
+              .map((e) => {
+                    'key': e.key,
+                    'value': e.value,
+                  })
+              .toList(),
           'messages': conversation.messages
               .where((e) => e.type != MessageType.loading)
               .map((e) => {

@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:arc_view/main.dart';
 import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
@@ -5,21 +8,43 @@ import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'conversations.g.dart';
+part 'conversation_notifier.g.dart';
 
 @riverpod
-class Conversations extends _$Conversations {
+class ConversationNotifier extends _$ConversationNotifier {
   @override
   Conversation build() {
+    final userContext = _loadUserContext();
+    final systemContext = _loadSystemContext();
     return Conversation(
-      userContext: UserContext(userId: "unknown"),
-      systemContext: SystemContext(entries: []),
+      userContext: userContext,
+      systemContext: systemContext,
       messages: List.empty(),
       conversationId: 'conversationId-${DateTime.now().millisecondsSinceEpoch}',
     );
   }
 
+  UserContext _loadUserContext() {
+    final json = _load('conversation_user_context');
+    if (json == null) return UserContext(userId: "unknown", profile: []);
+    return UserContext.fromJson(json);
+  }
+
+  SystemContext _loadSystemContext() {
+    final json = _load('conversation_system_context');
+    if (json == null) return SystemContext(entries: []);
+    return SystemContext.fromJson(json);
+  }
+
+  String? _load(String key) =>
+      ref.read(sharedPreferencesProvider).getString(key);
+
   updateConversation(Conversation conversation) {
+    final preferences = ref.read(sharedPreferencesProvider);
+    preferences.setString('conversation_user_context',
+        jsonEncode(conversation.userContext.toJson()));
+    preferences.setString('conversation_system_context',
+        jsonEncode(conversation.systemContext.toJson()));
     state = conversation;
   }
 

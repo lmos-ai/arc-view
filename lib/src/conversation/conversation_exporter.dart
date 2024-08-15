@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
-import 'package:arc_view/src/conversation/conversations.dart';
+import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -11,7 +11,7 @@ part 'conversation_exporter.g.dart';
 
 @riverpod
 ConversationExporter conversationExporter(ConversationExporterRef ref) {
-  return ConversationExporter(ref.watch(conversationsProvider));
+  return ConversationExporter(ref.watch(conversationNotifierProvider));
 }
 
 class ConversationExporter {

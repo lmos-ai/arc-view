@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:arc_view/src/conversation/conversation.dart';
-import 'package:arc_view/src/conversation/conversations.dart';
+import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -9,13 +9,13 @@ part 'conversation_importer.g.dart';
 
 @riverpod
 ConversationImporter conversationImporter(ConversationImporterRef ref) {
-  return ConversationImporter(ref.watch(conversationsProvider.notifier));
+  return ConversationImporter(ref.watch(conversationNotifierProvider.notifier));
 }
 
 class ConversationImporter {
   ConversationImporter(this.conversationNotifier);
 
-  final Conversations conversationNotifier;
+  final ConversationNotifier conversationNotifier;
 
   load() async {
     const XTypeGroup typeGroup = XTypeGroup(extensions: <String>['json']);

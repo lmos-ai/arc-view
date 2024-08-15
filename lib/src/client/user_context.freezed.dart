@@ -20,6 +20,7 @@ UserContext _$UserContextFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserContext {
+  List<ProfileEntry> get profile => throw _privateConstructorUsedError;
   String get userId => throw _privateConstructorUsedError;
   String? get userToken => throw _privateConstructorUsedError;
 
@@ -39,7 +40,7 @@ abstract class $UserContextCopyWith<$Res> {
           UserContext value, $Res Function(UserContext) then) =
       _$UserContextCopyWithImpl<$Res, UserContext>;
   @useResult
-  $Res call({String userId, String? userToken});
+  $Res call({List<ProfileEntry> profile, String userId, String? userToken});
 }
 
 /// @nodoc
@@ -57,10 +58,15 @@ class _$UserContextCopyWithImpl<$Res, $Val extends UserContext>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? profile = null,
     Object? userId = null,
     Object? userToken = freezed,
   }) {
     return _then(_value.copyWith(
+      profile: null == profile
+          ? _value.profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as List<ProfileEntry>,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -81,7 +87,7 @@ abstract class _$$UserContextImplCopyWith<$Res>
       __$$UserContextImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String? userToken});
+  $Res call({List<ProfileEntry> profile, String userId, String? userToken});
 }
 
 /// @nodoc
@@ -97,10 +103,15 @@ class __$$UserContextImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? profile = null,
     Object? userId = null,
     Object? userToken = freezed,
   }) {
     return _then(_$UserContextImpl(
+      profile: null == profile
+          ? _value._profile
+          : profile // ignore: cast_nullable_to_non_nullable
+              as List<ProfileEntry>,
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
@@ -116,10 +127,22 @@ class __$$UserContextImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$UserContextImpl implements _UserContext {
-  _$UserContextImpl({required this.userId, this.userToken});
+  _$UserContextImpl(
+      {required final List<ProfileEntry> profile,
+      required this.userId,
+      this.userToken})
+      : _profile = profile;
 
   factory _$UserContextImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserContextImplFromJson(json);
+
+  final List<ProfileEntry> _profile;
+  @override
+  List<ProfileEntry> get profile {
+    if (_profile is EqualUnmodifiableListView) return _profile;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_profile);
+  }
 
   @override
   final String userId;
@@ -128,7 +151,7 @@ class _$UserContextImpl implements _UserContext {
 
   @override
   String toString() {
-    return 'UserContext(userId: $userId, userToken: $userToken)';
+    return 'UserContext(profile: $profile, userId: $userId, userToken: $userToken)';
   }
 
   @override
@@ -136,6 +159,7 @@ class _$UserContextImpl implements _UserContext {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserContextImpl &&
+            const DeepCollectionEquality().equals(other._profile, _profile) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.userToken, userToken) ||
                 other.userToken == userToken));
@@ -143,7 +167,8 @@ class _$UserContextImpl implements _UserContext {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, userId, userToken);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_profile), userId, userToken);
 
   /// Create a copy of UserContext
   /// with the given fields replaced by the non-null parameter values.
@@ -163,12 +188,15 @@ class _$UserContextImpl implements _UserContext {
 
 abstract class _UserContext implements UserContext {
   factory _UserContext(
-      {required final String userId,
+      {required final List<ProfileEntry> profile,
+      required final String userId,
       final String? userToken}) = _$UserContextImpl;
 
   factory _UserContext.fromJson(Map<String, dynamic> json) =
       _$UserContextImpl.fromJson;
 
+  @override
+  List<ProfileEntry> get profile;
   @override
   String get userId;
   @override
@@ -179,5 +207,172 @@ abstract class _UserContext implements UserContext {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserContextImplCopyWith<_$UserContextImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ProfileEntry _$ProfileEntryFromJson(Map<String, dynamic> json) {
+  return _ProfileEntry.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ProfileEntry {
+  String get key => throw _privateConstructorUsedError;
+  String get value => throw _privateConstructorUsedError;
+
+  /// Serializes this ProfileEntry to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ProfileEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ProfileEntryCopyWith<ProfileEntry> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ProfileEntryCopyWith<$Res> {
+  factory $ProfileEntryCopyWith(
+          ProfileEntry value, $Res Function(ProfileEntry) then) =
+      _$ProfileEntryCopyWithImpl<$Res, ProfileEntry>;
+  @useResult
+  $Res call({String key, String value});
+}
+
+/// @nodoc
+class _$ProfileEntryCopyWithImpl<$Res, $Val extends ProfileEntry>
+    implements $ProfileEntryCopyWith<$Res> {
+  _$ProfileEntryCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ProfileEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? value = null,
+  }) {
+    return _then(_value.copyWith(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ProfileEntryImplCopyWith<$Res>
+    implements $ProfileEntryCopyWith<$Res> {
+  factory _$$ProfileEntryImplCopyWith(
+          _$ProfileEntryImpl value, $Res Function(_$ProfileEntryImpl) then) =
+      __$$ProfileEntryImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String key, String value});
+}
+
+/// @nodoc
+class __$$ProfileEntryImplCopyWithImpl<$Res>
+    extends _$ProfileEntryCopyWithImpl<$Res, _$ProfileEntryImpl>
+    implements _$$ProfileEntryImplCopyWith<$Res> {
+  __$$ProfileEntryImplCopyWithImpl(
+      _$ProfileEntryImpl _value, $Res Function(_$ProfileEntryImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ProfileEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? key = null,
+    Object? value = null,
+  }) {
+    return _then(_$ProfileEntryImpl(
+      key: null == key
+          ? _value.key
+          : key // ignore: cast_nullable_to_non_nullable
+              as String,
+      value: null == value
+          ? _value.value
+          : value // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ProfileEntryImpl implements _ProfileEntry {
+  _$ProfileEntryImpl({required this.key, required this.value});
+
+  factory _$ProfileEntryImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ProfileEntryImplFromJson(json);
+
+  @override
+  final String key;
+  @override
+  final String value;
+
+  @override
+  String toString() {
+    return 'ProfileEntry(key: $key, value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfileEntryImpl &&
+            (identical(other.key, key) || other.key == key) &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, key, value);
+
+  /// Create a copy of ProfileEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfileEntryImplCopyWith<_$ProfileEntryImpl> get copyWith =>
+      __$$ProfileEntryImplCopyWithImpl<_$ProfileEntryImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ProfileEntryImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ProfileEntry implements ProfileEntry {
+  factory _ProfileEntry(
+      {required final String key,
+      required final String value}) = _$ProfileEntryImpl;
+
+  factory _ProfileEntry.fromJson(Map<String, dynamic> json) =
+      _$ProfileEntryImpl.fromJson;
+
+  @override
+  String get key;
+  @override
+  String get value;
+
+  /// Create a copy of ProfileEntry
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProfileEntryImplCopyWith<_$ProfileEntryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

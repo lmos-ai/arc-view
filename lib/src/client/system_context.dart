@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'system_context.freezed.dart';
-
 part 'system_context.g.dart';
 
 typedef SystemContextEntry = ({String key, String value});
@@ -11,6 +12,6 @@ class SystemContext with _$SystemContext {
   factory SystemContext({required List<SystemContextEntry> entries}) =
       _SystemContext;
 
-  factory SystemContext.fromJson(Map<String, Object?> json) =>
-      _$SystemContextFromJson(json);
+  factory SystemContext.fromJson(String json) =>
+      _$SystemContextFromJson(jsonDecode(json));
 }
