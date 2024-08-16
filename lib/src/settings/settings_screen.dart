@@ -22,31 +22,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
       final conversation = ref.read(conversationNotifierProvider);
+      const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(
         appBar: AppBar(title: 'Settings'.txt),
+        floatingActionButton: Consumer(builder: (context, ref, _) {
+          final changed = ref.watchSettingsChanged();
+
+          return 'Save'.onButtonPressed(() {
+            if (!_formKey.currentState!.validate()) return;
+            _formKey.currentState!.save();
+            ref.commitSettings();
+          }, disabled: !changed);
+        }),
         body: Form(
           key: _formKey,
           child: ListView(
             children: [
-              Consumer(builder: (context, ref, _) {
-                final changed = ref
-                    .watch(settingsNotifierProvider.select((s) => s.changed));
-                if (changed) {
-                  return 'Update'
-                      .onButtonPressed(() {
-                        if (!_formKey.currentState!.validate()) return;
-                        _formKey.currentState!.save();
-                        ref.read(settingsNotifierProvider.notifier).commit();
-                      })
-                      .toRight()
-                      .padding();
-                }
-                return const VGap.medium();
-              }),
               ContextField(
                 'User Context',
-                jsonEncode(conversation.userContext.toJson()),
+                encoder.convert(conversation.userContext.toJson()),
                 onChanged: (value) {
                   ref.read(settingsNotifierProvider.notifier).updateChanged();
                 },
@@ -59,7 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const VGap(),
               ContextField(
                 'System Context',
-                jsonEncode(conversation.systemContext.toJson()),
+                encoder.convert(conversation.systemContext.toJson()),
                 onChanged: (value) {
                   ref.read(settingsNotifierProvider.notifier).updateChanged();
                 },

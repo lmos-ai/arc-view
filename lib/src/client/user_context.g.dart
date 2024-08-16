@@ -9,7 +9,7 @@ part of 'user_context.dart';
 _$UserContextImpl _$$UserContextImplFromJson(Map<String, dynamic> json) =>
     _$UserContextImpl(
       profile: (json['profile'] as List<dynamic>)
-          .map((e) => ProfileEntry.fromJson(e as String))
+          .map((e) => ProfileEntry.fromJson(e as Map<String, dynamic>))
           .toList(),
       userId: json['userId'] as String,
       userToken: json['userToken'] as String?,

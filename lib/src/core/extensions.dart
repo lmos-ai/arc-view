@@ -47,8 +47,9 @@ extension StringExtensions on String {
         child: Text(this),
       );
 
-  Widget onButtonPressed(VoidCallback? onPressed) => ElevatedButton(
-        onPressed: onPressed,
+  Widget onButtonPressed(VoidCallback? onPressed, {bool disabled = false}) =>
+      ElevatedButton(
+        onPressed: disabled ? null : onPressed,
         child: Text(this),
       );
 }

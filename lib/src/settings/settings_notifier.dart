@@ -2,6 +2,7 @@ import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
 import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/settings/settings.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'settings_notifier.g.dart';
@@ -41,10 +42,19 @@ class SettingsNotifier extends _$SettingsNotifier {
           : SystemContext.fromJson(state.newSystemContext!),
     );
 
+    state = state.copyWith(changed: false);
     ref
         .read(conversationNotifierProvider.notifier)
         .updateConversation(updatedConversation);
+  }
+}
 
-    state = state.copyWith(changed: false);
+extension SettingsRef on WidgetRef {
+  commitSettings() {
+    read(settingsNotifierProvider.notifier).commit();
+  }
+
+  bool watchSettingsChanged() {
+    return watch(settingsNotifierProvider.select((s) => s.changed));
   }
 }

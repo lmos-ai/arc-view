@@ -24,6 +24,6 @@ class ProfileEntry with _$ProfileEntry {
     required String value,
   }) = _ProfileEntry;
 
-  factory ProfileEntry.fromJson(String json) =>
-      _$ProfileEntryFromJson(jsonDecode(json));
+  factory ProfileEntry.fromJson(Map<String, dynamic> json) =>
+      _$ProfileEntryFromJson(json);
 }

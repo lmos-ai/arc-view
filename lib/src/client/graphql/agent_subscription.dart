@@ -18,10 +18,7 @@ agentSubscription() {
         value
      },
       messages {
-        content,
-        format,
-        role,
-        turnId
+        content
       }
     }
 }
