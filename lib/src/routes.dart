@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import 'package:arc_view/src/chat/chat_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';

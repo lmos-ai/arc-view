@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -35,7 +41,7 @@ class PromptHistoryNotifier extends _$PromptHistoryNotifier {
     final oldState = state.valueOrNull;
 
     if (oldState == null) return;
-print(oldState);
+    print(oldState);
     final List<String> newState = [];
     for (var p in oldState) {
       if (p != prompt) {

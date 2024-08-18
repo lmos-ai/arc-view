@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'conversation_message.freezed.dart';

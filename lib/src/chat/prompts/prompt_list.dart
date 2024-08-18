@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/prompts/prompt_history_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
@@ -33,7 +39,6 @@ class PromptList extends ConsumerWidget {
           height: 400,
           width: 600,
           child: ListView.builder(
-
             itemCount: prompts.length,
             itemBuilder: (context, index) {
               return ListTile(

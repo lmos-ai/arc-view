@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 import 'package:flutter/material.dart';
 import 'package:arc_view/src/routes.dart';
 import 'package:arc_view/src/themes.dart';
