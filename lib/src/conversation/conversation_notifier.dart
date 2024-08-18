@@ -27,13 +27,13 @@ class ConversationNotifier extends _$ConversationNotifier {
   UserContext _loadUserContext() {
     final json = _load('conversation_user_context');
     if (json == null) return UserContext(userId: "unknown", profile: []);
-    return UserContext.fromJson(json);
+    return UserContext.fromJson(jsonDecode(json));
   }
 
   SystemContext _loadSystemContext() {
     final json = _load('conversation_system_context');
     if (json == null) return SystemContext(entries: []);
-    return SystemContext.fromJson(json);
+    return SystemContext.fromJson(jsonDecode(json));
   }
 
   String? _load(String key) =>

@@ -22,6 +22,7 @@ class ConversationImporter {
     final file = await openFile(acceptedTypeGroups: <XTypeGroup>[typeGroup]);
     if (file == null) return;
     final json = await file.readAsString();
+    print(Conversation.fromJson(jsonDecode(json)));
     conversationNotifier
         .updateConversation(Conversation.fromJson(jsonDecode(json)));
   }

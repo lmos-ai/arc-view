@@ -17,6 +17,6 @@ class Conversation with _$Conversation {
     required String conversationId,
   }) = _Conversation;
 
-  factory Conversation.fromJson(String json) =>
-      _$ConversationFromJson(jsonDecode(json));
+  factory Conversation.fromJson(Map<String, dynamic> json) =>
+      _$ConversationFromJson(json);
 }

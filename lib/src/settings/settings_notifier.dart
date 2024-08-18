@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
 import 'package:arc_view/src/conversation/conversation_notifier.dart';
@@ -36,10 +38,10 @@ class SettingsNotifier extends _$SettingsNotifier {
     final updatedConversation = conversation.copyWith(
       userContext: state.newUserContext == null
           ? conversation.userContext
-          : UserContext.fromJson(state.newUserContext!),
+          : UserContext.fromJson(jsonDecode(state.newUserContext!)),
       systemContext: state.newSystemContext == null
           ? conversation.systemContext
-          : SystemContext.fromJson(state.newSystemContext!),
+          : SystemContext.fromJson(jsonDecode(state.newSystemContext!)),
     );
 
     state = state.copyWith(changed: false);

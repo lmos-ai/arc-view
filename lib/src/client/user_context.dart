@@ -13,8 +13,8 @@ class UserContext with _$UserContext {
     String? userToken,
   }) = _UserContext;
 
-  factory UserContext.fromJson(String json) =>
-      _$UserContextFromJson(jsonDecode(json));
+  factory UserContext.fromJson(Map<String, dynamic> json) =>
+      _$UserContextFromJson(json);
 }
 
 @freezed

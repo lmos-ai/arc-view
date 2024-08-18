@@ -12,6 +12,6 @@ class SystemContext with _$SystemContext {
   factory SystemContext({required List<SystemContextEntry> entries}) =
       _SystemContext;
 
-  factory SystemContext.fromJson(String json) =>
-      _$SystemContextFromJson(jsonDecode(json));
+  factory SystemContext.fromJson(Map<String, dynamic> json) =>
+      _$SystemContextFromJson(json);
 }
