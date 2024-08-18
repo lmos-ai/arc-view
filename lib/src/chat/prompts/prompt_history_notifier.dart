@@ -1,18 +1,17 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-part 'prompt_history.g.dart';
+part 'prompt_history_notifier.g.dart';
 
 @Riverpod(keepAlive: true)
-class PromptHistory extends _$PromptHistory {
+class PromptHistoryNotifier extends _$PromptHistoryNotifier {
   final _promptHistoryKey = 'prompt_history';
   late SharedPreferences _sharedPreferences;
 
   @override
   Future<List<String>> build() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    //return _sharedPreferences.getStringList(_promptHistoryKey) ?? List.empty();
-    return List.empty();
+    return _sharedPreferences.getStringList(_promptHistoryKey) ?? List.empty();
   }
 
   add(String prompt) {
@@ -25,16 +24,31 @@ class PromptHistory extends _$PromptHistory {
       if (oldState.contains(prompt)) return;
       if (oldState.length > 15) oldState.removeLast();
       newState = [prompt, ...oldState];
-      //_sharedPreferences.setStringList(_promptHistoryKey, newState);
+      _sharedPreferences.setStringList(_promptHistoryKey, newState);
     } else {
       newState = [prompt];
     }
     state = AsyncData(newState);
   }
+
+  remove(String prompt) async {
+    final oldState = state.valueOrNull;
+
+    if (oldState == null) return;
+print(oldState);
+    final List<String> newState = [];
+    for (var p in oldState) {
+      if (p != prompt) {
+        newState.add(p);
+      }
+    }
+    state = AsyncData(newState);
+    _sharedPreferences.setStringList(_promptHistoryKey, newState);
+  }
 }
 
 @riverpod
-class CurrentPromptController extends _$CurrentPromptController {
+class CurrentPromptNotifier extends _$CurrentPromptNotifier {
   var _promptIndex = 0;
 
   @override
@@ -44,8 +58,12 @@ class CurrentPromptController extends _$CurrentPromptController {
     state = '';
   }
 
+  setPrompt(String prompt) {
+    state = prompt;
+  }
+
   rotate() {
-    final history = ref.read(promptHistoryProvider).valueOrNull;
+    final history = ref.read(promptHistoryNotifierProvider).valueOrNull;
     if (history == null || history.isEmpty) return;
 
     if (_promptIndex < 0) {

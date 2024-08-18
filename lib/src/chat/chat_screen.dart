@@ -1,9 +1,9 @@
 import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
-import 'package:arc_view/src/chat/prompts/prompt_history.dart';
+import 'package:arc_view/src/chat/prompts/prompt_history_notifier.dart';
+import 'package:arc_view/src/chat/prompts/prompt_list.dart';
 import 'package:arc_view/src/chat/tool_bar.dart';
-import 'package:arc_view/src/client/providers.dart';
 import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
@@ -75,7 +75,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   _chatField(WidgetRef ref) => Expanded(
         child: Consumer(builder: (ctx, ref, child) {
-          _textController.text = ref.watch(currentPromptControllerProvider);
+          _textController.text = ref.watch(currentPromptNotifierProvider);
           return ChatField(
             controller: _textController,
             onSubmitted: (_) => _send(ref),
@@ -89,7 +89,8 @@ class _ChatScreenState extends State<ChatScreen> {
         color: theme.primaryColor,
       ),
       onPressed: () {
-        ref.read(currentPromptControllerProvider.notifier).rotate();
+        //ref.read(currentPromptControllerProvider.notifier).rotate();
+        showPromptList(context);
       });
 
   _sendButton(WidgetRef ref) => 'Send'.onButtonPressed(() => _send(ref));
@@ -99,8 +100,8 @@ class _ChatScreenState extends State<ChatScreen> {
     ref
         .read(conversationNotifierProvider.notifier)
         .addUserMessage(_textController.text);
-    ref.read(promptHistoryProvider.notifier).add(_textController.text);
-    ref.read(currentPromptControllerProvider.notifier).clear();
+    ref.read(promptHistoryNotifierProvider.notifier).add(_textController.text);
+    ref.read(currentPromptNotifierProvider.notifier).clear();
     _textController.text = '';
   }
 
@@ -110,9 +111,8 @@ class _ChatScreenState extends State<ChatScreen> {
           color: theme.primaryColor,
         ),
         onPressed: () {
-          ref.invalidate(conversationIdProvider);
           ref.read(conversationNotifierProvider.notifier).clear();
-          ref.read(currentPromptControllerProvider.notifier).clear();
+          ref.read(currentPromptNotifierProvider.notifier).clear();
         },
       );
 }
