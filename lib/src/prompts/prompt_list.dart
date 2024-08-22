@@ -4,9 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/chat/address_bar.dart';
-import 'package:arc_view/src/chat/prompts/prompt_history_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +17,7 @@ class PromptList extends ConsumerWidget {
     final prompts =
         ref.watch(promptHistoryNotifierProvider).valueOrNull ?? List.empty();
     final colorScheme = Theme.of(context).colorScheme;
+    final size = MediaQuery.of(context).size;
 
     return SimpleDialog(
       title: Row(
@@ -37,7 +37,7 @@ class PromptList extends ConsumerWidget {
         Divider(),
         SizedBox(
           height: 400,
-          width: 600,
+          width: size.width * 0.8,
           child: ListView.builder(
             itemCount: prompts.length,
             itemBuilder: (context, index) {
