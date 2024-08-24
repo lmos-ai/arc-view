@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/client/agent_url.dart';
+import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,7 +20,8 @@ class _AddressBarState extends State<AddressBar> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final agentUrl = ref.read(agentUrlProvider);
+      final agentClient = ref.read(agentClientNotifierProvider);
+
       return Container(
         padding: const EdgeInsets.all(8),
         height: 64,
@@ -28,14 +29,15 @@ class _AddressBarState extends State<AddressBar> {
         child: Row(
           children: [
             TextField(
-              controller: TextEditingController(text: agentUrl.$1.toString()),
+              controller: TextEditingController(
+                  text: agentClient.agentUrl.$1.toString()),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Agent Url',
                 isDense: true, // Added this
               ),
               onChanged: (value) {
-                ref.read(agentUrlProvider.notifier).setUrl(value);
+                ref.read(agentClientNotifierProvider.notifier).setUrl(value);
               },
             ).expand(),
           ],

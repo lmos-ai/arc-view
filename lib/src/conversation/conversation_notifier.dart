@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'package:arc_view/main.dart';
+import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
@@ -76,7 +77,7 @@ class ConversationNotifier extends _$ConversationNotifier {
         conversationId: state.conversationId,
       )
     ]);
-    ref.read(oneAIClientProvider).sendMessage(state).listen((value) {
+    ref.read(agentClientNotifierProvider).sendMessage(state).listen((value) {
       final newMessages = [];
       for (final message in state.messages) {
         if (message.type != MessageType.loading) {

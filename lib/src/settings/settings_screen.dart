@@ -45,6 +45,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           key: _formKey,
           child: ListView(
             children: [
+              '1.0.0'.txt.pad(8, 16, 8, 8).toRight(),
               ContextField(
                 'User Context',
                 encoder.convert(conversation.userContext.toJson()),

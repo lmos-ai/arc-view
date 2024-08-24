@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'user_context.dart';

@@ -4,35 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/client/agent_url.dart';
+import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
 import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:graphql/client.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-part 'oneai_client.g.dart';
-
-@riverpod
-OneAIClient oneAIClient(OneAIClientRef ref) {
-  final agentUrl = ref.watch(agentUrlProvider);
-  final httpLink = HttpLink('${agentUrl.$1}/graphql');
-
-  final websocketLink = WebSocketLink(
-    '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.$1.host}:${agentUrl.$1.port}/subscriptions',
-    subProtocol: GraphQLProtocol.graphqlTransportWs,
-  );
-  Link link =
-      Link.split((request) => request.isSubscription, websocketLink, httpLink);
-  final GraphQLClient client = GraphQLClient(cache: GraphQLCache(), link: link);
-  print(websocketLink.url);
-  return OneAIClient(client);
-}
 
 class OneAIClient {
-  OneAIClient(this._client);
+  OneAIClient(this.agentUrl) : _client = _buildGraphQLClient(agentUrl);
 
+  final AgentUrlData agentUrl;
   final GraphQLClient _client;
 
   Stream<String> sendMessage(Conversation conversation) {
@@ -70,5 +52,17 @@ class OneAIClient {
   Future<bool> isConnected() async {
     final result = await _client.query(QueryOptions(document: agentQuery()));
     return !result.hasException;
+  }
+
+  static GraphQLClient _buildGraphQLClient(AgentUrlData agentUrl) {
+    final httpLink = HttpLink('${agentUrl.$1}/graphql');
+
+    final websocketLink = WebSocketLink(
+      '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.$1.host}:${agentUrl.$1.port}/subscriptions',
+      subProtocol: GraphQLProtocol.graphqlTransportWs,
+    );
+    Link link = Link.split(
+        (request) => request.isSubscription, websocketLink, httpLink);
+    return GraphQLClient(cache: GraphQLCache(), link: link);
   }
 }

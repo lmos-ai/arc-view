@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint

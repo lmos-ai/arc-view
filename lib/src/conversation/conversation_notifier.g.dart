@@ -1,9 +1,3 @@
-/*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'conversation_notifier.dart';
@@ -13,7 +7,7 @@ part of 'conversation_notifier.dart';
 // **************************************************************************
 
 String _$conversationNotifierHash() =>
-    r'3034ba2cd46826ba85b880052d9bee87ef2aa7c9';
+    r'437077946c8d509dc732a3d30dabe591e260a953';
 
 /// See also [ConversationNotifier].
 @ProviderFor(ConversationNotifier)
