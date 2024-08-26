@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# 
+# SPDX-License-Identifier: Apache-2.0
+
+version = 1
+SPDX-PackageName = "arc-view"
+SPDX-PackageSupplier = "Deutsche Telekom AG <opensource@telekom.de>"
+SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/arc-view"
+
+[[annotations]]
+path = ["**/.gitignore", ".editorconfig"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "none"
+SPDX-License-Identifier = "CC0-1.0"
+
+[[annotations]]
+path = "fonts/**"
+precedence = "override"
+SPDX-FileCopyrightText = "The original author or authors."
+SPDX-License-Identifier = "Apache-2.0"
+
+
+[[annotations]]
+path = ["**/*.g.dart", "**/*.freezed.dart", "**/*generated_*"]
+precedence = "override"
+SPDX-FileCopyrightText = "Generated Code"
+SPDX-License-Identifier = "Apache-2.0"
