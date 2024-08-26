@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'dart:convert';
 
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';

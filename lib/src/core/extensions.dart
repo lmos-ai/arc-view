@@ -44,6 +44,11 @@ extension StringExtensions on String {
   Text style({double? size, Color? color}) =>
       Text(this, style: TextStyle(color: color, fontSize: size));
 
+  Text underline() => Text(this,
+      style: const TextStyle(
+        decoration: TextDecoration.underline,
+      ));
+
   SubTitle get h2 => SubTitle(this);
 
   LargeTitle get h1 => LargeTitle(this);
@@ -132,4 +137,15 @@ extension WidgetExtensions on Widget {
       );
 
   Widget expand({double? maxWidth, double? maxHeight}) => Expanded(child: this);
+}
+
+extension IconExtensions on IconData {
+  Widget onPressed({VoidCallback? onPressed, double? size, Color? color}) =>
+      IconButton(
+          onPressed: onPressed,
+          icon: Icon(
+            this,
+            size: size,
+            color: color,
+          ));
 }

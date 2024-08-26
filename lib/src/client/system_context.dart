@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'dart:convert';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 

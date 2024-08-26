@@ -7,9 +7,9 @@
 import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
+import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
 import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
-import 'package:arc_view/src/chat/tool_bar.dart';
 import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';

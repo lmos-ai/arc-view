@@ -5,10 +5,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:arc_view/src/core/extensions.dart';
 
 class LargeTitle extends StatelessWidget {
-  const LargeTitle(this.title, {Key? key}) : super(key: key);
+  const LargeTitle(this.title, {super.key});
 
   final String title;
 
@@ -19,7 +18,7 @@ class LargeTitle extends StatelessWidget {
 }
 
 class SubTitle extends StatelessWidget {
-  const SubTitle(this.title, {Key? key}) : super(key: key);
+  const SubTitle(this.title, {super.key});
 
   final String title;
 

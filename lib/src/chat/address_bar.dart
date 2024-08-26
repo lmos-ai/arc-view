@@ -30,7 +30,7 @@ class _AddressBarState extends State<AddressBar> {
           children: [
             TextField(
               controller: TextEditingController(
-                  text: agentClient.agentUrl.$1.toString()),
+                  text: agentClient.agentUrl.url.toString()),
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Agent Url',

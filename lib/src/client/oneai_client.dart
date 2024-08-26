@@ -17,6 +17,14 @@ class OneAIClient {
   final AgentUrlData agentUrl;
   final GraphQLClient _client;
 
+  Future<List<String>> getAgents() async {
+    final result = await _client.query(QueryOptions(document: agentQuery()));
+    if (result.hasException) return List.empty();
+    return (result.data!['agent']['names'] as List)
+        .map((e) => e.toString())
+        .toList();
+  }
+
   Stream<String> sendMessage(Conversation conversation) {
     if (conversation.messages.isEmpty) return const Stream.empty();
 
@@ -55,10 +63,10 @@ class OneAIClient {
   }
 
   static GraphQLClient _buildGraphQLClient(AgentUrlData agentUrl) {
-    final httpLink = HttpLink('${agentUrl.$1}/graphql');
+    final httpLink = HttpLink('${agentUrl.url}/graphql');
 
     final websocketLink = WebSocketLink(
-      '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.$1.host}:${agentUrl.$1.port}/subscriptions',
+      '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.url.host}:${agentUrl.url.port}/subscriptions',
       subProtocol: GraphQLProtocol.graphqlTransportWs,
     );
     Link link = Link.split(

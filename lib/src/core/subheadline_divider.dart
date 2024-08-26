@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:arc_view/src/core/extensions.dart';
 
 class SubheadlineDivider extends StatelessWidget {
-  const SubheadlineDivider({Key? key}) : super(key: key);
+  const SubheadlineDivider({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -8,7 +8,6 @@ import 'dart:convert';
 
 import 'package:arc_view/main.dart';
 import 'package:arc_view/src/client/agent_client_notifier.dart';
-import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
 import 'package:arc_view/src/conversation/conversation.dart';

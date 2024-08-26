@@ -4,8 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/address_bar.dart';
+import 'package:arc_view/src/chat/toolbar/agent_tabs.dart';
 import 'package:arc_view/src/conversation/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/conversation_importer.dart';
+import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -17,8 +20,8 @@ class ToolBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
       children: [
+        const AgentTabs().pad(0, 0, 0, 8).expand(),
         IconButton(
           onPressed: () {
             context.push("/settings");

@@ -34,7 +34,7 @@ class PromptList extends ConsumerWidget {
         ],
       ),
       children: [
-        Divider(),
+        const Divider(),
         SizedBox(
           height: 400,
           width: size.width * 0.8,

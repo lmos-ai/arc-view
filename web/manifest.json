@@ -1,6 +1,6 @@
 {
-    "name": "temper",
-    "short_name": "temper",
+    "name": "Arc View",
+    "short_name": "arc_view",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
