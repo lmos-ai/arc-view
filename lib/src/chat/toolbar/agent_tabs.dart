@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/client/agents_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
@@ -24,19 +23,17 @@ class AgentTabs extends ConsumerWidget {
           size: 16,
           color: context.colorScheme.onSurface,
         ),
-        if (agents == null)
+        if (agents == null || agents.names.isEmpty)
           'No Agents found'
-              .style(color: context.colorScheme.onSurface)
+              .style(color: context.colorScheme.onSurface.withOpacity(0.5))
               .pad(4, 8, 4, 8),
         if (agents != null)
           for (var e in agents.names)
             ((e == agents.activated)
                 ? Container(
                     decoration: BoxDecoration(
-                      color: context.colorScheme.primaryContainer,
-                      border: Border.all(
-                        color: context.colorScheme.primaryContainer,
-                      ),
+                      color:
+                          context.colorScheme.primaryContainer.withOpacity(0.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: e.txt.pad(4, 8, 4, 8))

@@ -17,7 +17,7 @@ class AgentClientNotifier extends _$AgentClientNotifier {
   @override
   OneAIClient build() {
     return OneAIClient((
-      url: Uri.parse('http://localhost:8090'),
+      url: Uri.parse('http://localhost:8080'),
       secure: false,
       agent: null,
     ));
