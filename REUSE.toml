@@ -8,20 +8,25 @@ SPDX-PackageSupplier = "Deutsche Telekom AG <opensource@telekom.de>"
 SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/arc-view"
 
 [[annotations]]
-path = ["**/.gitignore", ".editorconfig", "pubspec.lock", "README.md", "analysis_options.yaml"]
+path = ["**/.gitignore", ".editorconfig", "pubspec.lock", "README.md", "analysis_options.yaml", "ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "none"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = "fonts/**"
+path = ["fonts/**", "windows/runner/resources/app_icon.ico"]
 precedence = "override"
 SPDX-FileCopyrightText = "The original author or authors."
 SPDX-License-Identifier = "Apache-2.0"
 
 
 [[annotations]]
-path = ["**/*.g.dart", "**/*.freezed.dart", "**/*generated_*", "windows/**", "web/*", "macos/**", "ios/**"]
+path = ["**/*.plist", "**/*.xc*", "**/Podfile*", "**/*.storyboard", "**/*.pbxproj", "**/*.xib", "**/*.entitlements"]
 precedence = "override"
-SPDX-FileCopyrightText = "Deutsche Telekom AG Generated Code"
+SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
+SPDX-License-Identifier = "Apache-2.0"
+[[annotations]]
+path = ["**/*.g.dart", "**/*.freezed.dart", "**/*generated_*", "**/*Generated*", "**/windows/runner/Runner.rc"]
+precedence = "override"
+SPDX-FileCopyrightText = "2024 Deutsche Telekom AG Generated Code"
 SPDX-License-Identifier = "Apache-2.0"

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #ifndef RUNNER_UTILS_H_
 #define RUNNER_UTILS_H_
 

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+//
+// SPDX-License-Identifier: Apache-2.0
+
 #include "utils.h"
 
 #include <flutter_windows.h>
