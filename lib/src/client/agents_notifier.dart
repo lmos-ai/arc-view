@@ -16,7 +16,7 @@ typedef Agents = ({String? activated, List<String> names});
 class AgentsNotifier extends _$AgentsNotifier {
   @override
   Future<Agents> build() async {
-    final client = ref.read(agentClientNotifierProvider);
+    final client = ref.watch(agentClientNotifierProvider);
     final agents = await client.getAgents();
     final activated = client.agentUrl.agent;
     return (activated: activated, names: agents);
