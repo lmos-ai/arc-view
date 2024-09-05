@@ -21,7 +21,12 @@ SPDX-License-Identifier = "Apache-2.0"
 
 
 [[annotations]]
-path = ["**/*.plist", "**/*.xc*", "**/Podfile*", "**/*.storyboard", "**/*.pbxproj", "**/*.xib", "**/*.entitlements"]
+path = [
+    "**/*.plist", "**/*.xc*",
+    "**/Podfile*", "**/*.storyboard",
+    "**/*.pbxproj", "**/*.xib",
+    "**/*.entitlements", "web/manifest.json",
+    "**/Runner/Assets.xcassets/**/Contents.json"]
 precedence = "override"
 SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
 SPDX-License-Identifier = "Apache-2.0"
