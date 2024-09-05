@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# 
+# SPDX-License-Identifier: Apache-2.0
 cmake_minimum_required(VERSION 3.14)
 project(runner LANGUAGES CXX)
 

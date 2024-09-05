@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+// 
+// SPDX-License-Identifier: Apache-2.0
+
 #include "my_application.h"
 
 #include <flutter_linux/flutter_linux.h>

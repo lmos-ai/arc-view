@@ -1,3 +1,6 @@
+# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# 
+# SPDX-License-Identifier: Apache-2.0
 # This file controls Flutter-level build steps. It should not be edited.
 cmake_minimum_required(VERSION 3.10)
 
