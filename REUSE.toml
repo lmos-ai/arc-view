@@ -23,6 +23,7 @@ SPDX-License-Identifier = "Apache-2.0"
 [[annotations]]
 path = [
     "**/*.plist", "**/*.xc*",
+    "screenshot.png",
     "**/Podfile*", "**/*.storyboard",
     "**/*.pbxproj", "**/*.xib",
     "**/*.entitlements", "web/manifest.json",
