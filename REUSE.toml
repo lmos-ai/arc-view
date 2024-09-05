@@ -26,7 +26,11 @@ path = [
     "**/Podfile*", "**/*.storyboard",
     "**/*.pbxproj", "**/*.xib",
     "**/*.entitlements", "web/manifest.json",
-    "**/Runner/Assets.xcassets/**/Contents.json"]
+    "**/Runner/Assets.xcassets/**/Contents.json",
+    "**/Runner/Assets.xcassets/**/*icon*.png",
+    "ios/Runner/Assets.xcassets/**/LaunchImage*.png",
+    "**/*Icon-*.png", "web/favicon.png",
+    "**/*launcher.png"]
 precedence = "override"
 SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
 SPDX-License-Identifier = "Apache-2.0"
