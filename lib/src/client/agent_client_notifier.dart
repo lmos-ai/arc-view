@@ -16,11 +16,10 @@ typedef AgentUrlData = ({Uri url, bool secure, String? agent});
 class AgentClientNotifier extends _$AgentClientNotifier {
   @override
   OneAIClient build() {
-    return OneAIClient((
-      url: Uri.parse('http://localhost:8080'),
-      secure: false,
-      agent: null,
-    ));
+    final url = Uri.base.isScheme('http')
+        ? '${Uri.base.scheme}://${Uri.base.host}:${Uri.base.port}'
+        : 'http://localhost:8080';
+    return OneAIClient((url: Uri.parse(url), secure: false, agent: null));
   }
 
   setUrl(String url) {
