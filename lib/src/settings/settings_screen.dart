@@ -11,6 +11,7 @@ import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/core/gaps.dart';
 import 'package:arc_view/src/settings/context_field.dart';
 import 'package:arc_view/src/settings/settings_notifier.dart';
+import 'package:arc_view/src/theme_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -45,7 +46,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
           key: _formKey,
           child: ListView(
             children: [
-              '1.1.0'.txt.pad(8, 16, 8, 8).toRight(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      icon: Icon(
+                        Icons.dark_mode,
+                        size: 16,
+                        color: context.colorScheme.onSurface,
+                      ),
+                      onPressed: () {
+                        ref.read(themeNotifierProvider.notifier).toggle();
+                      }).pad(8, 8, 8, 8),
+                  '1.2.0'.txt.pad(8, 8, 8, 8),
+                  'Licenses'.onPressed(() {
+                    showLicensePage(context: context);
+                  }).pad(8, 8, 8, 8),
+                ],
+              ),
               ContextField(
                 'User Context',
                 encoder.convert(conversation.userContext.toJson()),

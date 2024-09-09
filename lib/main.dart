@@ -5,7 +5,9 @@
  */
 
 import 'package:arc_view/src/app.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,6 +19,10 @@ late SharedPreferences preferences;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   preferences = await SharedPreferences.getInstance();
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('fonts/LICENSE.txt');
+    yield LicenseEntryWithLineBreaks(['RobotoMono'], license);
+  });
   runApp(const ProviderScope(child: MessagingApp()));
 }
 

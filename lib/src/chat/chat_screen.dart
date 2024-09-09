@@ -92,7 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
   _previousPromptButton(WidgetRef ref, ThemeData theme) => IconButton(
       icon: Icon(
         Icons.line_weight_sharp,
-        color: theme.primaryColor,
+        color: theme.colorScheme.onSurface,
       ),
       onPressed: () {
         //ref.read(currentPromptControllerProvider.notifier).rotate();
@@ -114,7 +114,7 @@ class _ChatScreenState extends State<ChatScreen> {
   _deleteButton(WidgetRef ref, ThemeData theme) => IconButton(
         icon: Icon(
           Icons.delete_sweep,
-          color: theme.primaryColor,
+          color: theme.colorScheme.onSurface,
         ),
         onPressed: () {
           ref.read(conversationNotifierProvider.notifier).clear();
