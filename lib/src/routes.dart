@@ -9,15 +9,16 @@ import 'package:arc_view/src/layout/main_layout.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:arc_view/src/conversation/language_preference.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'root');
+GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _mainNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'mainNav');
+GlobalKey<NavigatorState>(debugLabel: 'mainNav');
 
 /// Main Routing
 final appRoutes =
-    GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
+GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
   ShellRoute(
     navigatorKey: _mainNavigatorKey,
     builder: (context, state, child) {
@@ -26,7 +27,16 @@ final appRoutes =
     routes: [
       GoRoute(
         path: '/',
-        builder: (context, state) => const ChatScreen(),
+        builder: (context, state) => const LanguagePreferenceScreen(),
+      ),
+      GoRoute(
+          path: '/chat',
+          builder: (context, state) {
+            // Access the passed language argument
+            final String selectedLanguage = (state.extra as String?) ??
+                'English';
+            return ChatScreen(selectedLanguage: selectedLanguage);
+          }
       ),
       GoRoute(
         path: '/settings',

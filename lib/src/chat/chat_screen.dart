@@ -17,7 +17,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String selectedLanguage;
+  const ChatScreen({required this.selectedLanguage, super.key});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -43,6 +44,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Retrieve the preferred selected language
+    print('You selected: ${widget.selectedLanguage}');
     return AdaptiveScaffold(
       body: Consumer(
         builder: (context, ref, child) {
