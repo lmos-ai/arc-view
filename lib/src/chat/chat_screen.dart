@@ -8,17 +8,18 @@ import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
-import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
-import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:arc_view/src/conversation/conversation_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
+import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
+import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/app_localization.dart';
+
 class ChatScreen extends StatefulWidget {
-  final String selectedLanguage;
-  const ChatScreen({required this.selectedLanguage, super.key});
+  const ChatScreen({super.key});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -44,8 +45,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve the preferred selected language
-    print('You selected: ${widget.selectedLanguage}');
     return AdaptiveScaffold(
       body: Consumer(
         builder: (context, ref, child) {
@@ -102,7 +101,9 @@ class _ChatScreenState extends State<ChatScreen> {
         showPromptList(context);
       });
 
-  _sendButton(WidgetRef ref) => 'Send'.onButtonPressed(() => _send(ref));
+  _sendButton(WidgetRef ref) => AppLocalizations.of(context)
+      .translate('sendButtonKey')
+      .onButtonPressed(() => _send(ref));
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;

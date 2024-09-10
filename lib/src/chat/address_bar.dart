@@ -9,6 +9,8 @@ import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../core/app_localization.dart';
+
 class AddressBar extends StatefulWidget {
   const AddressBar({super.key});
 
@@ -31,9 +33,10 @@ class _AddressBarState extends State<AddressBar> {
             TextField(
               controller: TextEditingController(
                   text: agentClient.agentUrl.url.toString()),
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Agent Url',
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                labelText: AppLocalizations.of(context)
+                    .translate('AgentUrlKey'),
                 isDense: true, // Added this
               ),
               onChanged: (value) {

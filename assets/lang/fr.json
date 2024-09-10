@@ -1,0 +1,5 @@
+{
+  "sendButtonKey": "envoyer",
+  "AgentUrlKey": "URL de l'agent",
+  "AgentNotFoundKey": "Aucun agent trouvé"
+}

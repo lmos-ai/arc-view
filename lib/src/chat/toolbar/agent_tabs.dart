@@ -9,6 +9,8 @@ import 'package:arc_view/src/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/app_localization.dart';
+
 class AgentTabs extends ConsumerWidget {
   const AgentTabs({super.key});
 
@@ -24,7 +26,8 @@ class AgentTabs extends ConsumerWidget {
           color: context.colorScheme.onSurface,
         ),
         if (agents == null || agents.names.isEmpty)
-          'No Agents found'
+          AppLocalizations.of(context)
+              .translate('AgentNotFoundKey')
               .style(color: context.colorScheme.onSurface.withOpacity(0.5))
               .pad(4, 8, 4, 8),
         if (agents != null)

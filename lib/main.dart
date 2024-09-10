@@ -17,7 +17,8 @@ late SharedPreferences preferences;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   preferences = await SharedPreferences.getInstance();
-  runApp(const ProviderScope(child: MessagingApp()));
+  String? languageCode = preferences.getString('selectedLanguage') ?? 'en'; //default is english
+  runApp(ProviderScope(child: MessagingApp(languageCode: languageCode)));
 }
 
 @riverpod

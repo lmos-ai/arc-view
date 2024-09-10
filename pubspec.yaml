@@ -56,6 +56,10 @@ dependencies:
   loading_animation_widget: ^1.2.1
   file_selector: ^1.0.3
   flutter_launcher_icons: ^0.13.1
+  country_icons: ^2.0.2
+  flutter_localizations:
+    sdk: flutter
+
 
 dev_dependencies:
   flutter_test:
@@ -123,7 +127,10 @@ flutter:
       fonts:
         - asset: fonts/static/RobotoMono-Bold.ttf
           weight: 700
-
+  assets:
+    - assets/lang/en.json
+    - assets/lang/de.json
+    - assets/lang/fr.json
 # flutter pub run flutter_launcher_icons
 flutter_launcher_icons:
   android: true

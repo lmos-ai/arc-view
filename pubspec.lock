@@ -190,6 +190,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  country_icons:
+    dependency: "direct main"
+    description:
+      name: country_icons
+      sha256: "836435012b42c7dcc6d585d1420ce2310d70396569ef70cf5d74c740919f7320"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   cross_file:
     dependency: transitive
     description:
@@ -379,6 +387,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_riverpod:
     dependency: "direct main"
     description:

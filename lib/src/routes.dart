@@ -31,12 +31,7 @@ GoRouter(initialLocation: '/', navigatorKey: _rootNavigatorKey, routes: [
       ),
       GoRoute(
           path: '/chat',
-          builder: (context, state) {
-            // Access the passed language argument
-            final String selectedLanguage = (state.extra as String?) ??
-                'English';
-            return ChatScreen(selectedLanguage: selectedLanguage);
-          }
+          builder: (context, state) => const ChatScreen(),
       ),
       GoRoute(
         path: '/settings',
