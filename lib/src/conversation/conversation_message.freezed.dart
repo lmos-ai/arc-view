@@ -23,6 +23,7 @@ mixin _$ConversationMessage {
   MessageType get type => throw _privateConstructorUsedError;
   String get conversationId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  double? get responseTime => throw _privateConstructorUsedError;
 
   /// Serializes this ConversationMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +41,11 @@ abstract class $ConversationMessageCopyWith<$Res> {
           ConversationMessage value, $Res Function(ConversationMessage) then) =
       _$ConversationMessageCopyWithImpl<$Res, ConversationMessage>;
   @useResult
-  $Res call({MessageType type, String conversationId, String content});
+  $Res call(
+      {MessageType type,
+      String conversationId,
+      String content,
+      double? responseTime});
 }
 
 /// @nodoc
@@ -61,6 +66,7 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
     Object? type = null,
     Object? conversationId = null,
     Object? content = null,
+    Object? responseTime = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -75,6 +81,10 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      responseTime: freezed == responseTime
+          ? _value.responseTime
+          : responseTime // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -87,7 +97,11 @@ abstract class _$$ConversationMessageImplCopyWith<$Res>
       __$$ConversationMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({MessageType type, String conversationId, String content});
+  $Res call(
+      {MessageType type,
+      String conversationId,
+      String content,
+      double? responseTime});
 }
 
 /// @nodoc
@@ -106,6 +120,7 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
     Object? type = null,
     Object? conversationId = null,
     Object? content = null,
+    Object? responseTime = freezed,
   }) {
     return _then(_$ConversationMessageImpl(
       type: null == type
@@ -120,6 +135,10 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      responseTime: freezed == responseTime
+          ? _value.responseTime
+          : responseTime // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -130,7 +149,8 @@ class _$ConversationMessageImpl implements _ConversationMessage {
   _$ConversationMessageImpl(
       {required this.type,
       required this.conversationId,
-      required this.content});
+      required this.content,
+      this.responseTime});
 
   factory _$ConversationMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationMessageImplFromJson(json);
@@ -141,10 +161,12 @@ class _$ConversationMessageImpl implements _ConversationMessage {
   final String conversationId;
   @override
   final String content;
+  @override
+  final double? responseTime;
 
   @override
   String toString() {
-    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content)';
+    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content, responseTime: $responseTime)';
   }
 
   @override
@@ -155,12 +177,15 @@ class _$ConversationMessageImpl implements _ConversationMessage {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.conversationId, conversationId) ||
                 other.conversationId == conversationId) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.responseTime, responseTime) ||
+                other.responseTime == responseTime));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, type, conversationId, content);
+  int get hashCode =>
+      Object.hash(runtimeType, type, conversationId, content, responseTime);
 
   /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -183,7 +208,8 @@ abstract class _ConversationMessage implements ConversationMessage {
   factory _ConversationMessage(
       {required final MessageType type,
       required final String conversationId,
-      required final String content}) = _$ConversationMessageImpl;
+      required final String content,
+      final double? responseTime}) = _$ConversationMessageImpl;
 
   factory _ConversationMessage.fromJson(Map<String, dynamic> json) =
       _$ConversationMessageImpl.fromJson;
@@ -194,6 +220,8 @@ abstract class _ConversationMessage implements ConversationMessage {
   String get conversationId;
   @override
   String get content;
+  @override
+  double? get responseTime;
 
   /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.

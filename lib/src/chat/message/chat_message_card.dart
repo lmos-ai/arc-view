@@ -67,6 +67,19 @@ class BotChatMessageCard extends StatelessWidget {
               color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
+          if (message.responseTime != null)
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: '${message.responseTime} sec'
+                  .style(
+                      size: 12,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.5))
+                  .pad(8, 16, 8, 16),
+            ),
         ],
       ),
     ).max(width: 600);

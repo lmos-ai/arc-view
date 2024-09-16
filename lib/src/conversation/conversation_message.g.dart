@@ -12,6 +12,7 @@ _$ConversationMessageImpl _$$ConversationMessageImplFromJson(
       type: $enumDecode(_$MessageTypeEnumMap, json['type']),
       conversationId: json['conversationId'] as String,
       content: json['content'] as String,
+      responseTime: (json['responseTime'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ConversationMessageImplToJson(
@@ -20,6 +21,7 @@ Map<String, dynamic> _$$ConversationMessageImplToJson(
       'type': _$MessageTypeEnumMap[instance.type]!,
       'conversationId': instance.conversationId,
       'content': instance.content,
+      'responseTime': instance.responseTime,
     };
 
 const _$MessageTypeEnumMap = {

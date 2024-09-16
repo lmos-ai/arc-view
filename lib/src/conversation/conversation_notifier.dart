@@ -20,7 +20,6 @@ part 'conversation_notifier.g.dart';
 
 @riverpod
 class ConversationNotifier extends _$ConversationNotifier {
-
   final _log = Logger('ConversationNotifier');
 
   @override
@@ -82,10 +81,12 @@ class ConversationNotifier extends _$ConversationNotifier {
       )
     ]);
     ref.read(agentClientNotifierProvider).sendMessage(state).listen((value) {
-      if(msg.conversationId != state.conversationId) {
+      if (msg.conversationId != state.conversationId) {
         _log.fine('Ignoring message for old conversation...');
         return;
       }
+
+      final (message, responseTime) = value;
       final newMessages = [];
       for (final message in state.messages) {
         if (message.type != MessageType.loading) {
@@ -96,8 +97,9 @@ class ConversationNotifier extends _$ConversationNotifier {
         ...newMessages,
         ConversationMessage(
           type: MessageType.bot,
-          content: value,
+          content: message,
           conversationId: state.conversationId,
+          responseTime: responseTime,
         )
       ]);
     });

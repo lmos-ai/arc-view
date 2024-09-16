@@ -22,7 +22,8 @@ agentSubscription() {
         replacement,
         type,
         value
-     },
+      }
+      responseTime
       messages {
         content
       }

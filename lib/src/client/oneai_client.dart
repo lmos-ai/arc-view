@@ -4,18 +4,22 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:ffi';
+
 import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
 import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:graphql/client.dart';
+import 'package:logging/logging.dart';
 
 class OneAIClient {
   OneAIClient(this.agentUrl) : _client = _buildGraphQLClient(agentUrl);
 
   final AgentUrlData agentUrl;
   final GraphQLClient _client;
+  final _log = Logger('OneAIClient');
 
   Future<List<String>> getAgents() async {
     final result = await _client.query(QueryOptions(document: agentQuery()));
@@ -25,7 +29,7 @@ class OneAIClient {
         .toList();
   }
 
-  Stream<String> sendMessage(Conversation conversation) {
+  Stream<(String, double?)> sendMessage(Conversation conversation) {
     if (conversation.messages.isEmpty) return const Stream.empty();
 
     final subscription = _client.subscribe(
@@ -52,8 +56,10 @@ class OneAIClient {
       ),
     );
     return subscription.map((e) {
-      if (e.hasException) return e.exception.toString();
-      return e.data!['agent']['messages'][0]['content'];
+      if (e.hasException) return (e.exception.toString(), -1.0);
+      final data = e.data!['agent'];
+      _log.fine('Received message: $data');
+      return (data['messages'][0]['content'], data['responseTime']);
     });
   }
 
