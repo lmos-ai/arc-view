@@ -5,6 +5,7 @@
  */
 
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:arc_view/main.dart';
 import 'package:arc_view/src/client/agent_client_notifier.dart';
@@ -12,12 +13,16 @@ import 'package:arc_view/src/client/system_context.dart';
 import 'package:arc_view/src/client/user_context.dart';
 import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'conversation_notifier.g.dart';
 
 @riverpod
 class ConversationNotifier extends _$ConversationNotifier {
+
+  final _log = Logger('ConversationNotifier');
+
   @override
   Conversation build() {
     final userContext = _loadUserContext();
@@ -77,6 +82,10 @@ class ConversationNotifier extends _$ConversationNotifier {
       )
     ]);
     ref.read(agentClientNotifierProvider).sendMessage(state).listen((value) {
+      if(msg.conversationId != state.conversationId) {
+        _log.fine('Ignoring message for old conversation...');
+        return;
+      }
       final newMessages = [];
       for (final message in state.messages) {
         if (message.type != MessageType.loading) {

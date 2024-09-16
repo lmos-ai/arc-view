@@ -26,6 +26,14 @@ Run the following command to ensure that code generation is active:
 dart run build_runner watch
 ```
 
+## Build
+
+Run the following command to build the app for the web:
+
+```
+flutter build web --wasm --base-href=/chat/
+```
+
 ## Code of Conduct
 
 This project has adopted the [Contributor Covenant](https://www.contributor-covenant.org/) in version 2.1 as our code of conduct. Please see the details in our [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). All contributors must abide by the code of conduct.
