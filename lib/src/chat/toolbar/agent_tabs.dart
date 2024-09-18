@@ -6,6 +6,7 @@
 
 import 'package:arc_view/src/client/agents_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,10 +19,9 @@ class AgentTabs extends ConsumerWidget {
 
     return Row(
       children: [
-        Icons.refresh.onPressed(
+        SecondaryButton(
+          icon: Icons.refresh,
           onPressed: () => ref.refreshAgents(),
-          size: 16,
-          color: context.colorScheme.onSurface,
         ),
         if (agents == null || agents.names.isEmpty)
           'No Agents found'
