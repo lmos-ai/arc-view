@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'dart:ffi';
-
 import 'package:arc_view/src/client/agent_client_notifier.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
