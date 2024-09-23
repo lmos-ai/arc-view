@@ -20,7 +20,7 @@ class SecondaryButton extends StatelessWidget {
     return IconButton(
       onPressed: onPressed,
       icon: Icon(
-        Icons.upload,
+        icon,
         size: 16,
         color: Theme.of(context).colorScheme.onSurface,
       ),
