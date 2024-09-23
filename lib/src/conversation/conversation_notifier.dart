@@ -24,8 +24,8 @@ class ConversationNotifier extends _$ConversationNotifier {
 
   @override
   Conversation build() {
-    final userContext = _loadUserContext();
-    final systemContext = _loadSystemContext();
+    final userContext = loadUserContext();
+    final systemContext = loadSystemContext();
     return Conversation(
       userContext: userContext,
       systemContext: systemContext,
@@ -34,15 +34,20 @@ class ConversationNotifier extends _$ConversationNotifier {
     );
   }
 
-  UserContext _loadUserContext() {
+  UserContext loadUserContext() {
     final json = _load('conversation_user_context');
     if (json == null) return UserContext(userId: "unknown", profile: []);
     return UserContext.fromJson(jsonDecode(json));
   }
 
-  SystemContext _loadSystemContext() {
+  SystemContext loadSystemContext() {
     final json = _load('conversation_system_context');
-    if (json == null) return SystemContext(entries: []);
+    if (json == null) {
+      return SystemContext(entries: [
+        (key: 'tenantId', value: 'de'),
+        (key: 'channelId', value: 'web'),
+      ]);
+    }
     return SystemContext.fromJson(jsonDecode(json));
   }
 
@@ -59,11 +64,13 @@ class ConversationNotifier extends _$ConversationNotifier {
   }
 
   addUserMessage(String msg) {
-    addMessage(ConversationMessage(
+    final userMessage = ConversationMessage(
       type: MessageType.user,
       content: msg,
       conversationId: state.conversationId,
-    ));
+    );
+
+    addMessage(userMessage);
   }
 
   clear() {
@@ -75,33 +82,43 @@ class ConversationNotifier extends _$ConversationNotifier {
       ...state.messages,
       msg,
       ConversationMessage(
-        type: MessageType.loading,
-        content: '',
+          type: MessageType.loading,
+          content: '',
+          conversationId: state.conversationId),
+    ]);
+
+    final conversationClient = ref.read(agentClientNotifierProvider);
+
+    // Remove the loading message and add the response from the server
+    final response = await conversationClient.sendMessage(state);
+
+    if (response != null && response.conversationId != state.conversationId) {
+      return;
+    }
+
+
+    final newMessage = ConversationMessage(
+      type: MessageType.bot,
+      content: response.content, // Adjust based on your actual response data structure
+      conversationId: state.conversationId,
+      responseTime: response.responseTime, // Adjust based on your actual response data structure
+    );
+
+    final newMessages = [];
+    for (final message in state.messages) {
+      if (message.type != MessageType.loading) {
+        newMessages.add(message);
+      }
+    }
+
+    state = state.copyWith(messages: [
+      ...newMessages,
+      ConversationMessage(
+        type: MessageType.bot,
+        content: newMessage.content,
         conversationId: state.conversationId,
+        responseTime: newMessage.responseTime,
       )
     ]);
-    ref.read(agentClientNotifierProvider).sendMessage(state).listen((value) {
-      if (msg.conversationId != state.conversationId) {
-        _log.fine('Ignoring message for old conversation...');
-        return;
-      }
-
-      final (message, responseTime) = value;
-      final newMessages = [];
-      for (final message in state.messages) {
-        if (message.type != MessageType.loading) {
-          newMessages.add(message);
-        }
-      }
-      state = state.copyWith(messages: [
-        ...newMessages,
-        ConversationMessage(
-          type: MessageType.bot,
-          content: message,
-          conversationId: state.conversationId,
-          responseTime: responseTime,
-        )
-      ]);
-    });
   }
 }
