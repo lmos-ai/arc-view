@@ -30,6 +30,8 @@ path = [
     "**/Runner/Assets.xcassets/**/Contents.json",
     "**/Runner/Assets.xcassets/**/*icon*.png",
     "ios/Runner/Assets.xcassets/**/LaunchImage*.png",
+    ".devcontainer/**",
+    ".github/**",
     "**/*Icon-*.png", "web/favicon.png",
     "**/*launcher.png"]
 precedence = "override"
