@@ -21,7 +21,7 @@ class ToolBar extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
     return Row(
       children: [
-        const AgentTabs().pad(0, 0, 0, 8).expand(),
+        // const AgentTabs().pad(0, 0, 0, 8).expand(),
         SecondaryButton(
           onPressed: () {
             context.push("/settings");
