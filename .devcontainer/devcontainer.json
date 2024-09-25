@@ -1,0 +1,23 @@
+{
+	"name": "Flutter",
+	"dockerFile": "Dockerfile",
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2.5.1": {
+		  "configureZshAsDefaultShell": true
+		},
+		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
+		  "plugins": "zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search",
+		  "omzPlugins": "https://github.com/zsh-users/zsh-autosuggestions.git https://github.com/zsh-users/zsh-syntax-highlighting.git https://github.com/zsh-users/zsh-history-substring-search.git  "
+		}
+	},
+	"postCreateCommand": "flutter clean && flutter pub get && flutter run -d chrome",
+	// Add the IDs of extensions you want installed when the container is created.
+	"customizations": {
+		"vscode": {
+		  "extensions": [
+			"dart-code.dart-code",
+			"dart-code.flutter"
+		  ]
+		}
+	}
+}
