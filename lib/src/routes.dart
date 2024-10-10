@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/chat/chat_screen.dart';
+import 'package:arc_view/src/events/events_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,10 @@ final appRoutes =
       GoRoute(
         path: '/settings',
         builder: (context, state) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/events',
+        builder: (context, state) => const EventsScreen(),
       ),
     ],
   ),

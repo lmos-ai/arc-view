@@ -5,13 +5,14 @@
  */
 
 import 'package:arc_view/src/chat/address_bar.dart';
-import 'package:arc_view/src/chat/chat_field.dart';
-import 'package:arc_view/src/chat/chat_list.dart';
+import 'package:arc_view/src/chat/chat_panel.dart';
 import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
-import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
-import 'package:arc_view/src/prompts/prompt_list.dart';
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
+import 'package:arc_view/src/events/agent_events_notifier.dart';
 import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/core/gaps.dart';
+import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/events/events_list.dart';
+import 'package:arc_view/src/events/events_panel.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -46,31 +47,25 @@ class _ChatScreenState extends State<ChatScreen> {
     return AdaptiveScaffold(
       body: Consumer(
         builder: (context, ref, child) {
-          final theme = Theme.of(context);
+          final bigScreen = MediaQuery.sizeOf(context).width > 1200;
+
           return Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const AddressBar(),
                 const ToolBar(),
-                Expanded(
-                  child: const Align(
-                    alignment: Alignment.topCenter,
-                    child: ChatList(),
-                  ).max(width: 800),
-                ),
-                Card(
-                  elevation: 6,
-                  margin: const EdgeInsets.all(16),
-                  child: Row(
-                    children: [
-                      _chatField(ref),
-                      _previousPromptButton(ref, theme),
-                      _deleteButton(ref, theme),
-                      _sendButton(ref),
-                    ],
-                  ).padding(),
-                ).max(width: 800),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: bigScreen
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+                  children: [
+                    if (bigScreen) const EventsPanel(width: 380),
+                    const ChatPanel().max(width: 800),
+                    if (bigScreen) const HGap.small(),
+                  ],
+                ).expand(),
               ],
             ),
           );
@@ -78,47 +73,4 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
     );
   }
-
-  _chatField(WidgetRef ref) => Expanded(
-        child: Consumer(builder: (ctx, ref, child) {
-          _textController.text = ref.watch(currentPromptNotifierProvider);
-          return ChatField(
-            controller: _textController,
-            onSubmitted: (_) => _send(ref),
-          ).padding();
-        }),
-      );
-
-  _previousPromptButton(WidgetRef ref, ThemeData theme) => IconButton(
-      icon: Icon(
-        Icons.line_weight_sharp,
-        color: theme.colorScheme.onSurface,
-      ),
-      onPressed: () {
-        //ref.read(currentPromptControllerProvider.notifier).rotate();
-        showPromptList(context);
-      });
-
-  _sendButton(WidgetRef ref) => 'Send'.onButtonPressed(() => _send(ref));
-
-  _send(WidgetRef ref) {
-    if (_textController.text.isEmpty) return;
-    ref
-        .read(conversationNotifierProvider.notifier)
-        .addUserMessage(_textController.text);
-    ref.read(promptHistoryNotifierProvider.notifier).add(_textController.text);
-    ref.read(currentPromptNotifierProvider.notifier).clear();
-    _textController.text = '';
-  }
-
-  _deleteButton(WidgetRef ref, ThemeData theme) => IconButton(
-        icon: Icon(
-          Icons.delete_sweep,
-          color: theme.colorScheme.onSurface,
-        ),
-        onPressed: () {
-          ref.read(conversationNotifierProvider.notifier).clear();
-          ref.read(currentPromptNotifierProvider.notifier).clear();
-        },
-      );
 }

@@ -5,8 +5,10 @@
  */
 
 import 'package:arc_view/src/client/agent_client_notifier.dart';
+import 'package:arc_view/src/events/agent_events.dart';
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
+import 'package:arc_view/src/client/graphql/event_subscription.dart';
 import 'package:arc_view/src/conversation/conversation.dart';
 import 'package:arc_view/src/conversation/conversation_message.dart';
 import 'package:graphql/client.dart';
@@ -61,9 +63,29 @@ class OneAIClient {
     });
   }
 
+  Stream<AgentEvent?> listenToEvents() {
+    _log.fine('Subscribing to events...');
+    final subscription = _client.subscribe(
+      SubscriptionOptions(
+        document: eventSubscription(),
+      ),
+    );
+    return subscription.map((e) {
+      print(23);
+      if (e.hasException) return null;
+      final data = e.data!['events'];
+      _log.fine('Received message: $data');
+      return AgentEvent.fromJson(data);
+    });
+  }
+
   Future<bool> isConnected() async {
     final result = await _client.query(QueryOptions(document: agentQuery()));
     return !result.hasException;
+  }
+
+  close() async {
+    await _client.link.dispose();
   }
 
   static GraphQLClient _buildGraphQLClient(AgentUrlData agentUrl) {

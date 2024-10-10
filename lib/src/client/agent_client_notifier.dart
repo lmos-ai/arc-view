@@ -19,12 +19,17 @@ class AgentClientNotifier extends _$AgentClientNotifier {
     final url = Uri.base.isScheme('http')
         ? '${Uri.base.scheme}://${Uri.base.host}:${Uri.base.port}'
         : 'http://localhost:8080';
-    return OneAIClient((url: Uri.parse(url), secure: false, agent: null));
+    final client = OneAIClient(
+      (url: Uri.parse(url), secure: false, agent: null),
+    );
+    ref.onDispose(() => client.close());
+    return client;
   }
 
   setUrl(String url) {
     final uri = Uri.parse(url);
     final secure = uri.isScheme('https');
+    state.close();
     state = OneAIClient((
       url: uri,
       secure: secure,
@@ -33,6 +38,7 @@ class AgentClientNotifier extends _$AgentClientNotifier {
   }
 
   setAgent(String agent) {
+    state.close();
     state = OneAIClient((
       url: state.agentUrl.url,
       secure: state.agentUrl.secure,

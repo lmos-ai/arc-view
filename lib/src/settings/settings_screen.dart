@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         ref.read(themeNotifierProvider.notifier).toggle();
                       }).pad(8, 8, 8, 8),
-                  '1.3.0'.txt.pad(8, 8, 8, 8),
+                  '1.4.0'.txt.pad(8, 8, 8, 8),
                   'Licenses'.onPressed(() {
                     showLicensePage(context: context);
                   }).pad(8, 8, 8, 8),
