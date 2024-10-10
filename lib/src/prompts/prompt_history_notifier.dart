@@ -41,7 +41,6 @@ class PromptHistoryNotifier extends _$PromptHistoryNotifier {
     final oldState = state.valueOrNull;
 
     if (oldState == null) return;
-    print(oldState);
     final List<String> newState = [];
     for (var p in oldState) {
       if (p != prompt) {

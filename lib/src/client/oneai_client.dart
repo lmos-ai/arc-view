@@ -71,7 +71,6 @@ class OneAIClient {
       ),
     );
     return subscription.map((e) {
-      print(23);
       if (e.hasException) return null;
       final data = e.data!['events'];
       _log.fine('Received message: $data');
