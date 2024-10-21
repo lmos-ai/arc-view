@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/core/extensions.dart';
-import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
+import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smiles/smiles.dart';
 
 class PromptList extends ConsumerWidget {
   const PromptList({super.key});

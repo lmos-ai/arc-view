@@ -6,10 +6,10 @@
 
 import 'dart:convert';
 
-import 'package:arc_view/src/client/system_context.dart';
-import 'package:arc_view/src/client/user_context.dart';
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
-import 'package:arc_view/src/settings/settings.dart';
+import 'package:arc_view/src/client/models/system_context.dart';
+import 'package:arc_view/src/client/models/user_context.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/settings/models/settings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

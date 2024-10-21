@@ -6,11 +6,11 @@
 
 import 'dart:convert';
 
-import 'package:arc_view/src/core/extensions.dart';
 import 'package:arc_view/src/core/text.dart';
-import 'package:arc_view/src/events/agent_events_notifier.dart';
+import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smiles/smiles.dart';
 
 class EventsList extends ConsumerWidget {
   EventsList({super.key});
@@ -37,23 +37,25 @@ class EventsList extends ConsumerWidget {
               final json = jsonDecode(event.payload);
 
               return Card(
-                elevation: 2,
+                elevation: 0,
                 child: ExpansionTile(
                   expandedAlignment: Alignment.topLeft,
                   childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   subtitle: SmallText(
                       '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'),
-                  title: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        left: BorderSide(
-                          color: _getColor(event.type, context),
-                          width: 4,
+                  title: _indent(event.type)
+                      ? event.type.txt
+                      : DecoratedBox(
+                          decoration: BoxDecoration(
+                            border: Border(
+                              left: BorderSide(
+                                color: _getColor(event.type, context),
+                                width: 4,
+                              ),
+                            ),
+                          ),
+                          child: event.type.txt.pad(0, 0, 0, 16),
                         ),
-                      ),
-                    ),
-                    child: Text(event.type).paddingLeft(16),
-                  ),
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,6 +72,13 @@ class EventsList extends ConsumerWidget {
     return switch (type) {
       'AgentFinishedEvent' => context.colorScheme.primary,
       _ => context.colorScheme.tertiary,
+    };
+  }
+
+  bool _indent(String type) {
+    return switch (type) {
+      'AgentFinishedEvent' => false,
+      _ => true,
     };
   }
 

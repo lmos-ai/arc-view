@@ -22,7 +22,7 @@ AgentEvent _$AgentEventFromJson(Map<String, dynamic> json) {
 mixin _$AgentEvent {
   String get type => throw _privateConstructorUsedError;
   String get payload => throw _privateConstructorUsedError;
-  String? get userToken => throw _privateConstructorUsedError;
+  String? get conversationId => throw _privateConstructorUsedError;
 
   /// Serializes this AgentEvent to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,7 @@ abstract class $AgentEventCopyWith<$Res> {
           AgentEvent value, $Res Function(AgentEvent) then) =
       _$AgentEventCopyWithImpl<$Res, AgentEvent>;
   @useResult
-  $Res call({String type, String payload, String? userToken});
+  $Res call({String type, String payload, String? conversationId});
 }
 
 /// @nodoc
@@ -60,7 +60,7 @@ class _$AgentEventCopyWithImpl<$Res, $Val extends AgentEvent>
   $Res call({
     Object? type = null,
     Object? payload = null,
-    Object? userToken = freezed,
+    Object? conversationId = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -71,9 +71,9 @@ class _$AgentEventCopyWithImpl<$Res, $Val extends AgentEvent>
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as String,
-      userToken: freezed == userToken
-          ? _value.userToken
-          : userToken // ignore: cast_nullable_to_non_nullable
+      conversationId: freezed == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -87,7 +87,7 @@ abstract class _$$AgentEventImplCopyWith<$Res>
       __$$AgentEventImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String payload, String? userToken});
+  $Res call({String type, String payload, String? conversationId});
 }
 
 /// @nodoc
@@ -105,7 +105,7 @@ class __$$AgentEventImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? payload = null,
-    Object? userToken = freezed,
+    Object? conversationId = freezed,
   }) {
     return _then(_$AgentEventImpl(
       type: null == type
@@ -116,9 +116,9 @@ class __$$AgentEventImplCopyWithImpl<$Res>
           ? _value.payload
           : payload // ignore: cast_nullable_to_non_nullable
               as String,
-      userToken: freezed == userToken
-          ? _value.userToken
-          : userToken // ignore: cast_nullable_to_non_nullable
+      conversationId: freezed == conversationId
+          ? _value.conversationId
+          : conversationId // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -127,7 +127,8 @@ class __$$AgentEventImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$AgentEventImpl implements _AgentEvent {
-  _$AgentEventImpl({required this.type, required this.payload, this.userToken});
+  _$AgentEventImpl(
+      {required this.type, required this.payload, this.conversationId});
 
   factory _$AgentEventImpl.fromJson(Map<String, dynamic> json) =>
       _$$AgentEventImplFromJson(json);
@@ -137,11 +138,11 @@ class _$AgentEventImpl implements _AgentEvent {
   @override
   final String payload;
   @override
-  final String? userToken;
+  final String? conversationId;
 
   @override
   String toString() {
-    return 'AgentEvent(type: $type, payload: $payload, userToken: $userToken)';
+    return 'AgentEvent(type: $type, payload: $payload, conversationId: $conversationId)';
   }
 
   @override
@@ -151,13 +152,13 @@ class _$AgentEventImpl implements _AgentEvent {
             other is _$AgentEventImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.payload, payload) || other.payload == payload) &&
-            (identical(other.userToken, userToken) ||
-                other.userToken == userToken));
+            (identical(other.conversationId, conversationId) ||
+                other.conversationId == conversationId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, type, payload, userToken);
+  int get hashCode => Object.hash(runtimeType, type, payload, conversationId);
 
   /// Create a copy of AgentEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -179,7 +180,7 @@ abstract class _AgentEvent implements AgentEvent {
   factory _AgentEvent(
       {required final String type,
       required final String payload,
-      final String? userToken}) = _$AgentEventImpl;
+      final String? conversationId}) = _$AgentEventImpl;
 
   factory _AgentEvent.fromJson(Map<String, dynamic> json) =
       _$AgentEventImpl.fromJson;
@@ -189,7 +190,7 @@ abstract class _AgentEvent implements AgentEvent {
   @override
   String get payload;
   @override
-  String? get userToken;
+  String? get conversationId;
 
   /// Create a copy of AgentEvent
   /// with the given fields replaced by the non-null parameter values.

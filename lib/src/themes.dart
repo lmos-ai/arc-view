@@ -5,42 +5,49 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:smiles/smiles.dart';
 
 ///
 /// Dark Theme
 ///
 final darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  fontFamily: 'RobotoMono',
-  colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 0, 111, 171),
-    onSurface: Colors.white.withOpacity(0.6),
-    outline: Colors.white.withOpacity(0.2),
-  ),
-  useMaterial3: true,
-  pageTransitionsTheme: _pageTransitionsTheme,
-);
+    fontFamily: 'RobotoMono',
+    colorScheme: ColorScheme.fromSeed(
+      brightness: Brightness.dark,
+      seedColor: const Color.fromARGB(255, 0, 111, 171),
+      onSurface: Colors.white.withOpacity(0.6),
+      outline: Colors.white.withOpacity(0.2),
+    ),
+    useMaterial3: true,
+    pageTransitionsTheme: _pageTransitionsTheme,
+    extensions: const [
+      PaddingTheme(unit: 8),
+      GapsTheme(unit: 4),
+    ]);
 
 ///
 /// Light Theme
 ///
 ///
 final lightTheme = ThemeData(
-  brightness: Brightness.light,
-  fontFamily: 'RobotoMono',
-  colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.light,
-    seedColor: const Color.fromARGB(255, 171, 0, 111),
-    secondaryContainer: const Color.fromARGB(255, 247, 247, 248),
-    onSurface: Colors.black.withOpacity(0.6),
-    outline: Colors.black.withOpacity(0.2),
-    //surface: Colors.blue
-    //background: Colors.black,
-  ),
-  useMaterial3: true,
-  pageTransitionsTheme: _pageTransitionsTheme,
-);
+    fontFamily: 'RobotoMono',
+    colorScheme: ColorScheme.fromSeed(
+      brightness: Brightness.light,
+      seedColor: const Color.fromARGB(255, 171, 0, 111),
+      secondaryContainer: const Color.fromARGB(255, 247, 247, 248),
+      onSurface: Colors.black.withOpacity(0.6),
+      outline: Colors.black.withOpacity(0.2),
+      //surface: Colors.blue
+      //background: Colors.black,
+    ),
+    useMaterial3: true,
+    pageTransitionsTheme: _pageTransitionsTheme,
+    extensions: const [
+      PaddingTheme(unit: 8),
+      GapsTheme(unit: 4),
+    ]);
 
 ///
 /// PageTransitionsTheme

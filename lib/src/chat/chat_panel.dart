@@ -6,9 +6,9 @@
 
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
-import 'package:arc_view/src/core/extensions.dart';
-import 'package:arc_view/src/prompts/prompt_history_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:smiles/smiles.dart';
+import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

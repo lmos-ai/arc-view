@@ -6,11 +6,10 @@
 
 import 'dart:convert';
 
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
-import 'package:arc_view/src/core/extensions.dart';
-import 'package:arc_view/src/core/gaps.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:smiles/smiles.dart';
 import 'package:arc_view/src/settings/context_field.dart';
-import 'package:arc_view/src/settings/settings_notifier.dart';
+import 'package:arc_view/src/settings/notifiers/settings_notifier.dart';
 import 'package:arc_view/src/theme_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

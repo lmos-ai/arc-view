@@ -5,9 +5,9 @@
  */
 
 
-import 'package:arc_view/src/client/system_context.dart';
-import 'package:arc_view/src/client/user_context.dart';
-import 'package:arc_view/src/conversation/conversation_message.dart';
+import 'package:arc_view/src/client/models/system_context.dart';
+import 'package:arc_view/src/client/models/user_context.dart';
+import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'conversation.freezed.dart';

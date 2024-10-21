@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/client/agents_notifier.dart';
-import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/client/notifiers/agents_notifier.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smiles/smiles.dart';
 
 class AgentTabs extends ConsumerWidget {
   const AgentTabs({super.key});

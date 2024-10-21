@@ -5,9 +5,9 @@
  */
 
 import 'package:arc_view/src/chat/message/chat_message_card.dart';
-import 'package:arc_view/src/conversation/conversation_message.dart';
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
-import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:smiles/smiles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

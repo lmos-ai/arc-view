@@ -6,8 +6,9 @@
 
 import 'dart:async';
 
-import 'package:arc_view/src/client/agent_client_notifier.dart';
-import 'package:arc_view/src/events/agent_events.dart';
+import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_events_notifier.g.dart';
@@ -19,6 +20,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
   @override
   List<AgentEvent> build() {
     final client = ref.watch(agentClientNotifierProvider);
+
     _lastSubscription?.cancel();
     _lastSubscription = null;
 
@@ -26,7 +28,9 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
       if (!connected) return;
       _lastSubscription = client.listenToEvents().listen((e) {
         if (e == null) return;
-        state = [e, ...state];
+        final conversationId = ref
+            .read(conversationNotifierProvider.select((c) => c.conversationId));
+        state = [e.copyWith(conversationId: conversationId), ...state];
       });
     });
     ref.onDispose(() {

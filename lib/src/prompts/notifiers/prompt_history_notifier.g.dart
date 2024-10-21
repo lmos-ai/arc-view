@@ -7,7 +7,7 @@ part of 'prompt_history_notifier.dart';
 // **************************************************************************
 
 String _$promptHistoryNotifierHash() =>
-    r'8dd86c8209fa0e83551637f877d3c2379d134c60';
+    r'd6f71fafda4eb8476219ef1bacd82063d9c856fd';
 
 /// See also [PromptHistoryNotifier].
 @ProviderFor(PromptHistoryNotifier)

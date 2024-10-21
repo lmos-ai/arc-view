@@ -8,11 +8,11 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:arc_view/main.dart';
-import 'package:arc_view/src/client/agent_client_notifier.dart';
-import 'package:arc_view/src/client/system_context.dart';
-import 'package:arc_view/src/client/user_context.dart';
-import 'package:arc_view/src/conversation/conversation.dart';
-import 'package:arc_view/src/conversation/conversation_message.dart';
+import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/models/system_context.dart';
+import 'package:arc_view/src/client/models/user_context.dart';
+import 'package:arc_view/src/conversation/models/conversation.dart';
+import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

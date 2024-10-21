@@ -6,10 +6,10 @@
 
 import 'package:arc_view/src/chat/message/copy_to_clipboard_button.dart';
 import 'package:arc_view/src/chat/message/rerun_message_button.dart';
-import 'package:arc_view/src/conversation/conversation_message.dart';
-import 'package:arc_view/src/core/extensions.dart';
+import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:smiles/smiles.dart';
 
 class ChatMessageCard extends StatelessWidget {
   const ChatMessageCard({super.key, required this.chatMessage});
@@ -36,7 +36,7 @@ class ChatMessageCard extends StatelessWidget {
           ),
         ],
       ),
-    ).size(maxWidth: 600, minWidth: 100);
+    ).constrain(maxWidth: 600, minWidth: 100);
   }
 }
 
@@ -58,7 +58,7 @@ class BotChatMessageCard extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onPrimary,
               )
               .padding(16)
-              .paddingBottom(24),
+              .pad(0, 0, 24, 0),
           Positioned(
             bottom: 0,
             right: 0,
@@ -98,7 +98,7 @@ class LoadingChatMessageCard extends StatelessWidget {
       child: LoadingAnimationWidget.staggeredDotsWave(
         color: Colors.white,
         size: 20,
-      ).padding(16),
+      ).padByUnits(2, 2, 2, 2),
     );
   }
 }

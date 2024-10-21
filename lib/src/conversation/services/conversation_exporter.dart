@@ -7,9 +7,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:arc_view/src/conversation/conversation.dart';
-import 'package:arc_view/src/conversation/conversation_message.dart';
-import 'package:arc_view/src/conversation/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/models/conversation.dart';
+import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

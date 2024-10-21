@@ -4,17 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/chat/address_bar.dart';
-import 'package:arc_view/src/chat/chat_panel.dart';
-import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
-import 'package:arc_view/src/events/agent_events_notifier.dart';
-import 'package:arc_view/src/core/extensions.dart';
-import 'package:arc_view/src/core/gaps.dart';
+import 'package:smiles/smiles.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:arc_view/src/events/events_list.dart';
-import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class EventsPanel extends ConsumerWidget {
   const EventsPanel({super.key, this.width = 300});
@@ -30,12 +26,23 @@ class EventsPanel extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            SecondaryButton(
-              onPressed: () {
-                ref.read(agentEventsNotifierProvider.notifier).reset();
-              },
-              icon: Icons.refresh,
-            ).toRight(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SecondaryButton(
+                  onPressed: () {
+                    context.push("/charts");
+                  },
+                  icon: Icons.bar_chart,
+                ),
+                SecondaryButton(
+                  onPressed: () {
+                    ref.read(agentEventsNotifierProvider.notifier).reset();
+                  },
+                  icon: Icons.refresh,
+                ),
+              ],
+            ),
             EventsList().expand()
           ],
         ),
