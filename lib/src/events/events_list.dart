@@ -7,10 +7,12 @@
 import 'dart:convert';
 
 import 'package:arc_view/src/core/text.dart';
+import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
+import 'package:arc_view/src/charts/notifiers/agent_metrics_notifier.dart';
 
 class EventsList extends ConsumerWidget {
   EventsList({super.key});
@@ -49,7 +51,7 @@ class EventsList extends ConsumerWidget {
                           decoration: BoxDecoration(
                             border: Border(
                               left: BorderSide(
-                                color: _getColor(event.type, context),
+                                color: _getColor(event, context),
                                 width: 4,
                               ),
                             ),
@@ -68,9 +70,9 @@ class EventsList extends ConsumerWidget {
           );
   }
 
-  Color _getColor(String type, BuildContext context) {
-    return switch (type) {
-      'AgentFinishedEvent' => context.colorScheme.primary,
+  Color _getColor(AgentEvent event, BuildContext context) {
+    return switch (event.type) {
+      'AgentFinishedEvent' => allColors[event.conversationId.hashCode % allColors.length],
       _ => context.colorScheme.tertiary,
     };
   }

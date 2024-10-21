@@ -33,14 +33,6 @@ class DataLineChart extends ConsumerWidget {
         const VGap(),
         LineChart(
           LineChartData(
-            lineTouchData: LineTouchData(touchTooltipData: LineTouchTooltipData(
-              getTooltipItems: (value) {
-                return value.map((e) {
-                  return LineTooltipItem(
-                      '${e.y}', const TextStyle(color: Colors.white));
-                }).toList();
-              },
-            )),
             titlesData: FlTitlesData(
               topTitles: const AxisTitles(),
               bottomTitles: const AxisTitles(),

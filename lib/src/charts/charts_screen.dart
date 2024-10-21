@@ -17,12 +17,20 @@ class ChartsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: 'Performance'.txt),
-      body: const Wrap(
-        spacing: 64,
-        runSpacing: 64,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AgentDurationChart(),
-          TokensChart(),
+          'Agent Metrics'.h3,
+          const VGap.units(2),
+          [
+            const AgentDurationChart(),
+            const HGap.medium(),
+            const AgentDurationChart(),
+          ].row(),
+          const VGap.medium(),
+          'LLM Metrics'.h3,
+          const VGap.units(2),
+          const TokensChart(),
         ],
       ).padding(32),
     );

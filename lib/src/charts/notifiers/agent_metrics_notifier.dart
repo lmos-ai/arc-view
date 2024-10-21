@@ -54,7 +54,7 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
 
       for (var i = 0; i < events.length - 1; i++) {
         final event = events[i];
-        final plots = _transformEvent(event.type, jsonDecode(event.payload), i);
+        final plots = _transformEvent(event.type, jsonDecode(event.payload), events.length - i);
         for (var entry in plots.entries) {
           allPlots[entry.key] =
               (allPlots[entry.key]?..add(entry.value)) ?? [entry.value];

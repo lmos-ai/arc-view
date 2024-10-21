@@ -7,7 +7,7 @@ part of 'agent_metrics_notifier.dart';
 // **************************************************************************
 
 String _$agentMetricsNotifierHash() =>
-    r'ca6ced481561b328e36f972201fdcde1a47db326';
+    r'afaa74f7967d68d59013b61c0b9ca06df495c209';
 
 /// See also [AgentMetricsNotifier].
 @ProviderFor(AgentMetricsNotifier)
