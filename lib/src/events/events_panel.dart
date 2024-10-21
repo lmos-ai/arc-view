@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:smiles/smiles.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
-import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:arc_view/src/events/events_list.dart';
+import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smiles/smiles.dart';
 
 class EventsPanel extends ConsumerWidget {
   const EventsPanel({super.key, this.width = 300});

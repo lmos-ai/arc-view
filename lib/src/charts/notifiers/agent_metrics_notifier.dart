@@ -8,10 +8,10 @@ import 'dart:convert';
 import 'dart:isolate';
 
 import 'package:arc_view/src/charts/models/metrics.dart';
+import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import "package:collection/collection.dart";
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_metrics_notifier.g.dart';
@@ -33,11 +33,15 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
     return switch (type) {
       'AgentFinishedEvent' => {
           PlotType.agentDuration:
-              Plot(x: index.toDouble(), y: json['duration'].toDouble())
+              Plot(x: index.toDouble(), y: json['duration'].toDouble()),
+          PlotType.agentBreaks:
+              Plot(x: index.toDouble(), y: json['flowBreak'] ? 1.0 : 0.0),
         },
       'LLMFinishedEvent' => {
           PlotType.llmTotalTokens:
-              Plot(x: index.toDouble(), y: json['totalTokens'].toDouble())
+              Plot(x: index.toDouble(), y: json['totalTokens'].toDouble()),
+          PlotType.llmFunctionCalls: Plot(
+              x: index.toDouble(), y: json['functionCallCount'].toDouble()),
         },
       _ => {},
     };
@@ -54,7 +58,8 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
 
       for (var i = 0; i < events.length - 1; i++) {
         final event = events[i];
-        final plots = _transformEvent(event.type, jsonDecode(event.payload), events.length - i);
+        final plots = _transformEvent(
+            event.type, jsonDecode(event.payload), events.length - i);
         for (var entry in plots.entries) {
           allPlots[entry.key] =
               (allPlots[entry.key]?..add(entry.value)) ?? [entry.value];
@@ -63,29 +68,9 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
       return Metrics(
         name: conversationId,
         conversationId: conversationId,
-        color: allColors[conversationId.hashCode % allColors.length],
+        color: color(conversationId),
         plots: allPlots,
       );
     }).toList();
   }
 }
-
-const allColors = [
-  Colors.green,
-  Colors.red,
-  Colors.blue,
-  Colors.yellow,
-  Colors.purple,
-  Colors.orange,
-  Colors.pink,
-  Colors.teal,
-  Colors.cyan,
-  Colors.lime,
-  Colors.indigo,
-  Colors.amber,
-  Colors.brown,
-  Colors.grey,
-  Colors.deepOrange,
-  Colors.deepPurple,
-  Colors.lightBlue,
-];

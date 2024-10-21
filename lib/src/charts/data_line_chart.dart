@@ -13,6 +13,7 @@ import 'package:smiles/smiles.dart';
 class DataLineChart extends ConsumerWidget {
   const DataLineChart({
     super.key,
+    this.maxY,
     required this.title,
     required this.axisName,
     required this.plotType,
@@ -23,6 +24,7 @@ class DataLineChart extends ConsumerWidget {
   final String axisName;
   final List<Metrics> metrics;
   final PlotType plotType;
+  final double? maxY;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,33 +33,36 @@ class DataLineChart extends ConsumerWidget {
       children: [
         title.txt,
         const VGap(),
-        LineChart(
-          LineChartData(
-            titlesData: FlTitlesData(
-              topTitles: const AxisTitles(),
-              bottomTitles: const AxisTitles(),
-              rightTitles: const AxisTitles(),
-              leftTitles: AxisTitles(
-                axisNameWidget: axisName.txt,
-                sideTitles: const SideTitles(
-                  reservedSize: 44,
-                  showTitles: true,
+        metrics.isEmpty
+            ? 'No data available'.small.center().size(width: 500, height: 200)
+            : LineChart(
+                LineChartData(
+                  maxY: maxY,
+                  titlesData: FlTitlesData(
+                    topTitles: const AxisTitles(),
+                    bottomTitles: const AxisTitles(),
+                    rightTitles: const AxisTitles(),
+                    leftTitles: AxisTitles(
+                      axisNameWidget: axisName.txt,
+                      sideTitles: const SideTitles(
+                        reservedSize: 44,
+                        showTitles: true,
+                      ),
+                    ),
+                  ),
+                  minY: 0,
+                  lineBarsData: metrics.map((metric) {
+                    return LineChartBarData(
+                      spots: metric.plots.entries
+                          .where((e) => e.key == plotType)
+                          .expand((e) => e.value)
+                          .map((p) => FlSpot(p.x.toDouble(), p.y.toDouble()))
+                          .toList(),
+                      color: metric.color,
+                    );
+                  }).toList(),
                 ),
-              ),
-            ),
-            minY: 0,
-            lineBarsData: metrics.map((metric) {
-              return LineChartBarData(
-                spots: metric.plots.entries
-                    .where((e) => e.key == plotType)
-                    .expand((e) => e.value)
-                    .map((p) => FlSpot(p.x.toDouble(), p.y.toDouble()))
-                    .toList(),
-                color: metric.color,
-              );
-            }).toList(),
-          ),
-        ).max(width: 500, height: 200),
+              ).max(width: 500, height: 200),
       ],
     );
   }

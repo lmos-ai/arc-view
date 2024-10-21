@@ -29,5 +29,7 @@ class Plot with _$Plot {
 
 enum PlotType {
   agentDuration,
+  agentBreaks,
   llmTotalTokens,
+  llmFunctionCalls,
 }

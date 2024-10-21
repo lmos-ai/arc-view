@@ -12,7 +12,8 @@ import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
-import 'package:arc_view/src/charts/notifiers/agent_metrics_notifier.dart';
+
+import '../conversation/services/conversation_colors.dart';
 
 class EventsList extends ConsumerWidget {
   EventsList({super.key});
@@ -30,7 +31,7 @@ class EventsList extends ConsumerWidget {
     }).toList();
 
     return events.isEmpty
-        ? const Center(child: SmallText('No events'))
+        ? 'No events'.small.center()
         : ListView.builder(
             padding: const EdgeInsets.all(16),
             itemCount: events.length,
@@ -56,7 +57,7 @@ class EventsList extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          child: event.type.txt.pad(0, 0, 0, 16),
+                          child: event.type.txt.padByUnits(0, 0, 0, 2),
                         ),
                   children: [
                     Column(
@@ -72,7 +73,7 @@ class EventsList extends ConsumerWidget {
 
   Color _getColor(AgentEvent event, BuildContext context) {
     return switch (event.type) {
-      'AgentFinishedEvent' => allColors[event.conversationId.hashCode % allColors.length],
+      'AgentFinishedEvent' => color(event.conversationId ?? 'unknown'),
       _ => context.colorScheme.tertiary,
     };
   }

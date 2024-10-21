@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/theme_notifier.dart';
-import 'package:flutter/material.dart';
 import 'package:arc_view/src/routes.dart';
+import 'package:arc_view/src/theme_notifier.dart';
 import 'package:arc_view/src/themes.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MessagingApp extends ConsumerWidget {

@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';

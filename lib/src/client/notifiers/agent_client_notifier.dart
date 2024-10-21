@@ -5,7 +5,6 @@
  */
 
 import 'package:arc_view/src/client/oneai_client.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_client_notifier.g.dart';

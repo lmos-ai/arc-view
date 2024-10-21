@@ -7,7 +7,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'agent_events.freezed.dart';
-
 part 'agent_events.g.dart';
 
 @freezed
