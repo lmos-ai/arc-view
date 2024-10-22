@@ -20,6 +20,7 @@ class AgentTabs extends ConsumerWidget {
     return Row(
       children: [
         SecondaryButton(
+          description: 'Refresh Agents',
           icon: Icons.refresh,
           onPressed: () => ref.refreshAgents(),
         ),

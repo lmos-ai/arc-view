@@ -22,18 +22,21 @@ class ToolBar extends ConsumerWidget {
       children: [
         const AgentTabs().padByUnits(0, 0, 0, 1).expand(),
         SecondaryButton(
+          description: 'Show Settings',
           onPressed: () {
             context.push("/settings");
           },
           icon: Icons.settings,
         ),
         SecondaryButton(
+          description: 'Import Conversation',
           onPressed: () {
             ref.read(conversationImporterProvider).load();
           },
           icon: Icons.upload,
         ),
         SecondaryButton(
+          description: 'Export Conversation',
           onPressed: () {
             ref.read(conversationExporterProvider).export();
           },

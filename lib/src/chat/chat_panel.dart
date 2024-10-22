@@ -82,9 +82,10 @@ class _ChatPanelState extends State<ChatPanel> {
       onPressed: () {
         //ref.read(currentPromptControllerProvider.notifier).rotate();
         showPromptList(context);
-      });
+      }).tip('Show previous prompts');
 
-  _sendButton(WidgetRef ref) => 'Send'.onButtonPressed(() => _send(ref));
+  _sendButton(WidgetRef ref) => 'Send'
+      .onButtonPressed(() => _send(ref), tooltip: 'Send the current message');
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
@@ -105,5 +106,5 @@ class _ChatPanelState extends State<ChatPanel> {
           ref.read(conversationNotifierProvider.notifier).clear();
           ref.read(currentPromptNotifierProvider.notifier).clear();
         },
-      );
+      ).tip('Delete all messages');
 }

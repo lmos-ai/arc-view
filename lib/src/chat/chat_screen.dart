@@ -57,9 +57,9 @@ class _ChatScreenState extends State<ChatScreen> {
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.center,
                   children: [
-                    if (bigScreen) const EventsPanel(width: 380),
-                    const ChatPanel().max(width: 800),
                     if (bigScreen) const HGap.small(),
+                    const ChatPanel().max(width: 800),
+                    if (bigScreen) const EventsPanel(width: 380),
                   ],
                 ).expand(),
               ],

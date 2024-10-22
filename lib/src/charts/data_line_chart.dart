@@ -34,7 +34,7 @@ class DataLineChart extends ConsumerWidget {
         title.txt,
         const VGap(),
         metrics.isEmpty
-            ? 'No data available'.small.center().size(width: 500, height: 200)
+            ? 'No data available'.small.center().size(height: 200)
             : LineChart(
                 LineChartData(
                   maxY: maxY,
@@ -62,7 +62,7 @@ class DataLineChart extends ConsumerWidget {
                     );
                   }).toList(),
                 ),
-              ).max(width: 500, height: 200),
+              ).max(height: 200),
       ],
     );
   }

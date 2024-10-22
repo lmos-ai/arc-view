@@ -25,20 +25,20 @@ class ChartsScreen extends ConsumerWidget {
           'Agent Metrics'.h3,
           const VGap.units(2),
           [
-            const AgentDurationChart(),
-            const HGap.medium(),
-            const AgentFlowBreaksChart(),
+            const AgentDurationChart().percentOfScreen(width: 0.45),
+            const Spacer(),
+            const AgentFlowBreaksChart().percentOfScreen(width: 0.45),
           ].row(),
           const VGap.medium(),
           'LLM Metrics'.h3,
           const VGap.units(2),
           [
-            const TokensChart(),
-            const HGap.medium(),
-            const FunctionCallsChart(),
+            const TokensChart().percentOfScreen(width: 0.45),
+            const Spacer(),
+            const FunctionCallsChart().percentOfScreen(width: 0.45),
           ].row(),
         ],
-      ).padding(32),
+      ).padByUnits(4, 4, 4, 4),
     );
   }
 }

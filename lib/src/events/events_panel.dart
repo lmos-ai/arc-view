@@ -30,12 +30,14 @@ class EventsPanel extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SecondaryButton(
+                  description: 'Show Charts',
                   onPressed: () {
                     context.push("/charts");
                   },
                   icon: Icons.bar_chart,
                 ),
                 SecondaryButton(
+                  description: 'Reset Events',
                   onPressed: () {
                     ref.read(agentEventsNotifierProvider.notifier).reset();
                   },
