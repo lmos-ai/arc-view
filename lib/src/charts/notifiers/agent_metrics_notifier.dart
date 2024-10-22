@@ -42,6 +42,12 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
               Plot(x: index.toDouble(), y: json['totalTokens'].toDouble()),
           PlotType.llmFunctionCalls: Plot(
               x: index.toDouble(), y: json['functionCallCount'].toDouble()),
+          PlotType.llmPromptTokens:
+              Plot(x: index.toDouble(), y: json['promptTokens'].toDouble()),
+          PlotType.llmCompletionTokens:
+              Plot(x: index.toDouble(), y: json['completionTokens'].toDouble()),
+          PlotType.llmDuration:
+              Plot(x: index.toDouble(), y: json['duration'].toDouble()),
         },
       _ => {},
     };

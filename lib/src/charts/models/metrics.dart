@@ -32,4 +32,7 @@ enum PlotType {
   agentBreaks,
   llmTotalTokens,
   llmFunctionCalls,
+  llmDuration,
+  llmPromptTokens,
+  llmCompletionTokens,
 }

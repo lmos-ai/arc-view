@@ -24,3 +24,33 @@ class TokensChart extends ConsumerWidget {
     );
   }
 }
+
+class PromptTokensChart extends ConsumerWidget {
+  const PromptTokensChart({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final metrics = ref.watch(agentMetricsNotifierProvider).valueOrNull;
+    return DataLineChart(
+      title: 'PromptTokens',
+      axisName: 'Tokens',
+      metrics: metrics ?? const [],
+      plotType: PlotType.llmPromptTokens,
+    );
+  }
+}
+
+class CompletionTokensChart extends ConsumerWidget {
+  const CompletionTokensChart({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final metrics = ref.watch(agentMetricsNotifierProvider).valueOrNull;
+    return DataLineChart(
+      title: 'CompletionTokens',
+      axisName: 'Tokens',
+      metrics: metrics ?? const [],
+      plotType: PlotType.llmCompletionTokens,
+    );
+  }
+}
