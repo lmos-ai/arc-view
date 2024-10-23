@@ -38,7 +38,7 @@ class MetricDetails extends ConsumerWidget {
                     const HGap.units(2),
                     m.name.txt,
                     SecondaryButton(
-                      description: 'Edit Metric Namee',
+                      description: 'Edit Metric Name',
                       icon: Icons.edit,
                       onPressed: () {
                         _editName(context, ref, m);
