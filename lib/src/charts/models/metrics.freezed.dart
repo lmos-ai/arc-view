@@ -14,12 +14,19 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+Metrics _$MetricsFromJson(Map<String, dynamic> json) {
+  return _Metrics.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Metrics {
-  Color get color => throw _privateConstructorUsedError;
+  int get color => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String? get conversationId => throw _privateConstructorUsedError;
   Map<PlotType, List<Plot>> get plots => throw _privateConstructorUsedError;
+
+  /// Serializes this Metrics to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Metrics
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +40,7 @@ abstract class $MetricsCopyWith<$Res> {
       _$MetricsCopyWithImpl<$Res, Metrics>;
   @useResult
   $Res call(
-      {Color color,
+      {int color,
       String name,
       String? conversationId,
       Map<PlotType, List<Plot>> plots});
@@ -63,7 +70,7 @@ class _$MetricsCopyWithImpl<$Res, $Val extends Metrics>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as Color,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -88,7 +95,7 @@ abstract class _$$MetricsImplCopyWith<$Res> implements $MetricsCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {Color color,
+      {int color,
       String name,
       String? conversationId,
       Map<PlotType, List<Plot>> plots});
@@ -116,7 +123,7 @@ class __$$MetricsImplCopyWithImpl<$Res>
       color: null == color
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
-              as Color,
+              as int,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -134,7 +141,7 @@ class __$$MetricsImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$MetricsImpl implements _Metrics {
   _$MetricsImpl(
       {required this.color,
@@ -143,8 +150,11 @@ class _$MetricsImpl implements _Metrics {
       required final Map<PlotType, List<Plot>> plots})
       : _plots = plots;
 
+  factory _$MetricsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MetricsImplFromJson(json);
+
   @override
-  final Color color;
+  final int color;
   @override
   final String name;
   @override
@@ -174,6 +184,7 @@ class _$MetricsImpl implements _Metrics {
             const DeepCollectionEquality().equals(other._plots, _plots));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, color, name, conversationId,
       const DeepCollectionEquality().hash(_plots));
@@ -185,17 +196,26 @@ class _$MetricsImpl implements _Metrics {
   @pragma('vm:prefer-inline')
   _$$MetricsImplCopyWith<_$MetricsImpl> get copyWith =>
       __$$MetricsImplCopyWithImpl<_$MetricsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MetricsImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Metrics implements Metrics {
   factory _Metrics(
-      {required final Color color,
+      {required final int color,
       required final String name,
       final String? conversationId,
       required final Map<PlotType, List<Plot>> plots}) = _$MetricsImpl;
 
+  factory _Metrics.fromJson(Map<String, dynamic> json) = _$MetricsImpl.fromJson;
+
   @override
-  Color get color;
+  int get color;
   @override
   String get name;
   @override
@@ -211,10 +231,17 @@ abstract class _Metrics implements Metrics {
       throw _privateConstructorUsedError;
 }
 
+Plot _$PlotFromJson(Map<String, dynamic> json) {
+  return _Plot.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Plot {
   double get x => throw _privateConstructorUsedError;
   double get y => throw _privateConstructorUsedError;
+
+  /// Serializes this Plot to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Plot
   /// with the given fields replaced by the non-null parameter values.
@@ -300,9 +327,12 @@ class __$$PlotImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$PlotImpl implements _Plot {
   _$PlotImpl({required this.x, required this.y});
+
+  factory _$PlotImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlotImplFromJson(json);
 
   @override
   final double x;
@@ -323,6 +353,7 @@ class _$PlotImpl implements _Plot {
             (identical(other.y, y) || other.y == y));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, x, y);
 
@@ -333,11 +364,20 @@ class _$PlotImpl implements _Plot {
   @pragma('vm:prefer-inline')
   _$$PlotImplCopyWith<_$PlotImpl> get copyWith =>
       __$$PlotImplCopyWithImpl<_$PlotImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PlotImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Plot implements Plot {
   factory _Plot({required final double x, required final double y}) =
       _$PlotImpl;
+
+  factory _Plot.fromJson(Map<String, dynamic> json) = _$PlotImpl.fromJson;
 
   @override
   double get x;
