@@ -29,7 +29,7 @@ class MetricsExporter {
     final fileName = 'metrics_${metrics.name.replaceAll(' ', '')}.json';
     final result = await getSaveLocation(suggestedName: fileName);
     if (result == null) return;
-    Isolate.run(() {
+    await Isolate.run(() async {
       final Uint8List fileData =
           Uint8List.fromList(jsonEncode(metrics.toJson()).codeUnits);
       final XFile textFile = XFile.fromData(
@@ -37,7 +37,7 @@ class MetricsExporter {
         mimeType: 'application/json',
         name: fileName,
       );
-      textFile.saveTo(result.path);
+      await textFile.saveTo(result.path);
     });
   }
 }
