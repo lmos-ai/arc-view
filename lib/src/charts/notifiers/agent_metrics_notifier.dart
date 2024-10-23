@@ -4,79 +4,52 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'dart:convert';
-import 'dart:isolate';
-
 import 'package:arc_view/src/charts/models/metrics.dart';
-import 'package:arc_view/src/conversation/services/conversation_colors.dart';
-import 'package:arc_view/src/events/models/agent_events.dart';
+import 'package:arc_view/src/charts/services/events_to_metrics_converter.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
-import "package:collection/collection.dart";
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_metrics_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AgentMetricsNotifier extends _$AgentMetricsNotifier {
   @override
   Future<List<Metrics>> build() async {
     final events = ref.watch(agentEventsNotifierProvider).toList();
-
-    final result = await Isolate.run(() {
-      return _build(events);
-    });
-    return result;
+    final converter = ref.read(eventsToMetricsConverterProvider);
+    final newMetrics = await converter.convert(events);
+    if (!state.hasValue) return newMetrics;
+    return [
+      ...newMetrics,
+      ...state.valueOrNull!
+          .where((e) => !_contains(newMetrics, e.conversationId))
+    ];
   }
 
-  static Map<PlotType, Plot> _transformEvent(
-      String type, dynamic json, int index) {
-    return switch (type) {
-      'AgentFinishedEvent' => {
-          PlotType.agentDuration:
-              Plot(x: index.toDouble(), y: json['duration'].toDouble()),
-          PlotType.agentBreaks:
-              Plot(x: index.toDouble(), y: json['flowBreak'] ? 1.0 : 0.0),
-        },
-      'LLMFinishedEvent' => {
-          PlotType.llmTotalTokens:
-              Plot(x: index.toDouble(), y: json['totalTokens'].toDouble()),
-          PlotType.llmFunctionCalls: Plot(
-              x: index.toDouble(), y: json['functionCallCount'].toDouble()),
-          PlotType.llmPromptTokens:
-              Plot(x: index.toDouble(), y: json['promptTokens'].toDouble()),
-          PlotType.llmCompletionTokens:
-              Plot(x: index.toDouble(), y: json['completionTokens'].toDouble()),
-          PlotType.llmDuration:
-              Plot(x: index.toDouble(), y: json['duration'].toDouble()),
-        },
-      _ => {},
-    };
+  bool _contains(List<Metrics> metrics, String? conversationId) {
+    return metrics.any((m) => m.conversationId == conversationId);
   }
 
-  static List<Metrics> _build(List<AgentEvent> events) {
-    Map<String, List<AgentEvent>> groupedEvents =
-        groupBy(events, (e) => e.conversationId ?? '');
+  editName(String conversationId, String newName) {
+    final oldState = state.valueOrNull;
+    if (oldState == null) return;
 
-    return groupedEvents.keys.map((key) {
-      final conversationId = key.toString();
-      final events = groupedEvents[key]!;
-      Map<PlotType, List<Plot>> allPlots = {};
+    state = AsyncData(oldState.map((m) {
+      if (m.conversationId == conversationId) return m.copyWith(name: newName);
+      return m;
+    }).toList());
+  }
 
-      for (var i = 0; i < events.length - 1; i++) {
-        final event = events[i];
-        final plots = _transformEvent(
-            event.type, jsonDecode(event.payload), events.length - i);
-        for (var entry in plots.entries) {
-          allPlots[entry.key] =
-              (allPlots[entry.key]?..add(entry.value)) ?? [entry.value];
-        }
-      }
-      return Metrics(
-        name: conversationId,
-        conversationId: conversationId,
-        color: color(conversationId),
-        plots: allPlots,
-      );
-    }).toList();
+  add(Metrics metrics) {
+    final oldState = state.valueOrNull;
+    if (oldState == null) return;
+    state = AsyncData([...oldState, metrics]);
+  }
+
+  remove(String conversationId) {
+    final oldState = state.valueOrNull;
+    if (oldState == null) return;
+    state = AsyncData(
+        [...oldState.where((e) => e.conversationId != conversationId)]);
   }
 }

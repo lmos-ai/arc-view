@@ -41,7 +41,7 @@ class EventsPanel extends ConsumerWidget {
                   onPressed: () {
                     ref.read(agentEventsNotifierProvider.notifier).reset();
                   },
-                  icon: Icons.refresh,
+                  icon: Icons.delete,
                 ),
               ],
             ),

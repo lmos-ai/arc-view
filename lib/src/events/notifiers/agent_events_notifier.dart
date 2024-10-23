@@ -13,7 +13,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_events_notifier.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class AgentEventsNotifier extends _$AgentEventsNotifier {
   StreamSubscription? _lastSubscription;
 
@@ -31,6 +31,9 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
         final conversationId = ref
             .read(conversationNotifierProvider.select((c) => c.conversationId));
         state = [e.copyWith(conversationId: conversationId), ...state];
+        if (state.length > 100) {
+          state = state.sublist(0, 100);
+        }
       });
     });
     ref.onDispose(() {

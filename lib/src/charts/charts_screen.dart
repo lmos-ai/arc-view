@@ -8,7 +8,10 @@ import 'package:arc_view/src/charts/agent_duration_chart.dart';
 import 'package:arc_view/src/charts/agent_flowbreaks_chart.dart';
 import 'package:arc_view/src/charts/function_calls_chart.dart';
 import 'package:arc_view/src/charts/llm_duration_chart.dart';
+import 'package:arc_view/src/charts/metric_details.dart';
+import 'package:arc_view/src/charts/services/metrics_importer.dart';
 import 'package:arc_view/src/charts/tokens_chart.dart';
+import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -24,6 +27,22 @@ class ChartsScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                'Conversations'.h3,
+                SecondaryButton(
+                  description: 'Import Metrics',
+                  icon: Icons.upload,
+                  onPressed: () {
+                    ref.read(metricsImporterProvider).load();
+                  },
+                ),
+              ],
+            ),
+            const VGap.units(2),
+            const MetricDetails(),
+            const VGap.medium(),
             'Agent Metrics'.h3,
             const VGap.units(2),
             [

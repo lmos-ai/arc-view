@@ -58,7 +58,7 @@ class DataLineChart extends ConsumerWidget {
                           .expand((e) => e.value)
                           .map((p) => FlSpot(p.x.toDouble(), p.y.toDouble()))
                           .toList(),
-                      color: metric.color,
+                      color: Color(metric.color),
                     );
                   }).toList(),
                 ),
