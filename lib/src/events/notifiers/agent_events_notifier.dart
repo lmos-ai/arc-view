@@ -28,9 +28,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
       if (!connected) return;
       _lastSubscription = client.listenToEvents().listen((e) {
         if (e == null) return;
-        final conversationId = ref
-            .read(conversationNotifierProvider.select((c) => c.conversationId));
-        state = [e.copyWith(conversationId: conversationId), ...state];
+        state = [e, ...state];
         if (state.length > 100) {
           state = state.sublist(0, 100);
         }
