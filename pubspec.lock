@@ -989,9 +989,11 @@ packages:
   smiles:
     dependency: "direct main"
     description:
-      path: "../smiles"
-      relative: true
-    source: path
+      path: "."
+      ref: "0.6.0"
+      resolved-ref: "213951a999d09a6558dc6e645c4eea859bdcbc79"
+      url: "https://github.com/patwlan/smiles"
+    source: git
     version: "0.0.1"
   source_gen:
     dependency: transitive
