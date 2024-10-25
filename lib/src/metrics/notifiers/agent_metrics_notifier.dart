@@ -15,24 +15,25 @@ part 'agent_metrics_notifier.g.dart';
 class AgentMetricsNotifier extends _$AgentMetricsNotifier {
   @override
   Future<List<Metrics>> build() async {
-    final events = ref.watch(agentEventsNotifierProvider).toList();
+    final events = ref.watch(agentEventsNotifierProvider);
     final converter = ref.read(eventsToMetricsConverterProvider);
     final newMetrics = await converter.convert(events);
     if (!state.hasValue) return newMetrics;
     return [
-      ...newMetrics.map((m) => m.copyWith(name: _getName(m.conversationId))),
+      ...newMetrics.map((m) => m.copyWith(name: _getName(m))),
       ...state.valueOrNull!
           .where((e) => !_contains(newMetrics, e.conversationId))
     ];
   }
 
-  String _getName(String? conversationId) {
-    if (conversationId == null) return '';
-    final metrics = state.valueOrNull;
-    if (metrics == null) return conversationId;
-    final metric =
-        metrics.firstWhere((m) => m.conversationId == conversationId);
-    return metric.name;
+  String _getName(Metrics metrics) {
+    if (metrics.conversationId == null) return metrics.name;
+    final previousMetrics = state.valueOrNull;
+    if (previousMetrics == null) return metrics.name;
+    return previousMetrics
+        .firstWhere((m) => m.conversationId == metrics.conversationId,
+            orElse: () => metrics)
+        .name;
   }
 
   bool _contains(List<Metrics> metrics, String? conversationId) {
