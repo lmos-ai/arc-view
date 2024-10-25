@@ -24,10 +24,11 @@ const _allColors = [
   Colors.deepOrange,
   Colors.deepPurple,
   Colors.lightBlue,
+  Colors.lightGreen,
 ];
 
 Color color(String conversationId) {
   final hash = conversationId.hashCode;
   final index = hash % _allColors.length;
-  return _allColors[index];
+  return Color(hash).withOpacity(0.8);
 }

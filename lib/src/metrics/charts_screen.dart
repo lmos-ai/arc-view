@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/charts/agent_duration_chart.dart';
-import 'package:arc_view/src/charts/agent_flowbreaks_chart.dart';
-import 'package:arc_view/src/charts/function_calls_chart.dart';
-import 'package:arc_view/src/charts/llm_duration_chart.dart';
-import 'package:arc_view/src/charts/metric_details.dart';
-import 'package:arc_view/src/charts/services/metrics_importer.dart';
-import 'package:arc_view/src/charts/tokens_chart.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/metrics/charts/agent_duration_chart.dart';
+import 'package:arc_view/src/metrics/charts/agent_flowbreaks_chart.dart';
+import 'package:arc_view/src/metrics/charts/function_calls_chart.dart';
+import 'package:arc_view/src/metrics/charts/llm_duration_chart.dart';
+import 'package:arc_view/src/metrics/charts/tokens_chart.dart';
+import 'package:arc_view/src/metrics/metric_details.dart';
+import 'package:arc_view/src/metrics/services/metrics_importer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -62,11 +62,12 @@ class ChartsScreen extends ConsumerWidget {
             'LLM Tokens'.h3,
             const VGap.units(2),
             [
-              const TokensChart().percentOfScreen(width: 0.3),
+              const TokensChart().expand(),
+            ].row(),
+            [
+              const PromptTokensChart().percentOfScreen(width: 0.45),
               const Spacer(),
-              const PromptTokensChart().percentOfScreen(width: 0.3),
-              const Spacer(),
-              const CompletionTokensChart().percentOfScreen(width: 0.3),
+              const CompletionTokensChart().percentOfScreen(width: 0.45),
             ].row(),
             const VGap.units(2),
           ],

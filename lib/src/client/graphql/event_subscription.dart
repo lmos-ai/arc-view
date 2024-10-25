@@ -12,6 +12,7 @@ eventSubscription() {
     events {
       type
       payload
+      conversationId
     }
 }
   ''');

@@ -5,10 +5,9 @@
  */
 
 import 'dart:convert';
-import 'dart:isolate';
 import 'dart:typed_data';
 
-import 'package:arc_view/src/charts/models/metrics.dart';
+import 'package:arc_view/src/metrics/models/metrics.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -29,15 +28,20 @@ class MetricsExporter {
     final fileName = 'metrics_${metrics.name.replaceAll(' ', '')}.json';
     final result = await getSaveLocation(suggestedName: fileName);
     if (result == null) return;
-    await Isolate.run(() async {
-      final Uint8List fileData =
-          Uint8List.fromList(jsonEncode(metrics.toJson()).codeUnits);
-      final XFile textFile = XFile.fromData(
-        fileData,
-        mimeType: 'application/json',
-        name: fileName,
-      );
-      await textFile.saveTo(result.path);
-    });
+    _export(metrics, fileName, result);
+    //await Isolate.run(() async {
+    //  await _export(metrics, fileName, result);
+    //});
+  }
+
+  _export(Metrics metrics, String fileName, FileSaveLocation location) async {
+    final Uint8List fileData =
+        Uint8List.fromList(jsonEncode(metrics.toJson()).codeUnits);
+    final XFile textFile = XFile.fromData(
+      fileData,
+      mimeType: 'application/json',
+      name: fileName,
+    );
+    await textFile.saveTo(location.path);
   }
 }

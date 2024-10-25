@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/charts/charts_screen.dart';
 import 'package:arc_view/src/chat/chat_screen.dart';
 import 'package:arc_view/src/events/events_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
+import 'package:arc_view/src/metrics/charts_screen.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

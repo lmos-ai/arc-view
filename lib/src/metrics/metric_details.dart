@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/charts/models/metrics.dart';
-import 'package:arc_view/src/charts/notifiers/agent_metrics_notifier.dart';
-import 'package:arc_view/src/charts/services/metrics_exporter.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/core/text_input_dialog.dart';
+import 'package:arc_view/src/metrics/models/metrics.dart';
+import 'package:arc_view/src/metrics/notifiers/agent_metrics_notifier.dart';
+import 'package:arc_view/src/metrics/services/metrics_exporter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -24,6 +24,7 @@ class MetricDetails extends ConsumerWidget {
     }
     return Wrap(
       spacing: 8,
+      runSpacing: 8,
       children: metrics
           .map((m) => Container(
                 decoration: BoxDecoration(

@@ -61,7 +61,7 @@ dependencies:
   smiles:
     git:
       url: https://github.com/patwlan/smiles
-      ref: '0.5.0'
+      ref: '0.6.0'
     #path: ../smiles
 
 dev_dependencies:

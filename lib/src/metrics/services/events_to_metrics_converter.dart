@@ -5,11 +5,10 @@
  */
 
 import 'dart:convert';
-import 'dart:isolate';
 
-import 'package:arc_view/src/charts/models/metrics.dart';
 import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
+import 'package:arc_view/src/metrics/models/metrics.dart';
 import "package:collection/collection.dart";
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,7 +22,8 @@ EventsToMetricsConverter eventsToMetricsConverter(
 
 class EventsToMetricsConverter {
   Future<List<Metrics>> convert(List<AgentEvent> events) async {
-    return await Isolate.run(() => _convert(events));
+    //return await Isolate.run(() => _convert(events));
+    return _convert(events);
   }
 
   List<Metrics> _convert(List<AgentEvent> events) {
@@ -35,7 +35,7 @@ class EventsToMetricsConverter {
       final events = groupedEvents[key]!;
       Map<PlotType, List<Plot>> allPlots = {};
 
-      for (var i = 0; i < events.length - 1; i++) {
+      for (var i = events.length - 1; i >= 0; i--) {
         final event = events[i];
         final plots =
             _transformEvent(event.type, jsonDecode(event.payload), allPlots);

@@ -6,8 +6,8 @@
 
 import 'dart:convert';
 
-import 'package:arc_view/src/charts/models/metrics.dart';
-import 'package:arc_view/src/charts/notifiers/agent_metrics_notifier.dart';
+import 'package:arc_view/src/metrics/models/metrics.dart';
+import 'package:arc_view/src/metrics/notifiers/agent_metrics_notifier.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/charts/models/metrics.dart';
-import 'package:arc_view/src/charts/services/events_to_metrics_converter.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
+import 'package:arc_view/src/metrics/models/metrics.dart';
+import 'package:arc_view/src/metrics/services/events_to_metrics_converter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_metrics_notifier.g.dart';
@@ -20,10 +20,19 @@ class AgentMetricsNotifier extends _$AgentMetricsNotifier {
     final newMetrics = await converter.convert(events);
     if (!state.hasValue) return newMetrics;
     return [
-      ...newMetrics,
+      ...newMetrics.map((m) => m.copyWith(name: _getName(m.conversationId))),
       ...state.valueOrNull!
           .where((e) => !_contains(newMetrics, e.conversationId))
     ];
+  }
+
+  String _getName(String? conversationId) {
+    if (conversationId == null) return '';
+    final metrics = state.valueOrNull;
+    if (metrics == null) return conversationId;
+    final metric =
+        metrics.firstWhere((m) => m.conversationId == conversationId);
+    return metric.name;
   }
 
   bool _contains(List<Metrics> metrics, String? conversationId) {
