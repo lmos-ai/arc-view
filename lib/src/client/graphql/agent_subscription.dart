@@ -8,8 +8,8 @@ import 'package:graphql/client.dart';
 
 agentSubscription() {
   return gql(r'''
-   subscription agent($conversationId: String!, $messages: [MessageInput!]!, $userContext: UserContextInput!, $systemContext: [SystemContextEntryInput!]!) {
-    agent(request: {
+   subscription agent($agent: String, $conversationId: String!, $messages: [MessageInput!]!, $userContext: UserContextInput!, $systemContext: [SystemContextEntryInput!]!) {
+    agent(agentName: $agent, request: {
       conversationContext: {
         conversationId: $conversationId,
         anonymizationEntities: []

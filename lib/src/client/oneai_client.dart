@@ -36,6 +36,7 @@ class OneAIClient {
       SubscriptionOptions(
         document: agentSubscription(),
         variables: {
+          if (agentUrl.agent != null) 'agent': agentUrl.agent,
           'conversationId': conversation.conversationId,
           'userContext': conversation.userContext.toJson(),
           'systemContext': conversation.systemContext.entries
