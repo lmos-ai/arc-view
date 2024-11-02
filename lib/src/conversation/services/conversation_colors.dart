@@ -6,29 +6,7 @@
 
 import 'package:flutter/material.dart';
 
-const _allColors = [
-  Colors.green,
-  Colors.red,
-  Colors.blue,
-  Colors.yellow,
-  Colors.purple,
-  Colors.orange,
-  Colors.pink,
-  Colors.teal,
-  Colors.cyan,
-  Colors.lime,
-  Colors.indigo,
-  Colors.amber,
-  Colors.brown,
-  Colors.grey,
-  Colors.deepOrange,
-  Colors.deepPurple,
-  Colors.lightBlue,
-  Colors.lightGreen,
-];
-
 Color color(String conversationId) {
   final hash = conversationId.hashCode;
-  final index = hash % _allColors.length;
   return Color(hash).withOpacity(0.8);
 }

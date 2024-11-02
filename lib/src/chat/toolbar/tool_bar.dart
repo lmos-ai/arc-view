@@ -42,6 +42,13 @@ class ToolBar extends ConsumerWidget {
           },
           icon: Icons.download,
         ),
+        SecondaryButton(
+          description: 'Prompt Data',
+          onPressed: () {
+            context.push("/data");
+          },
+          icon: Icons.download,
+        ),
       ],
     );
   }

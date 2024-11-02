@@ -4,20 +4,19 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/prompts/repositories/history_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'prompt_history_notifier.g.dart';
 
+///
+/// Notifier for the prompt history.
+///
 @Riverpod(keepAlive: true)
 class PromptHistoryNotifier extends _$PromptHistoryNotifier {
-  final _promptHistoryKey = 'prompt_history';
-  late SharedPreferences _sharedPreferences;
-
   @override
   Future<List<String>> build() async {
-    _sharedPreferences = await SharedPreferences.getInstance();
-    return _sharedPreferences.getStringList(_promptHistoryKey) ?? List.empty();
+    return ref.read(historyRepositoryProvider).fetch();
   }
 
   add(String prompt) {
@@ -30,7 +29,7 @@ class PromptHistoryNotifier extends _$PromptHistoryNotifier {
       if (oldState.contains(prompt)) return;
       if (oldState.length > 15) oldState.removeLast();
       newState = [prompt, ...oldState];
-      _sharedPreferences.setStringList(_promptHistoryKey, newState);
+      ref.read(historyRepositoryProvider).store(newState);
     } else {
       newState = [prompt];
     }
@@ -48,7 +47,7 @@ class PromptHistoryNotifier extends _$PromptHistoryNotifier {
       }
     }
     state = AsyncData(newState);
-    _sharedPreferences.setStringList(_promptHistoryKey, newState);
+    ref.read(historyRepositoryProvider).store(newState);
   }
 }
 

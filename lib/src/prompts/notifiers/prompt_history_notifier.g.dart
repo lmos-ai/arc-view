@@ -7,9 +7,13 @@ part of 'prompt_history_notifier.dart';
 // **************************************************************************
 
 String _$promptHistoryNotifierHash() =>
-    r'd6f71fafda4eb8476219ef1bacd82063d9c856fd';
+    r'f7aeb7a7e6c237e98e1a3d0914afe8e10ca800ea';
 
-/// See also [PromptHistoryNotifier].
+///
+/// Notifier for the prompt history.
+///
+///
+/// Copied from [PromptHistoryNotifier].
 @ProviderFor(PromptHistoryNotifier)
 final promptHistoryNotifierProvider =
     AsyncNotifierProvider<PromptHistoryNotifier, List<String>>.internal(

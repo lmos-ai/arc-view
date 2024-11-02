@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'package:arc_view/src/core/text.dart';
+import 'package:arc_view/src/events/milestone_event.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:flutter/material.dart';
@@ -37,27 +38,25 @@ class EventsList extends ConsumerWidget {
             itemCount: events.length,
             itemBuilder: (context, index) {
               final event = events[index];
-              final json = jsonDecode(event.payload);
+              final json = jsonDecode(event.payload) as Map<String, dynamic>;
+              final contextLabel = _getEventLabel(json);
 
               return Card(
                 elevation: 0,
                 child: ExpansionTile(
                   expandedAlignment: Alignment.topLeft,
                   childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  subtitle: SmallText(
-                      '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'),
+                  subtitle: [
+                    SmallText(contextLabel),
+                    Spacer(),
+                    SmallText(
+                        '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'),
+                  ].row(),
                   title: _indent(event.type)
                       ? event.type.txt
-                      : DecoratedBox(
-                          decoration: BoxDecoration(
-                            border: Border(
-                              left: BorderSide(
-                                color: _getColor(event, context),
-                                width: 4,
-                              ),
-                            ),
-                          ),
-                          child: event.type.txt.padByUnits(0, 0, 0, 2),
+                      : MilestoneEvent(
+                          color: _getColor(event, context),
+                          name: event.type,
                         ),
                   children: [
                     Column(
@@ -69,6 +68,14 @@ class EventsList extends ConsumerWidget {
               );
             },
           );
+  }
+
+  String _getEventLabel(Map<String, dynamic> json) {
+    return switch (json['context']) {
+      {'filter': String label} => label,
+      {'agent': String label} => label,
+      _ => '',
+    };
   }
 
   Color _getColor(AgentEvent event, BuildContext context) {
