@@ -5,6 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:smiles/smiles.dart';
 
 class LargeTitle extends StatelessWidget {
   const LargeTitle(this.title, {super.key});
@@ -36,5 +37,26 @@ class SmallText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(title, style: Theme.of(context).textTheme.bodySmall);
+  }
+}
+
+class SmallLinkedText extends StatelessWidget {
+  const SmallLinkedText(
+    this.title, {
+    required this.tip,
+    this.onPressed,
+    super.key,
+  });
+
+  final String title;
+  final String tip;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      child: Text('[$title]', style: Theme.of(context).textTheme.bodySmall),
+    ).tip(tip);
   }
 }

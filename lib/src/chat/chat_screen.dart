@@ -43,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
     return AdaptiveScaffold(
       body: Consumer(
         builder: (context, ref, child) {
-          final bigScreen = MediaQuery.sizeOf(context).width > 1200;
+          final bigScreen = MediaQuery.sizeOf(context).width > 1400;
 
           return Center(
             child: Column(
@@ -59,7 +59,7 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     if (bigScreen) const HGap.small(),
                     const ChatPanel().max(width: 800),
-                    if (bigScreen) const EventsPanel(width: 380),
+                    if (bigScreen) const EventsPanel(width: 400),
                   ],
                 ).expand(),
               ],

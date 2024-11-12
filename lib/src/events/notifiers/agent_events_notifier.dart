@@ -7,7 +7,6 @@
 import 'dart:async';
 
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
