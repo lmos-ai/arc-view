@@ -36,7 +36,7 @@ class ConversationExporter {
           .toList(),
     );
     final Uint8List fileData =
-        Uint8List.fromList(jsonEncode(exportConversation.toJson()).codeUnits);
+        utf8.encode(jsonEncode(exportConversation.toJson()));
     final XFile textFile = XFile.fromData(
       fileData,
       mimeType: 'application/json',

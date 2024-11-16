@@ -7,7 +7,7 @@ part of 'conversation_notifier.dart';
 // **************************************************************************
 
 String _$conversationNotifierHash() =>
-    r'834d19ff1c0b640faa58a6e8f1b4966d7a6c2e23';
+    r'ab9f52274e7eeb1c4c26597da0ffb92fddabb2af';
 
 /// See also [ConversationNotifier].
 @ProviderFor(ConversationNotifier)

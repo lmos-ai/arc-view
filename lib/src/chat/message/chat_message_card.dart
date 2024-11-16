@@ -7,6 +7,7 @@
 import 'package:arc_view/src/chat/message/copy_to_clipboard_button.dart';
 import 'package:arc_view/src/chat/message/rerun_message_button.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:smiles/smiles.dart';
@@ -49,36 +50,29 @@ class BotChatMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      color: Theme.of(context).colorScheme.primary,
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
-          message.content
-              .style(
-                color: Theme.of(context).colorScheme.onPrimary,
-              )
-              .padding(16)
-              .pad(0, 0, 24, 0),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Container(
+              width: 4,
+              height: 12,
+              color: color(message.conversationId),
+            ),
+          ),
+          message.content.txt.padding(16).pad(0, 0, 24, 0),
           Positioned(
             bottom: 0,
             right: 0,
-            child: CopyToClipBoardButton(
-              message.content,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
+            child: CopyToClipBoardButton(message.content),
           ),
           if (message.responseTime != null)
             Positioned(
               bottom: 0,
               left: 0,
-              child: '${message.responseTime} sec'
-                  .style(
-                      size: 12,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onPrimary
-                          .withOpacity(0.5))
-                  .pad(8, 16, 8, 16),
+              child: '${message.responseTime} sec'.small.pad(8, 16, 8, 16),
             ),
         ],
       ),

@@ -7,6 +7,7 @@
 import 'dart:async';
 
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -18,11 +19,21 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
 
   @override
   List<AgentEvent> build() {
-    final client = ref.watch(agentClientNotifierProvider);
+    final client = ref.read(agentClientNotifierProvider);
+    ref.listen(agentClientNotifierProvider, (_, client) => _connect(client));
 
     _lastSubscription?.cancel();
     _lastSubscription = null;
 
+    _connect(client);
+
+    ref.onDispose(() {
+      _lastSubscription?.cancel();
+    });
+    return List.empty();
+  }
+
+  _connect(OneAIClient client) {
     client.isConnected().then((connected) {
       if (!connected) return;
       _lastSubscription = client.listenToEvents().listen((e) {
@@ -33,10 +44,6 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
         }
       });
     });
-    ref.onDispose(() {
-      _lastSubscription?.cancel();
-    });
-    return List.empty();
   }
 
   reset() {

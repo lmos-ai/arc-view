@@ -12,11 +12,13 @@ class SecondaryButton extends StatelessWidget {
     required this.onPressed,
     required this.icon,
     required this.description,
+    this.color,
   });
 
   final VoidCallback onPressed;
   final IconData icon;
   final String description;
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SecondaryButton extends StatelessWidget {
       icon: Icon(
         icon,
         size: 16,
-        color: Theme.of(context).colorScheme.onSurface,
+        color: color ?? Theme.of(context).colorScheme.onSurface,
       ),
     ).tip(description);
   }

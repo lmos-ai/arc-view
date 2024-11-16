@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:arc_view/main.dart';
@@ -12,6 +13,7 @@ import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_history_notifier.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -54,11 +56,31 @@ class ConversationNotifier extends _$ConversationNotifier {
         jsonEncode(conversation.userContext.toJson()));
     preferences.setString('conversation_system_context',
         jsonEncode(conversation.systemContext.toJson()));
+
+    final conversationHistory =
+        ref.read(conversationHistoryNotifierProvider.notifier);
+    conversationHistory.remove(conversation);
+    conversationHistory.add(state);
+
     state = conversation;
   }
 
-  addUserMessage(String msg) {
-    addMessage(ConversationMessage(
+  reply() async {
+    final conversation = state;
+    state = build();
+
+    ref.read(conversationHistoryNotifierProvider.notifier).add(conversation);
+
+    for (final msg in conversation.messages) {
+      if (msg.type == MessageType.loading || msg.type == MessageType.bot) {
+        continue;
+      }
+      await addUserMessage(msg.content);
+    }
+  }
+
+  Future<void> addUserMessage(String msg) {
+    return addMessage(ConversationMessage(
       type: MessageType.user,
       content: msg,
       conversationId: state.conversationId,
@@ -67,9 +89,11 @@ class ConversationNotifier extends _$ConversationNotifier {
 
   clear() {
     state = build();
+    ref.read(conversationHistoryNotifierProvider.notifier).clear();
   }
 
-  addMessage(ConversationMessage msg) async {
+  Future<void> addMessage(ConversationMessage msg) {
+    final callback = Completer();
     state = state.copyWith(messages: [
       ...state.messages,
       msg,
@@ -101,6 +125,8 @@ class ConversationNotifier extends _$ConversationNotifier {
           responseTime: responseTime,
         )
       ]);
+      if (!callback.isCompleted) callback.complete();
     });
+    return callback.future;
   }
 }

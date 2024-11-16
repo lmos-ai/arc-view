@@ -27,8 +27,10 @@ class EventsToMetricsConverter {
   }
 
   List<Metrics> _convert(List<AgentEvent> events) {
+    final filteredEvents =
+        events.where((e) => e.conversationId?.isNotEmpty == true);
     Map<String, List<AgentEvent>> groupedEvents =
-        groupBy(events, (e) => e.conversationId ?? '');
+        groupBy(filteredEvents, (e) => e.conversationId ?? '');
 
     return groupedEvents.keys.map((key) {
       final conversationId = key.toString();

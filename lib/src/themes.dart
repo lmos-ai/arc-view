@@ -15,7 +15,7 @@ final darkTheme = ThemeData(
     fontFamily: 'RobotoMono',
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.dark,
-      seedColor: const Color.fromARGB(255, 0, 111, 171),
+      seedColor: const Color.fromARGB(255, 1, 10, 11),
       onSurface: Colors.white.withOpacity(0.6),
       outline: Colors.white.withOpacity(0.2),
     ),

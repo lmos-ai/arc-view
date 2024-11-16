@@ -4,8 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/buttons/send_message_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
+import 'package:arc_view/src/chat/chat_tool_bar.dart';
 import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
@@ -45,10 +47,11 @@ class _ChatPanelState extends State<ChatPanel> {
       builder: (context, ref, child) {
         return Column(
           children: [
+            const ChatToolBar(),
             const ChatList().expand(),
             Card(
               elevation: 6,
-              margin: const EdgeInsets.all(16),
+              margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: Row(
                 children: [
                   _chatField(ref),
@@ -84,8 +87,7 @@ class _ChatPanelState extends State<ChatPanel> {
         showPromptList(context);
       }).tip('Show previous prompts');
 
-  _sendButton(WidgetRef ref) => 'Send'
-      .onButtonPressed(() => _send(ref), tooltip: 'Send the current message');
+  _sendButton(WidgetRef ref) => SendMessageButton(onPressed: () => _send(ref));
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;

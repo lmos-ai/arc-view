@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/chat/toolbar/agent_tabs.dart';
+import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
@@ -22,13 +23,6 @@ class ToolBar extends ConsumerWidget {
       children: [
         const AgentTabs().padByUnits(0, 0, 0, 1).expand(),
         SecondaryButton(
-          description: 'Show Settings',
-          onPressed: () {
-            context.push("/settings");
-          },
-          icon: Icons.settings,
-        ),
-        SecondaryButton(
           description: 'Import Conversation',
           onPressed: () {
             ref.read(conversationImporterProvider).load();
@@ -41,6 +35,13 @@ class ToolBar extends ConsumerWidget {
             ref.read(conversationExporterProvider).export();
           },
           icon: Icons.download,
+        ),
+        SecondaryButton(
+          description: 'Show Settings',
+          onPressed: () {
+            context.push("/settings");
+          },
+          icon: Icons.settings,
         ),
       ],
     );
