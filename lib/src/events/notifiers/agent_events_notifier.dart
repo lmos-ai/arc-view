@@ -21,7 +21,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
   List<AgentEvent> build() {
     final client = ref.read(agentClientNotifierProvider);
     ref.listen(agentClientNotifierProvider, (_, client) => _connect(client));
-    
+
     _connect(client);
 
     ref.onDispose(() {
@@ -35,6 +35,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
     _lastSubscription = null;
     client.isConnected().then((connected) {
       if (!connected) return;
+      _lastSubscription?.cancel();
       _lastSubscription = client.listenToEvents().listen((e) {
         if (e == null) return;
         state = [e, ...state];
@@ -43,6 +44,16 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
         }
       });
     });
+  }
+
+  addAll(List<AgentEvent> events, String conversationId) {
+    state = [
+      ...events,
+      ...state.where((e) => e.conversationId != conversationId)
+    ];
+    if (state.length > 100) {
+      state = state.sublist(0, 100);
+    }
   }
 
   reset() {

@@ -35,8 +35,7 @@ class MetricsExporter {
   }
 
   _export(Metrics metrics, String fileName, FileSaveLocation location) async {
-    final Uint8List fileData =
-        Uint8List.fromList(jsonEncode(metrics.toJson()).codeUnits);
+    final Uint8List fileData = utf8.encode(jsonEncode(metrics.toJson()));
     final XFile textFile = XFile.fromData(
       fileData,
       mimeType: 'application/json',
