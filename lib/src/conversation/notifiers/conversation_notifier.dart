@@ -51,7 +51,7 @@ class ConversationNotifier extends _$ConversationNotifier {
       ref.read(sharedPreferencesProvider).getString(key);
 
   updateConversation(Conversation conversation) {
-    if (state != conversation) return;
+    if (state == conversation) return;
     final preferences = ref.read(sharedPreferencesProvider);
     preferences.setString('conversation_user_context',
         jsonEncode(conversation.userContext.toJson()));
