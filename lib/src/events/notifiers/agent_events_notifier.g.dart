@@ -7,7 +7,7 @@ part of 'agent_events_notifier.dart';
 // **************************************************************************
 
 String _$agentEventsNotifierHash() =>
-    r'd6bdec17541f1292b25520f44bbbfa046fb53350';
+    r'ebf653f756cf829724b563536e173f9978e0b236';
 
 /// See also [AgentEventsNotifier].
 @ProviderFor(AgentEventsNotifier)

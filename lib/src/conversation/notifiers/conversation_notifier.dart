@@ -65,7 +65,7 @@ class ConversationNotifier extends _$ConversationNotifier {
     state = conversation;
   }
 
-  reply() async {
+  replay() async {
     final conversation = state;
     state = build();
 

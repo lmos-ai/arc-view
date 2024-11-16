@@ -21,7 +21,10 @@ class ConversationHistoryNotifier extends _$ConversationHistoryNotifier {
   }
 
   add(Conversation conversation) {
+    if (state.contains(conversation)) return;
+    if (conversation.messages.isEmpty) return;
     _log.fine('Adding conversation to history: $conversation');
+
     state = [...state, conversation];
   }
 

@@ -7,7 +7,7 @@
 import 'package:arc_view/src/chat/buttons/send_message_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
-import 'package:arc_view/src/chat/chat_tool_bar.dart';
+import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
 import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';

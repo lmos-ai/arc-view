@@ -21,10 +21,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
   List<AgentEvent> build() {
     final client = ref.read(agentClientNotifierProvider);
     ref.listen(agentClientNotifierProvider, (_, client) => _connect(client));
-
-    _lastSubscription?.cancel();
-    _lastSubscription = null;
-
+    
     _connect(client);
 
     ref.onDispose(() {
@@ -34,6 +31,8 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
   }
 
   _connect(OneAIClient client) {
+    _lastSubscription?.cancel();
+    _lastSubscription = null;
     client.isConnected().then((connected) {
       if (!connected) return;
       _lastSubscription = client.listenToEvents().listen((e) {

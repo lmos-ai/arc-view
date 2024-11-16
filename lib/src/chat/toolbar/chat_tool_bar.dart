@@ -27,7 +27,7 @@ class ChatToolBar extends ConsumerWidget {
 
     List<Conversation> all = [];
     if (history.isNotEmpty) {
-      final all = [...history, currentConversation];
+      all = [...history, currentConversation];
       all.sort((a, b) => a.conversationId.compareTo(b.conversationId));
     }
 
@@ -48,7 +48,7 @@ class ChatToolBar extends ConsumerWidget {
         SecondaryButton(
           description: 'Replay conversation',
           onPressed: () {
-            ref.read(conversationNotifierProvider.notifier).reply();
+            ref.read(conversationNotifierProvider.notifier).replay();
           },
           icon: Icons.replay_circle_filled_sharp,
         ),
