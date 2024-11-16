@@ -22,7 +22,11 @@ class OneAIClient {
   final _log = Logger('OneAIClient');
 
   Future<List<String>> getAgents() async {
-    final result = await _client.query(QueryOptions(document: agentQuery()));
+    final result = await _client.query(QueryOptions(
+      document: agentQuery(),
+      fetchPolicy: FetchPolicy.noCache,
+    ));
+    _log.fine('Agents: $result');
     if (result.hasException) return List.empty();
     return (result.data!['agent']['names'] as List)
         .map((e) => e.toString())
