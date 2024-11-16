@@ -24,6 +24,7 @@ mixin _$ConversationMessage {
   String get conversationId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   double? get responseTime => throw _privateConstructorUsedError;
+  String? get agent => throw _privateConstructorUsedError;
 
   /// Serializes this ConversationMessage to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $ConversationMessageCopyWith<$Res> {
       {MessageType type,
       String conversationId,
       String content,
-      double? responseTime});
+      double? responseTime,
+      String? agent});
 }
 
 /// @nodoc
@@ -67,6 +69,7 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
     Object? conversationId = null,
     Object? content = null,
     Object? responseTime = freezed,
+    Object? agent = freezed,
   }) {
     return _then(_value.copyWith(
       type: null == type
@@ -85,6 +88,10 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
           ? _value.responseTime
           : responseTime // ignore: cast_nullable_to_non_nullable
               as double?,
+      agent: freezed == agent
+          ? _value.agent
+          : agent // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$ConversationMessageImplCopyWith<$Res>
       {MessageType type,
       String conversationId,
       String content,
-      double? responseTime});
+      double? responseTime,
+      String? agent});
 }
 
 /// @nodoc
@@ -121,6 +129,7 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
     Object? conversationId = null,
     Object? content = null,
     Object? responseTime = freezed,
+    Object? agent = freezed,
   }) {
     return _then(_$ConversationMessageImpl(
       type: null == type
@@ -139,6 +148,10 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
           ? _value.responseTime
           : responseTime // ignore: cast_nullable_to_non_nullable
               as double?,
+      agent: freezed == agent
+          ? _value.agent
+          : agent // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -150,7 +163,8 @@ class _$ConversationMessageImpl implements _ConversationMessage {
       {required this.type,
       required this.conversationId,
       required this.content,
-      this.responseTime});
+      this.responseTime,
+      this.agent});
 
   factory _$ConversationMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationMessageImplFromJson(json);
@@ -163,10 +177,12 @@ class _$ConversationMessageImpl implements _ConversationMessage {
   final String content;
   @override
   final double? responseTime;
+  @override
+  final String? agent;
 
   @override
   String toString() {
-    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content, responseTime: $responseTime)';
+    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content, responseTime: $responseTime, agent: $agent)';
   }
 
   @override
@@ -179,13 +195,14 @@ class _$ConversationMessageImpl implements _ConversationMessage {
                 other.conversationId == conversationId) &&
             (identical(other.content, content) || other.content == content) &&
             (identical(other.responseTime, responseTime) ||
-                other.responseTime == responseTime));
+                other.responseTime == responseTime) &&
+            (identical(other.agent, agent) || other.agent == agent));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, conversationId, content, responseTime);
+  int get hashCode => Object.hash(
+      runtimeType, type, conversationId, content, responseTime, agent);
 
   /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -209,7 +226,8 @@ abstract class _ConversationMessage implements ConversationMessage {
       {required final MessageType type,
       required final String conversationId,
       required final String content,
-      final double? responseTime}) = _$ConversationMessageImpl;
+      final double? responseTime,
+      final String? agent}) = _$ConversationMessageImpl;
 
   factory _ConversationMessage.fromJson(Map<String, dynamic> json) =
       _$ConversationMessageImpl.fromJson;
@@ -222,6 +240,8 @@ abstract class _ConversationMessage implements ConversationMessage {
   String get content;
   @override
   double? get responseTime;
+  @override
+  String? get agent;
 
   /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.

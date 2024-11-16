@@ -31,7 +31,7 @@ class ConversationNotifier extends _$ConversationNotifier {
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
-      conversationId: 'conversationId-${DateTime.now().millisecondsSinceEpoch}',
+      conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
     );
   }
 
@@ -110,7 +110,6 @@ class ConversationNotifier extends _$ConversationNotifier {
         return;
       }
 
-      final (message, responseTime) = value;
       final newMessages = [];
       for (final message in state.messages) {
         if (message.type != MessageType.loading) {
@@ -121,9 +120,10 @@ class ConversationNotifier extends _$ConversationNotifier {
         ...newMessages,
         ConversationMessage(
           type: MessageType.bot,
-          content: message,
+          content: value.message,
           conversationId: state.conversationId,
-          responseTime: responseTime,
+          responseTime: value.responseTime,
+          agent: value.agent,
         )
       ]);
       if (!callback.isCompleted) callback.complete();

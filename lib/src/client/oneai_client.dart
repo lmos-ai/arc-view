@@ -33,7 +33,7 @@ class OneAIClient {
         .toList();
   }
 
-  Stream<(String, double?)> sendMessage(Conversation conversation) {
+  Stream<MessageResult> sendMessage(Conversation conversation) {
     if (conversation.messages.isEmpty) return const Stream.empty();
 
     final subscription = _client.subscribe(
@@ -61,10 +61,21 @@ class OneAIClient {
       ),
     );
     return subscription.map((e) {
-      if (e.hasException) return (e.exception.toString(), -1.0);
+      final agent = agentUrl.agent ?? 'default';
+      if (e.hasException) {
+        return (
+          message: e.exception.toString(),
+          responseTime: -1.0,
+          agent: agent
+        );
+      }
       final data = e.data!['agent'];
       _log.fine('Received message: $data');
-      return (data['messages'][0]['content'], data['responseTime']);
+      return (
+        message: data['messages'][0]['content'],
+        responseTime: data['responseTime'],
+        agent: agent
+      );
     });
   }
 
@@ -104,3 +115,5 @@ class OneAIClient {
     return GraphQLClient(cache: GraphQLCache(), link: link);
   }
 }
+
+typedef MessageResult = ({String message, double? responseTime, String agent});

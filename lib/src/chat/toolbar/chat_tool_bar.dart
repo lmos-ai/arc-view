@@ -12,6 +12,7 @@ import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smiles/smiles.dart';
 
 class ChatToolBar extends ConsumerWidget {
   const ChatToolBar({super.key});
@@ -31,29 +32,34 @@ class ChatToolBar extends ConsumerWidget {
       all.sort((a, b) => a.conversationId.compareTo(b.conversationId));
     }
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        for (final conversation in all)
-          SecondaryButton(
-            description: 'Show conversation ${conversation.conversationId}',
-            onPressed: () {
-              ref
-                  .watch(conversationNotifierProvider.notifier)
-                  .updateConversation(conversation);
-            },
-            icon: Icons.bookmark_border,
-            color: color(conversation.conversationId),
-          ),
-        SecondaryButton(
-          description: 'Replay conversation',
-          onPressed: () {
-            ref.read(conversationNotifierProvider.notifier).replay();
-          },
-          icon: Icons.replay_circle_filled_sharp,
+    return [
+      Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            for (final conversation in all)
+              SecondaryButton(
+                description: 'Show conversation ${conversation.conversationId}',
+                onPressed: () {
+                  ref
+                      .watch(conversationNotifierProvider.notifier)
+                      .updateConversation(conversation);
+                },
+                icon: Icons.bookmark,
+                color: color(conversation.conversationId),
+              ),
+            SecondaryButton(
+              description: 'Replay conversation',
+              onPressed: () {
+                ref.read(conversationNotifierProvider.notifier).replay();
+              },
+              icon: Icons.replay_circle_filled_sharp,
+            ),
+          ],
         ),
-      ],
-    );
+      )
+    ].row(min: true).toRight();
   }
 
   _agentAvailable(WidgetRef ref) {
