@@ -38,6 +38,8 @@ class OneAIClient {
 
     final subscription = _client.subscribe(
       SubscriptionOptions(
+        cacheRereadPolicy: CacheRereadPolicy.ignoreAll,
+        fetchPolicy: FetchPolicy.noCache,
         document: agentSubscription(),
         variables: {
           if (agentUrl.agent != null) 'agent': agentUrl.agent,

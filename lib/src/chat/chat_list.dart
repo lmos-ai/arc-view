@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/message/bot_chat_message_card.dart';
 import 'package:arc_view/src/chat/message/chat_message_card.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';

@@ -11,6 +11,7 @@ import 'package:arc_view/main.dart';
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/notifiers/conversation_history_notifier.dart';
@@ -118,16 +119,27 @@ class ConversationNotifier extends _$ConversationNotifier {
       }
       state = state.copyWith(messages: [
         ...newMessages,
-        ConversationMessage(
+        _handleBotMessage(value),
+      ]);
+      if (!callback.isCompleted) callback.complete();
+    });
+    return callback.future;
+  }
+
+  ConversationMessage _handleBotMessage(MessageResult value) {
+    return switch (value.message) {
+      '<LOADING>' => ConversationMessage(
+          type: MessageType.loading,
+          content: '',
+          conversationId: state.conversationId,
+        ),
+      _ => ConversationMessage(
           type: MessageType.bot,
           content: value.message,
           conversationId: state.conversationId,
           responseTime: value.responseTime,
           agent: value.agent,
         )
-      ]);
-      if (!callback.isCompleted) callback.complete();
-    });
-    return callback.future;
+    };
   }
 }
