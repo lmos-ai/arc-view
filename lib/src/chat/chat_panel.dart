@@ -8,7 +8,7 @@ import 'package:arc_view/src/chat/buttons/send_message_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +56,7 @@ class _ChatPanelState extends State<ChatPanel> {
                 children: [
                   _chatField(ref),
                   _previousPromptButton(ref, theme),
-                  _deleteButton(ref, theme),
+                  _newConversationButton(ref, theme),
                   _sendButton(ref),
                 ],
               ).padding(),
@@ -92,21 +92,21 @@ class _ChatPanelState extends State<ChatPanel> {
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
     ref
-        .read(conversationNotifierProvider.notifier)
+        .read(conversationsNotifierProvider.notifier)
         .addUserMessage(_textController.text);
     ref.read(promptHistoryNotifierProvider.notifier).add(_textController.text);
     ref.read(currentPromptNotifierProvider.notifier).clear();
     _textController.text = '';
   }
 
-  _deleteButton(WidgetRef ref, ThemeData theme) => IconButton(
+  _newConversationButton(WidgetRef ref, ThemeData theme) => IconButton(
         icon: Icon(
-          Icons.delete_sweep,
+          Icons.add,
           color: theme.colorScheme.onSurface,
         ),
         onPressed: () {
-          ref.read(conversationNotifierProvider.notifier).clear();
+          ref.read(conversationsNotifierProvider.notifier).newConversation();
           ref.read(currentPromptNotifierProvider.notifier).clear();
         },
-      ).tip('Delete all messages');
+      ).tip('New Conversation');
 }

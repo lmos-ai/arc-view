@@ -13,41 +13,36 @@ import 'package:go_router/go_router.dart';
 import 'package:smiles/smiles.dart';
 
 class EventsPanel extends ConsumerWidget {
-  const EventsPanel({super.key, this.width = 300});
-
-  final double width;
-
+  const EventsPanel({super.key});
+  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
-      margin: const EdgeInsets.all(16),
-      child: SizedBox(
-        width: width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SecondaryButton(
-                  description: 'Show Charts',
-                  onPressed: () {
-                    context.push("/charts");
-                  },
-                  icon: Icons.bar_chart,
-                ),
-                SecondaryButton(
-                  description: 'Reset Events',
-                  onPressed: () {
-                    ref.read(agentEventsNotifierProvider.notifier).reset();
-                  },
-                  icon: Icons.delete,
-                ),
-              ],
-            ),
-            EventsList().expand()
-          ],
-        ),
+      margin: const EdgeInsets.all(0),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SecondaryButton(
+                description: 'Show Charts',
+                onPressed: () {
+                  context.push("/charts");
+                },
+                icon: Icons.bar_chart,
+              ),
+              SecondaryButton(
+                description: 'Reset Events',
+                onPressed: () {
+                  ref.read(agentEventsNotifierProvider.notifier).reset();
+                },
+                icon: Icons.delete,
+              ),
+            ],
+          ),
+          EventsList().expand()
+        ],
       ),
     );
   }

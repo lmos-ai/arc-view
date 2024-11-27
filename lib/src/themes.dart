@@ -19,6 +19,12 @@ final darkTheme = ThemeData(
       onSurface: Colors.white.withOpacity(0.6),
       outline: Colors.white.withOpacity(0.2),
     ),
+    tabBarTheme: TabBarTheme(
+      labelColor: Colors.white.withOpacity(0.5),
+      unselectedLabelColor: Colors.white.withOpacity(0.5),
+      labelPadding: const EdgeInsets.all(0),
+      indicatorColor: Colors.white.withOpacity(0.5),
+    ),
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
     extensions: const [

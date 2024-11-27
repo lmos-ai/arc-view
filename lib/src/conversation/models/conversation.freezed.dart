@@ -173,13 +173,14 @@ class __$$ConversationImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ConversationImpl implements _Conversation {
+class _$ConversationImpl extends _Conversation {
   _$ConversationImpl(
       {required final List<ConversationMessage> messages,
       required this.userContext,
       required this.systemContext,
       required this.conversationId})
-      : _messages = messages;
+      : _messages = messages,
+        super._();
 
   factory _$ConversationImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationImplFromJson(json);
@@ -243,12 +244,13 @@ class _$ConversationImpl implements _Conversation {
   }
 }
 
-abstract class _Conversation implements Conversation {
+abstract class _Conversation extends Conversation {
   factory _Conversation(
       {required final List<ConversationMessage> messages,
       required final UserContext userContext,
       required final SystemContext systemContext,
       required final String conversationId}) = _$ConversationImpl;
+  _Conversation._() : super._();
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
       _$ConversationImpl.fromJson;

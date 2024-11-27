@@ -5,13 +5,13 @@
  */
 
 import 'package:arc_view/src/client/notifiers/agents_notifier.dart';
-import 'package:arc_view/src/conversation/models/conversation.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_history_notifier.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
-import 'package:arc_view/src/conversation/services/conversation_colors.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
+import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smiles/smiles.dart';
 
 class ChatToolBar extends ConsumerWidget {
@@ -19,17 +19,8 @@ class ChatToolBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final history = ref.watch(conversationHistoryNotifierProvider);
-    final currentConversation = ref.watch(conversationNotifierProvider);
-
     if (_agentAvailable(ref) != true) {
       return const SizedBox();
-    }
-
-    List<Conversation> all = [];
-    if (history.isNotEmpty) {
-      all = [...history, currentConversation];
-      all.sort((a, b) => a.conversationId.compareTo(b.conversationId));
     }
 
     return [
@@ -38,23 +29,33 @@ class ChatToolBar extends ConsumerWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            for (final conversation in all)
-              SecondaryButton(
-                description: 'Show conversation ${conversation.conversationId}',
-                onPressed: () {
-                  ref
-                      .watch(conversationNotifierProvider.notifier)
-                      .updateConversation(conversation);
-                },
-                icon: Icons.bookmark,
-                color: color(conversation.conversationId),
-              ),
             SecondaryButton(
               description: 'Replay conversation',
               onPressed: () {
-                ref.read(conversationNotifierProvider.notifier).replay();
+                ref.read(conversationsNotifierProvider.notifier).replay();
               },
               icon: Icons.replay_circle_filled_sharp,
+            ),
+            SecondaryButton(
+              description: 'Import Conversation',
+              onPressed: () {
+                ref.read(conversationImporterProvider).load();
+              },
+              icon: Icons.upload,
+            ),
+            SecondaryButton(
+              description: 'Export Conversation',
+              onPressed: () {
+                ref.read(conversationExporterProvider).export();
+              },
+              icon: Icons.download,
+            ),
+            SecondaryButton(
+              description: 'Show Settings',
+              onPressed: () {
+                context.push("/settings");
+              },
+              icon: Icons.settings,
             ),
           ],
         ),

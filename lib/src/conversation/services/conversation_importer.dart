@@ -7,7 +7,7 @@
 import 'dart:convert';
 
 import 'package:arc_view/src/conversation/models/conversation_export.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,7 +17,7 @@ part 'conversation_importer.g.dart';
 @riverpod
 ConversationImporter conversationImporter(ConversationImporterRef ref) {
   return ConversationImporter(
-    ref.watch(conversationNotifierProvider.notifier),
+    ref.watch(conversationsNotifierProvider.notifier),
     ref.watch(agentEventsNotifierProvider.notifier),
   );
 }
@@ -25,7 +25,7 @@ ConversationImporter conversationImporter(ConversationImporterRef ref) {
 class ConversationImporter {
   ConversationImporter(this.conversationNotifier, this.agentEventsNotifier);
 
-  final ConversationNotifier conversationNotifier;
+  final ConversationsNotifier conversationNotifier;
   final AgentEventsNotifier agentEventsNotifier;
 
   load() async {

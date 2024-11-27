@@ -8,7 +8,7 @@ import 'dart:convert';
 
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/settings/models/settings.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -39,7 +39,7 @@ class SettingsNotifier extends _$SettingsNotifier {
   }
 
   commit() {
-    final conversation = ref.read(conversationNotifierProvider);
+    final conversation = ref.read(conversationsNotifierProvider).current;
 
     final updatedConversation = conversation.copyWith(
       userContext: state.newUserContext == null
@@ -52,7 +52,7 @@ class SettingsNotifier extends _$SettingsNotifier {
 
     state = state.copyWith(changed: false);
     ref
-        .read(conversationNotifierProvider.notifier)
+        .read(conversationsNotifierProvider.notifier)
         .updateConversation(updatedConversation);
   }
 }

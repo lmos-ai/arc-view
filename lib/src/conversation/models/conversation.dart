@@ -21,6 +21,12 @@ class Conversation with _$Conversation {
     required String conversationId,
   }) = _Conversation;
 
+  const Conversation._();
+
+  Conversation add(List<ConversationMessage> newMessages) {
+    return copyWith(messages: [...messages, ...newMessages]);
+  }
+
   factory Conversation.fromJson(Map<String, dynamic> json) =>
       _$ConversationFromJson(json);
 }

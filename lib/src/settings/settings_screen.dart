@@ -6,7 +6,7 @@
 
 import 'dart:convert';
 
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/settings/context_field.dart';
 import 'package:arc_view/src/settings/notifiers/settings_notifier.dart';
 import 'package:arc_view/src/theme_notifier.dart';
@@ -27,7 +27,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final conversation = ref.read(conversationNotifierProvider);
+      final conversation = ref.read(conversationsNotifierProvider).current;
       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(

@@ -6,8 +6,8 @@
 
 import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/chat/chat_panel.dart';
+import 'package:arc_view/src/chat/right_panel.dart';
 import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
-import 'package:arc_view/src/events/events_panel.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -60,7 +60,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     if (bigScreen) const HGap.small(),
                     const ChatPanel()
                         .percentOfScreen(width: bigScreen ? 0.6 : 0.8),
-                    if (bigScreen) const EventsPanel(width: 400),
+                    if (bigScreen) const RightPanel(width: 400),
                   ],
                 ).expand(),
               ],

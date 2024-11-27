@@ -7,7 +7,7 @@
 import 'package:arc_view/src/chat/message/bot_chat_message_card.dart';
 import 'package:arc_view/src/chat/message/chat_message_card.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
-import 'package:arc_view/src/conversation/notifiers/conversation_notifier.dart';
+import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -18,7 +18,7 @@ class ChatList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messages = ref
-        .watch(conversationNotifierProvider.select((c) => c.messages))
+        .watch(conversationsNotifierProvider.select((c) => c.current.messages))
         .reversed
         .toList();
 
