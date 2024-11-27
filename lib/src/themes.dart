@@ -25,6 +25,12 @@ final darkTheme = ThemeData(
       labelPadding: const EdgeInsets.all(0),
       indicatorColor: Colors.white.withOpacity(0.5),
     ),
+    textTheme: TextTheme(
+      bodySmall: TextStyle(
+        fontSize: 12.0,
+        color: Colors.white.withOpacity(0.4),
+      ),
+    ),
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
     extensions: const [
@@ -47,6 +53,18 @@ final lightTheme = ThemeData(
       outline: Colors.black.withOpacity(0.2),
       //surface: Colors.blue
       //background: Colors.black,
+    ),
+    tabBarTheme: TabBarTheme(
+      labelColor: Colors.black.withOpacity(0.5),
+      unselectedLabelColor: Colors.black.withOpacity(0.5),
+      labelPadding: const EdgeInsets.all(0),
+      indicatorColor: Colors.black.withOpacity(0.5),
+    ),
+    textTheme: TextTheme(
+      bodySmall: TextStyle(
+        fontSize: 12.0,
+        color: Colors.black.withOpacity(0.4),
+      ),
     ),
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,

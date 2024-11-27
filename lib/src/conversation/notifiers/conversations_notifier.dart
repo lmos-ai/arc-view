@@ -29,10 +29,13 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     final userContext = _loadUserContext();
     final systemContext = _loadSystemContext();
     final newConversation = Conversation(
+      createdAt: DateTime.now(),
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
-      conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
+      conversationId: 'cid-${DateTime
+          .now()
+          .millisecondsSinceEpoch}',
     );
     return Conversations(
       conversations: [],
@@ -90,7 +93,6 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       loadingMessage(state.current.conversationId),
     ]);
     state = state.update(conversation);
-    print(state.conversations.length);
     ref
         .read(agentClientNotifierProvider)
         .sendMessage(conversation)
@@ -114,17 +116,18 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     return callback.future;
   }
 
-  ConversationMessage _handleBotMessage(
-      MessageResult value, Conversation conversation) {
+  ConversationMessage _handleBotMessage(MessageResult value,
+      Conversation conversation) {
     return switch (value.message) {
       '<LOADING>' => loadingMessage(conversation.conversationId),
-      _ => ConversationMessage(
-          type: MessageType.bot,
-          content: value.message,
-          conversationId: conversation.conversationId,
-          responseTime: value.responseTime,
-          agent: value.agent,
-        )
+      _ =>
+          ConversationMessage(
+            type: MessageType.bot,
+            content: value.message,
+            conversationId: conversation.conversationId,
+            responseTime: value.responseTime,
+            agent: value.agent,
+          )
     };
   }
 

@@ -9,6 +9,7 @@ import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:smiles/smiles.dart';
 
 class ConversationsPanel extends ConsumerWidget {
@@ -64,12 +65,17 @@ class ConversationsPanel extends ConsumerWidget {
                                   .messages
                                   .elementAtOrNull(0)
                                   ?.content
-                                  .truncate(20) ??
+                                  .truncate(20,
+                                      '(${conversations[index].messages.length})') ??
                               'empty')
                           .txt,
-                      subtitle:
-                          '${conversations[index].messages.length} messages - ${conversations[index].conversationId}'
-                              .small,
+                      subtitle: [
+                        DateFormat.Hm()
+                            .format(conversations[index].createdAt)
+                            .small,
+                        Spacer(),
+                        conversations[index].conversationId.small,
+                      ].row(),
                     );
                   }).expand()
             ].column(),
@@ -78,10 +84,10 @@ class ConversationsPanel extends ConsumerWidget {
 }
 
 extension on String {
-  String truncate(int maxLength) {
+  String truncate(int maxLength, String postFix) {
     if (maxLength >= length) {
-      return this;
+      return '$this $postFix';
     }
-    return replaceRange(maxLength, length, '...');
+    return replaceRange(maxLength, length, '... $postFix');
   }
 }

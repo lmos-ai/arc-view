@@ -19,6 +19,7 @@ class Conversation with _$Conversation {
     required UserContext userContext,
     required SystemContext systemContext,
     required String conversationId,
+    required DateTime createdAt,
   }) = _Conversation;
 
   const Conversation._();

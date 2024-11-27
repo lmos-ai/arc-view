@@ -24,6 +24,7 @@ mixin _$Conversation {
   UserContext get userContext => throw _privateConstructorUsedError;
   SystemContext get systemContext => throw _privateConstructorUsedError;
   String get conversationId => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Conversation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,7 +46,8 @@ abstract class $ConversationCopyWith<$Res> {
       {List<ConversationMessage> messages,
       UserContext userContext,
       SystemContext systemContext,
-      String conversationId});
+      String conversationId,
+      DateTime createdAt});
 
   $UserContextCopyWith<$Res> get userContext;
   $SystemContextCopyWith<$Res> get systemContext;
@@ -70,6 +72,7 @@ class _$ConversationCopyWithImpl<$Res, $Val extends Conversation>
     Object? userContext = null,
     Object? systemContext = null,
     Object? conversationId = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       messages: null == messages
@@ -88,6 +91,10 @@ class _$ConversationCopyWithImpl<$Res, $Val extends Conversation>
           ? _value.conversationId
           : conversationId // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 
@@ -124,7 +131,8 @@ abstract class _$$ConversationImplCopyWith<$Res>
       {List<ConversationMessage> messages,
       UserContext userContext,
       SystemContext systemContext,
-      String conversationId});
+      String conversationId,
+      DateTime createdAt});
 
   @override
   $UserContextCopyWith<$Res> get userContext;
@@ -149,6 +157,7 @@ class __$$ConversationImplCopyWithImpl<$Res>
     Object? userContext = null,
     Object? systemContext = null,
     Object? conversationId = null,
+    Object? createdAt = null,
   }) {
     return _then(_$ConversationImpl(
       messages: null == messages
@@ -167,6 +176,10 @@ class __$$ConversationImplCopyWithImpl<$Res>
           ? _value.conversationId
           : conversationId // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -178,7 +191,8 @@ class _$ConversationImpl extends _Conversation {
       {required final List<ConversationMessage> messages,
       required this.userContext,
       required this.systemContext,
-      required this.conversationId})
+      required this.conversationId,
+      required this.createdAt})
       : _messages = messages,
         super._();
 
@@ -199,10 +213,12 @@ class _$ConversationImpl extends _Conversation {
   final SystemContext systemContext;
   @override
   final String conversationId;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Conversation(messages: $messages, userContext: $userContext, systemContext: $systemContext, conversationId: $conversationId)';
+    return 'Conversation(messages: $messages, userContext: $userContext, systemContext: $systemContext, conversationId: $conversationId, createdAt: $createdAt)';
   }
 
   @override
@@ -216,7 +232,9 @@ class _$ConversationImpl extends _Conversation {
             (identical(other.systemContext, systemContext) ||
                 other.systemContext == systemContext) &&
             (identical(other.conversationId, conversationId) ||
-                other.conversationId == conversationId));
+                other.conversationId == conversationId) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -226,7 +244,8 @@ class _$ConversationImpl extends _Conversation {
       const DeepCollectionEquality().hash(_messages),
       userContext,
       systemContext,
-      conversationId);
+      conversationId,
+      createdAt);
 
   /// Create a copy of Conversation
   /// with the given fields replaced by the non-null parameter values.
@@ -249,7 +268,8 @@ abstract class _Conversation extends Conversation {
       {required final List<ConversationMessage> messages,
       required final UserContext userContext,
       required final SystemContext systemContext,
-      required final String conversationId}) = _$ConversationImpl;
+      required final String conversationId,
+      required final DateTime createdAt}) = _$ConversationImpl;
   _Conversation._() : super._();
 
   factory _Conversation.fromJson(Map<String, dynamic> json) =
@@ -263,6 +283,8 @@ abstract class _Conversation extends Conversation {
   SystemContext get systemContext;
   @override
   String get conversationId;
+  @override
+  DateTime get createdAt;
 
   /// Create a copy of Conversation
   /// with the given fields replaced by the non-null parameter values.
