@@ -24,7 +24,7 @@ class ChatField extends ConsumerWidget {
       decoration: const InputDecoration(),
       keyboardType: TextInputType.multiline,
       maxLines: 2,
-    ));
+    );
   }
 
   _agentAvailable(WidgetRef ref) {

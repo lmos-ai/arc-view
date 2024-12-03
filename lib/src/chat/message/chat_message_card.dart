@@ -58,19 +58,17 @@ class BotChatMessageCard extends StatelessWidget {
           //Wrap messages to container
           Container(
               width: double.infinity, // Full width
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: MarkdownBody(
                 data: message.content,
                 styleSheet:
                     MarkdownStyleSheet.fromTheme(Theme.of(context).copyWith(
-                  textTheme: Theme.of(context).textTheme.apply(
-                        bodyColor: Colors.white,
-                        // Set default text color to white
-                        displayColor: Colors.white, // Headers will inherit this
+                    textTheme: Theme.of(context).textTheme.apply(
+                      bodyColor: Theme.of(context).colorScheme.onPrimary,
                       ),
                 )).copyWith(
                   code: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onPrimary,
                       fontFamily:
                           Theme.of(context).textTheme.bodyMedium?.fontFamily),
                   codeblockDecoration: BoxDecoration(
