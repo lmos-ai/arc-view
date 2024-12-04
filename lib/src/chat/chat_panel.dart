@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/chat/buttons/send_message_button.dart';
+import 'package:arc_view/src/chat/buttons/record_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
@@ -89,7 +89,7 @@ class _ChatPanelState extends State<ChatPanel> {
             showPromptList(context);
           }).tip('Show previous prompts');
 
-  _sendButton(WidgetRef ref) => SendMessageButton(onPressed: () => _send(ref));
+  _sendButton(WidgetRef ref) => RecordButton(onPressed: () => _send(ref));
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
