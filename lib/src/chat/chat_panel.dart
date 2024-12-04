@@ -54,9 +54,9 @@ class _ChatPanelState extends State<ChatPanel> {
               margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: Row(
                 children: [
-                  _chatField(ref),
-                  _previousPromptButton(ref, theme),
                   _newConversationButton(ref, theme),
+                  _previousPromptButton(ref, theme),
+                  _chatField(ref),
                   _sendButton(ref),
                 ],
               ).padding(),
@@ -67,7 +67,8 @@ class _ChatPanelState extends State<ChatPanel> {
     );
   }
 
-  _chatField(WidgetRef ref) => Expanded(
+  _chatField(WidgetRef ref) =>
+      Expanded(
         child: Consumer(builder: (ctx, ref, child) {
           _textController.text = ref.watch(currentPromptNotifierProvider);
           return ChatField(
@@ -77,15 +78,16 @@ class _ChatPanelState extends State<ChatPanel> {
         }),
       );
 
-  _previousPromptButton(WidgetRef ref, ThemeData theme) => IconButton(
-      icon: Icon(
-        Icons.line_weight_sharp,
-        color: theme.colorScheme.onSurface,
-      ),
-      onPressed: () {
-        //ref.read(currentPromptControllerProvider.notifier).rotate();
-        showPromptList(context);
-      }).tip('Show previous prompts');
+  _previousPromptButton(WidgetRef ref, ThemeData theme) =>
+      IconButton(
+          icon: Icon(
+            Icons.line_weight_sharp,
+            color: theme.colorScheme.onSurface,
+          ),
+          onPressed: () {
+            //ref.read(currentPromptControllerProvider.notifier).rotate();
+            showPromptList(context);
+          }).tip('Show previous prompts');
 
   _sendButton(WidgetRef ref) => SendMessageButton(onPressed: () => _send(ref));
 
@@ -99,7 +101,8 @@ class _ChatPanelState extends State<ChatPanel> {
     _textController.text = '';
   }
 
-  _newConversationButton(WidgetRef ref, ThemeData theme) => IconButton(
+  _newConversationButton(WidgetRef ref, ThemeData theme) =>
+      IconButton(
         icon: Icon(
           Icons.add,
           color: theme.colorScheme.onSurface,
