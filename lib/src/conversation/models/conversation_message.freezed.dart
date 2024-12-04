@@ -23,6 +23,7 @@ mixin _$ConversationMessage {
   MessageType get type => throw _privateConstructorUsedError;
   String get conversationId => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  List<BinaryData>? get binaryData => throw _privateConstructorUsedError;
   double? get responseTime => throw _privateConstructorUsedError;
   String? get agent => throw _privateConstructorUsedError;
 
@@ -46,6 +47,7 @@ abstract class $ConversationMessageCopyWith<$Res> {
       {MessageType type,
       String conversationId,
       String content,
+      List<BinaryData>? binaryData,
       double? responseTime,
       String? agent});
 }
@@ -68,6 +70,7 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
     Object? type = null,
     Object? conversationId = null,
     Object? content = null,
+    Object? binaryData = freezed,
     Object? responseTime = freezed,
     Object? agent = freezed,
   }) {
@@ -84,6 +87,10 @@ class _$ConversationMessageCopyWithImpl<$Res, $Val extends ConversationMessage>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      binaryData: freezed == binaryData
+          ? _value.binaryData
+          : binaryData // ignore: cast_nullable_to_non_nullable
+              as List<BinaryData>?,
       responseTime: freezed == responseTime
           ? _value.responseTime
           : responseTime // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$ConversationMessageImplCopyWith<$Res>
       {MessageType type,
       String conversationId,
       String content,
+      List<BinaryData>? binaryData,
       double? responseTime,
       String? agent});
 }
@@ -128,6 +136,7 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
     Object? type = null,
     Object? conversationId = null,
     Object? content = null,
+    Object? binaryData = freezed,
     Object? responseTime = freezed,
     Object? agent = freezed,
   }) {
@@ -144,6 +153,10 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      binaryData: freezed == binaryData
+          ? _value._binaryData
+          : binaryData // ignore: cast_nullable_to_non_nullable
+              as List<BinaryData>?,
       responseTime: freezed == responseTime
           ? _value.responseTime
           : responseTime // ignore: cast_nullable_to_non_nullable
@@ -163,8 +176,10 @@ class _$ConversationMessageImpl implements _ConversationMessage {
       {required this.type,
       required this.conversationId,
       required this.content,
+      final List<BinaryData>? binaryData,
       this.responseTime,
-      this.agent});
+      this.agent})
+      : _binaryData = binaryData;
 
   factory _$ConversationMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationMessageImplFromJson(json);
@@ -175,6 +190,16 @@ class _$ConversationMessageImpl implements _ConversationMessage {
   final String conversationId;
   @override
   final String content;
+  final List<BinaryData>? _binaryData;
+  @override
+  List<BinaryData>? get binaryData {
+    final value = _binaryData;
+    if (value == null) return null;
+    if (_binaryData is EqualUnmodifiableListView) return _binaryData;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final double? responseTime;
   @override
@@ -182,7 +207,7 @@ class _$ConversationMessageImpl implements _ConversationMessage {
 
   @override
   String toString() {
-    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content, responseTime: $responseTime, agent: $agent)';
+    return 'ConversationMessage(type: $type, conversationId: $conversationId, content: $content, binaryData: $binaryData, responseTime: $responseTime, agent: $agent)';
   }
 
   @override
@@ -194,6 +219,8 @@ class _$ConversationMessageImpl implements _ConversationMessage {
             (identical(other.conversationId, conversationId) ||
                 other.conversationId == conversationId) &&
             (identical(other.content, content) || other.content == content) &&
+            const DeepCollectionEquality()
+                .equals(other._binaryData, _binaryData) &&
             (identical(other.responseTime, responseTime) ||
                 other.responseTime == responseTime) &&
             (identical(other.agent, agent) || other.agent == agent));
@@ -201,8 +228,8 @@ class _$ConversationMessageImpl implements _ConversationMessage {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, type, conversationId, content, responseTime, agent);
+  int get hashCode => Object.hash(runtimeType, type, conversationId, content,
+      const DeepCollectionEquality().hash(_binaryData), responseTime, agent);
 
   /// Create a copy of ConversationMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -226,6 +253,7 @@ abstract class _ConversationMessage implements ConversationMessage {
       {required final MessageType type,
       required final String conversationId,
       required final String content,
+      final List<BinaryData>? binaryData,
       final double? responseTime,
       final String? agent}) = _$ConversationMessageImpl;
 
@@ -239,6 +267,8 @@ abstract class _ConversationMessage implements ConversationMessage {
   @override
   String get content;
   @override
+  List<BinaryData>? get binaryData;
+  @override
   double? get responseTime;
   @override
   String? get agent;
@@ -248,5 +278,173 @@ abstract class _ConversationMessage implements ConversationMessage {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ConversationMessageImplCopyWith<_$ConversationMessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+BinaryData _$BinaryDataFromJson(Map<String, dynamic> json) {
+  return _BinaryData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$BinaryData {
+  String get data => throw _privateConstructorUsedError;
+  String get mimeType => throw _privateConstructorUsedError;
+
+  /// Serializes this BinaryData to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of BinaryData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $BinaryDataCopyWith<BinaryData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $BinaryDataCopyWith<$Res> {
+  factory $BinaryDataCopyWith(
+          BinaryData value, $Res Function(BinaryData) then) =
+      _$BinaryDataCopyWithImpl<$Res, BinaryData>;
+  @useResult
+  $Res call({String data, String mimeType});
+}
+
+/// @nodoc
+class _$BinaryDataCopyWithImpl<$Res, $Val extends BinaryData>
+    implements $BinaryDataCopyWith<$Res> {
+  _$BinaryDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of BinaryData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? mimeType = null,
+  }) {
+    return _then(_value.copyWith(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$BinaryDataImplCopyWith<$Res>
+    implements $BinaryDataCopyWith<$Res> {
+  factory _$$BinaryDataImplCopyWith(
+          _$BinaryDataImpl value, $Res Function(_$BinaryDataImpl) then) =
+      __$$BinaryDataImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String data, String mimeType});
+}
+
+/// @nodoc
+class __$$BinaryDataImplCopyWithImpl<$Res>
+    extends _$BinaryDataCopyWithImpl<$Res, _$BinaryDataImpl>
+    implements _$$BinaryDataImplCopyWith<$Res> {
+  __$$BinaryDataImplCopyWithImpl(
+      _$BinaryDataImpl _value, $Res Function(_$BinaryDataImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of BinaryData
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = null,
+    Object? mimeType = null,
+  }) {
+    return _then(_$BinaryDataImpl(
+      data: null == data
+          ? _value.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as String,
+      mimeType: null == mimeType
+          ? _value.mimeType
+          : mimeType // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$BinaryDataImpl implements _BinaryData {
+  _$BinaryDataImpl({required this.data, required this.mimeType});
+
+  factory _$BinaryDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BinaryDataImplFromJson(json);
+
+  @override
+  final String data;
+  @override
+  final String mimeType;
+
+  @override
+  String toString() {
+    return 'BinaryData(data: $data, mimeType: $mimeType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BinaryDataImpl &&
+            (identical(other.data, data) || other.data == data) &&
+            (identical(other.mimeType, mimeType) ||
+                other.mimeType == mimeType));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, data, mimeType);
+
+  /// Create a copy of BinaryData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BinaryDataImplCopyWith<_$BinaryDataImpl> get copyWith =>
+      __$$BinaryDataImplCopyWithImpl<_$BinaryDataImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$BinaryDataImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _BinaryData implements BinaryData {
+  factory _BinaryData(
+      {required final String data,
+      required final String mimeType}) = _$BinaryDataImpl;
+
+  factory _BinaryData.fromJson(Map<String, dynamic> json) =
+      _$BinaryDataImpl.fromJson;
+
+  @override
+  String get data;
+  @override
+  String get mimeType;
+
+  /// Create a copy of BinaryData
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BinaryDataImplCopyWith<_$BinaryDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
