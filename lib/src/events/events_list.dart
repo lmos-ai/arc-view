@@ -34,51 +34,52 @@ class EventsList extends ConsumerWidget {
 
     return events.isEmpty
         ? Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        'No events'.small,
+        SmallLinkedText(
+          'Click here for details',
+          tip: 'Open Help page in a browser',
+          onPressed: () {
+            launchUrlString(
+                'https://lmos-ai.github.io/arc/docs/graphql#event-subscriptions');
+          },
+        ),
+      ],
+    )
+        : ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: events.length,
+      itemBuilder: (context, index) {
+        final event = events[index];
+        final json = jsonDecode(event.payload) as Map<String, dynamic>;
+        final contextLabel = _getEventLabel(json);
+
+        return Card(
+          elevation: 0,
+          child: ExpansionTile(
+            expandedAlignment: Alignment.topLeft,
+            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            title: EventRowItem(event: event, json: json),
+            subtitle: [
+              SmallText(contextLabel),
+              Spacer(),
+              SmallText(json['duration'] != null
+                  ? '${(json['duration'] as double?)?.toStringAsPrecision(
+                  3)} seconds'
+                  : ''),
+            ].row(),
             children: [
-              'No events'.small,
-              SmallLinkedText(
-                'Click here for details',
-                tip: 'Open Help page in a browser',
-                onPressed: () {
-                  launchUrlString(
-                      'https://lmos-ai.github.io/arc/docs/graphql#event-subscriptions');
-                },
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:
+                _transformEvent(event.type, context, json).toList(),
               ),
             ],
-          )
-        : ListView.builder(
-            padding: const EdgeInsets.all(16),
-            itemCount: events.length,
-            itemBuilder: (context, index) {
-              final event = events[index];
-              final json = jsonDecode(event.payload) as Map<String, dynamic>;
-              final contextLabel = _getEventLabel(json);
-
-              return Card(
-                elevation: 0,
-                child: ExpansionTile(
-                  expandedAlignment: Alignment.topLeft,
-                  childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                  title: EventRowItem(event: event, json: json),
-                  subtitle: [
-                    SmallText(contextLabel),
-                    Spacer(),
-                    SmallText(json['duration'] != null
-                        ? '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'
-                        : ''),
-                  ].row(),
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children:
-                          _transformEvent(event.type, context, json).toList(),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+          ),
+        );
+      },
+    );
   }
 
   String _getEventLabel(Map<String, dynamic> json) {
@@ -91,36 +92,42 @@ class EventsList extends ConsumerWidget {
 
   List<Widget> _transformEvent(String type, BuildContext context, json) {
     return switch (type) {
-      'AgentFinishedEvent' => [
-          SmallText('Name: ${json['agent']['name']}'),
-          SmallText('FlowBreak: ${json['flowBreak']}'),
-        ],
-      'AgentLoadedEvent' => [
-          SmallText('ErrorMessage: ${json['errorMessage']}'),
-        ],
-      'FunctionLoadedEvent' => [
-          SmallText('ErrorMessage: ${json['errorMessage']}'),
-        ],
-      'LLMFinishedEvent' => [
-          SmallText('Model: ${json['model']}'),
-          SmallText('TotalTokens: ${json['totalTokens']}'),
-          SmallText('FunctionCallCount: ${json['functionCallCount']}'),
-          [
-            SmallText('System Prompt:'),
-            SmallLinkedText('Click to open', tip: 'Open System prompt',
-                onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (_) => PromptView(json['messages'][0]['content']));
-            })
-          ].row(min: true),
-          SmallText('Content: ${_tryGetContent(json)}'),
-        ],
-      'LLMFunctionCalledEvent' => [
-          SmallText('Name: ${json['name']}'),
-          SmallText('Params: ${json['param']}'),
-          SmallText('Result: ${_tryGetValue(json)}')
-        ],
+      'AgentFinishedEvent' =>
+      [
+        SmallText('Name: ${json['agent']['name']}'),
+        SmallText('FlowBreak: ${json['flowBreak']}'),
+        SmallText('Tools: ${json['tools']}'),
+      ],
+      'AgentLoadedEvent' =>
+      [
+        SmallText('ErrorMessage: ${json['errorMessage']}'),
+      ],
+      'FunctionLoadedEvent' =>
+      [
+        SmallText('ErrorMessage: ${json['errorMessage']}'),
+      ],
+      'LLMFinishedEvent' =>
+      [
+        SmallText('Model: ${json['model']}'),
+        SmallText('TotalTokens: ${json['totalTokens']}'),
+        SmallText('FunctionCallCount: ${json['functionCallCount']}'),
+        [
+          SmallText('System Prompt:'),
+          SmallLinkedText('Click to open', tip: 'Open System prompt',
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => PromptView(json['messages'][0]['content']));
+              })
+        ].row(min: true),
+        SmallText('Content: ${_tryGetContent(json)}'),
+      ],
+      'LLMFunctionCalledEvent' =>
+      [
+        SmallText('Name: ${json['name']}'),
+        SmallText('Params: ${json['param']}'),
+        SmallText('Result: ${_tryGetValue(json)}')
+      ],
       _ => [SmallText(json.toString())],
     };
   }
