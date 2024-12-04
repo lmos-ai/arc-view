@@ -23,7 +23,8 @@ class ChatField extends ConsumerWidget {
       enabled: agentAvailable,
       decoration: const InputDecoration(),
       keyboardType: TextInputType.multiline,
-      maxLines: 2,
+      maxLines: 10,
+      minLines: 1,
     );
   }
 

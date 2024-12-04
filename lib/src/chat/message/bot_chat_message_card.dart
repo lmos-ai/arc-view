@@ -17,9 +17,9 @@ class BotChatMessageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Card(
       elevation: 6,
-      color: Theme.of(context).colorScheme.primary,
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
@@ -28,44 +28,38 @@ class BotChatMessageCard extends StatelessWidget {
             left: 0,
             child: Container(
               width: 10,
-              height: 12,
-              color: color(message.conversationId),
+              height: 10,
+              decoration: BoxDecoration(
+                color: color(message.conversationId),
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-          Container(
-              width: double.infinity, // Full width
-              padding: const EdgeInsets.all(16),
-              child: MarkdownBody(
-                data: message.content,
-                styleSheet:
-                    MarkdownStyleSheet.fromTheme(Theme.of(context).copyWith(
-                  textTheme: Theme.of(context).textTheme.apply(
-                        bodyColor: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                )).copyWith(
-                  code: TextStyle(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                      fontFamily:
-                          Theme.of(context).textTheme.bodyMedium?.fontFamily),
-                  codeblockDecoration: BoxDecoration(
-                    color: Colors.grey[700], // Background for code blocks
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey[700]!, width: 1),
-                  ),
-                  codeblockPadding:
-                      const EdgeInsets.all(8), // Padding inside code blocks
-                ),
-              )),
+          MarkdownBody(
+            fitContent: true,
+            data: message.content,
+            styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
+              code:
+                  TextStyle(fontFamily: theme.textTheme.bodyMedium?.fontFamily),
+              codeblockDecoration: BoxDecoration(
+                color: theme.colorScheme.onSurface.withOpacity(0.2),
+                // Background for code blocks
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey[700]!, width: 1),
+              ),
+              codeblockPadding: const EdgeInsets.all(8),
+            ),
+          ).padByUnits(3, 2, 6, 2),
           Positioned(
             bottom: 0,
             right: 0,
-            child: CopyToClipBoardButton(message.content, color: Theme.of(context).colorScheme.onPrimary),
+            child: CopyToClipBoardButton(message.content),
           ),
           if (message.responseTime != null)
             Positioned(
               bottom: 0,
               left: 0,
-              child: '${message.responseTime} sec'.small.pad(8, 16, 4, 16),
+              child: '${message.responseTime} sec'.small.pad(8, 16, 8, 16),
             ),
         ],
       ),
