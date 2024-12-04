@@ -57,6 +57,12 @@ class OneAIClient {
                     'content': e.content,
                     'role': e.type == MessageType.user ? 'user' : 'assistant',
                     'format': 'text',
+                    'binaryData': e.binaryData
+                        ?.map((e) => {
+                              'dataAsBase64': e.dataAsBase64,
+                              'mimeType': e.mimeType,
+                            })
+                        .toList(),
                   })
               .toList(),
         },
