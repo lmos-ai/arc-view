@@ -9,6 +9,7 @@ import 'package:arc_view/src/conversation/services/conversation_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:smiles/smiles.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class BotChatMessageCard extends StatelessWidget {
   const BotChatMessageCard({super.key, required this.message});
@@ -38,6 +39,9 @@ class BotChatMessageCard extends StatelessWidget {
           MarkdownBody(
             fitContent: true,
             data: message.content,
+            onTapLink: (text, href, title) {
+              if (href != null) launchUrlString(href);
+            },
             styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
               code:
                   TextStyle(fontFamily: theme.textTheme.bodyMedium?.fontFamily),

@@ -33,9 +33,7 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
-      conversationId: 'cid-${DateTime
-          .now()
-          .millisecondsSinceEpoch}',
+      conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
     );
     return Conversations(
       conversations: [],
@@ -45,14 +43,63 @@ class ConversationsNotifier extends _$ConversationsNotifier {
 
   UserContext _loadUserContext() {
     final json = _load('conversation_user_context');
-    if (json == null) return UserContext(userId: "unknown", profile: []);
-    return UserContext.fromJson(jsonDecode(json));
+    final context;
+    if (json == null) {
+      context = UserContext(userId: "unknown", profile: []);
+    } else {
+      context = UserContext.fromJson(jsonDecode(json));
+    }
+    return addFromUserParam(context);
+  }
+
+  UserContext addFromUserParam(UserContext context) {
+    if (!Uri.base.hasQuery) return context;
+    Uri.base.queryParameters.forEach((key, value) {
+      switch (key) {
+        case 'user':
+          _log.fine('Adding user id: $value');
+          context = context.copyWith(userId: value);
+        case 'userToken':
+          _log.fine('Adding user token: $value');
+          context = context.copyWith(userToken: value);
+        default:
+          {
+            if (key.startsWith('user_')) {
+              _log.fine('Adding user context: $key -> $value');
+              context = context.copyWith(profile: [
+                ...context.profile,
+                ProfileEntry(key: key.substring(5), value: value)
+              ]);
+            }
+          }
+      }
+    });
+    return context;
+  }
+
+  SystemContext addFromSystemParam(SystemContext context) {
+    if (!Uri.base.hasQuery) return context;
+    Uri.base.queryParameters.forEach((key, value) {
+      if (key.startsWith('system_')) {
+        _log.fine('Adding system context: $key -> $value');
+        context = context.copyWith(entries: [
+          ...context.entries,
+          (key: key.substring(7), value: value)
+        ]);
+      }
+    });
+    return context;
   }
 
   SystemContext _loadSystemContext() {
     final json = _load('conversation_system_context');
-    if (json == null) return SystemContext(entries: []);
-    return SystemContext.fromJson(jsonDecode(json));
+    final context;
+    if (json == null) {
+      context = SystemContext(entries: []);
+    } else {
+      context = SystemContext.fromJson(jsonDecode(json));
+    }
+    return addFromSystemParam(context);
   }
 
   String? _load(String key) =>
@@ -116,18 +163,17 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     return callback.future;
   }
 
-  ConversationMessage _handleBotMessage(MessageResult value,
-      Conversation conversation) {
+  ConversationMessage _handleBotMessage(
+      MessageResult value, Conversation conversation) {
     return switch (value.message) {
       '<LOADING>' => loadingMessage(conversation.conversationId),
-      _ =>
-          ConversationMessage(
-            type: MessageType.bot,
-            content: value.message,
-            conversationId: conversation.conversationId,
-            responseTime: value.responseTime,
-            agent: value.agent,
-          )
+      _ => ConversationMessage(
+          type: MessageType.bot,
+          content: value.message,
+          conversationId: conversation.conversationId,
+          responseTime: value.responseTime,
+          agent: value.agent,
+        )
     };
   }
 

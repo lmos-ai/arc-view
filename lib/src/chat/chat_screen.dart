@@ -9,6 +9,7 @@ import 'package:arc_view/src/chat/chat_panel.dart';
 import 'package:arc_view/src/chat/right_panel.dart';
 import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -49,7 +50,8 @@ class _ChatScreenState extends State<ChatScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AddressBar(),
+                if (!kIsWeb) const AddressBar(),
+                const VGap(),
                 const ToolBar(),
                 Row(
                   mainAxisSize: MainAxisSize.max,

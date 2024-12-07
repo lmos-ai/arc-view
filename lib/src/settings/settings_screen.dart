@@ -27,7 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final conversation = ref.read(conversationsNotifierProvider).current;
+      final conversation = ref
+          .read(conversationsNotifierProvider)
+          .current;
       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(
@@ -57,7 +59,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         ref.read(themeNotifierProvider.notifier).toggle();
                       }).pad(8, 8, 8, 8),
-                  '1.8.0'.txt.pad(8, 8, 8, 8),
+                  '1.9.0'.txt.pad(8, 8, 8, 8),
                   'Licenses'.onPressed(() {
                     showLicensePage(context: context);
                   }).pad(8, 8, 8, 8),
