@@ -18,8 +18,9 @@ class AgentClientNotifier extends _$AgentClientNotifier {
     final url = Uri.base.isScheme('http') || Uri.base.isScheme('https')
         ? '${Uri.base.scheme}://${Uri.base.host}:${Uri.base.port}'
         : 'http://localhost:8080';
+    final secure = Uri.base.isScheme('https');
     final client = OneAIClient(
-      (url: Uri.parse(url), secure: false, agent: null),
+      (url: Uri.parse(url), secure: secure, agent: null),
     );
     ref.onDispose(() => client.close());
     return client;
