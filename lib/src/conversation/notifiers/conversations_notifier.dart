@@ -64,11 +64,12 @@ class ConversationsNotifier extends _$ConversationsNotifier {
           context = context.copyWith(userToken: value);
         default:
           {
-            if (key.startsWith('user_')) {
-              _log.fine('Adding user context: $key -> $value');
+            if (key.startsWith('profile_')) {
+              final profileKey = key.substring(8);
+              _log.fine('Adding user context: $profileKey -> $value');
               context = context.copyWith(profile: [
-                ...context.profile,
-                ProfileEntry(key: key.substring(5), value: value)
+                ...context.profile.where((e) => e.key != profileKey),
+                ProfileEntry(key: profileKey, value: value)
               ]);
             }
           }
@@ -80,11 +81,12 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   SystemContext addFromSystemParam(SystemContext context) {
     if (!Uri.base.hasQuery) return context;
     Uri.base.queryParameters.forEach((key, value) {
-      if (key.startsWith('system_')) {
-        _log.fine('Adding system context: $key -> $value');
+      if (!key.startsWith('user') || !key.startsWith('profile_')) {
+        final systemKey = key;
+        _log.fine('Adding system context: $systemKey -> $value');
         context = context.copyWith(entries: [
-          ...context.entries,
-          (key: key.substring(7), value: value)
+          ...context.entries.where((e) => e.key != systemKey),
+          (key: systemKey, value: value)
         ]);
       }
     });
