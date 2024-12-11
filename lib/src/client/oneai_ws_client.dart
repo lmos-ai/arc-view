@@ -60,18 +60,33 @@ class OneAIWSClient {
     channel.sink.add(data);
     channel.sink.add('<FIN>');
 
-    print('Sent message: ${data.length}');
+    _log.fine('Sent message: ${data.length}');
 
     return channel.stream.map((message) {
       final agent = agentUrl.agent ?? 'default';
       _log.fine('Received message: $message');
 
-      var player = AudioPlayer();
-      player.setSourceBytes(Base64Decoder().convert(message)).then((a) {
-        player.resume();
-      });
-
-      return (message: message.toString(), responseTime: -1, agent: agent);
+      if (message is String) {
+        final jsonResult = jsonDecode(message);
+        return (
+          message: jsonResult['messages'][0]['content'],
+          responseTime: -1,
+          agent: agent,
+          binaryData: null
+        );
+      } else {
+        var player = AudioPlayer();
+        player.setSourceBytes(message).then((a) {
+          player.resume();
+        });
+        // TODO CLOSE PLAYER
+      }
+      return (
+        message: null,
+        responseTime: -1,
+        agent: agent,
+        binaryData: message
+      );
     });
   }
 
@@ -82,4 +97,9 @@ class OneAIWSClient {
   close() async {}
 }
 
-typedef MessageResult = ({String message, double? responseTime, String agent});
+typedef MessageResult = ({
+  String? message,
+  double? responseTime,
+  String agent,
+  Uint8List? binaryData
+});
