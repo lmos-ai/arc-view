@@ -28,13 +28,16 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   Conversations build() {
     final userContext = _loadUserContext();
     final systemContext = _loadSystemContext();
-    final newConversation = Conversation(
+    var newConversation = Conversation(
       createdAt: DateTime.now(),
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
       conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
     );
+
+    newConversation = addFromQueryParam(newConversation);
+
     return Conversations(
       conversations: [],
       current: newConversation,
@@ -49,48 +52,46 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     } else {
       context = UserContext.fromJson(jsonDecode(json));
     }
-    return addFromUserParam(context);
+    return context;
   }
 
-  UserContext addFromUserParam(UserContext context) {
-    if (!Uri.base.hasQuery) return context;
+  Conversation addFromQueryParam(Conversation conversation) {
+    if (!Uri.base.hasQuery) return conversation;
+    var result = conversation;
+    var systemContext = conversation.systemContext;
+    var userContext = conversation.userContext;
     Uri.base.queryParameters.forEach((key, value) {
       switch (key) {
         case 'user':
           _log.fine('Adding user id: $value');
-          context = context.copyWith(userId: value);
+          userContext = userContext.copyWith(userId: value);
         case 'userToken':
           _log.fine('Adding user token: $value');
-          context = context.copyWith(userToken: value);
+          userContext = userContext.copyWith(userToken: value);
         default:
           {
             if (key.startsWith('profile_')) {
               final profileKey = key.substring(8);
               _log.fine('Adding user context: $profileKey -> $value');
-              context = context.copyWith(profile: [
-                ...context.profile.where((e) => e.key != profileKey),
+              userContext = userContext.copyWith(profile: [
+                ...userContext.profile.where((e) => e.key != profileKey),
                 ProfileEntry(key: profileKey, value: value)
+              ]);
+            } else {
+              final systemKey = key;
+              _log.fine('Adding system context: $systemKey -> $value');
+              systemContext = systemContext.copyWith(entries: [
+                ...systemContext.entries.where((e) => e.key != systemKey),
+                (key: systemKey, value: value)
               ]);
             }
           }
       }
     });
-    return context;
-  }
-
-  SystemContext addFromSystemParam(SystemContext context) {
-    if (!Uri.base.hasQuery) return context;
-    Uri.base.queryParameters.forEach((key, value) {
-      if (!key.startsWith('user') || !key.startsWith('profile_')) {
-        final systemKey = key;
-        _log.fine('Adding system context: $systemKey -> $value');
-        context = context.copyWith(entries: [
-          ...context.entries.where((e) => e.key != systemKey),
-          (key: systemKey, value: value)
-        ]);
-      }
-    });
-    return context;
+    return result.copyWith(
+      userContext: userContext,
+      systemContext: systemContext,
+    );
   }
 
   SystemContext _loadSystemContext() {
@@ -101,7 +102,7 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     } else {
       context = SystemContext.fromJson(jsonDecode(json));
     }
-    return addFromSystemParam(context);
+    return context;
   }
 
   String? _load(String key) =>
