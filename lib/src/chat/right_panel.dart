@@ -30,7 +30,7 @@ class RightPanel extends StatelessWidget {
             ],
           ).expand(),
           VGap.units(3),
-          _SwitchTabs().size(height: 48),
+          _SwitchTabs().size(height: 32),
         ],
       ).percentOfScreen(width: 0.3).padByUnits(0, 2, 2, 2),
     );
