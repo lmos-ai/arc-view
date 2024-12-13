@@ -6,12 +6,15 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:arc_view/main.dart';
+import 'package:arc_view/src/client/message.dart';
+import 'package:arc_view/src/client/message_result.dart';
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
-import 'package:arc_view/src/client/oneai_client.dart';
+import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
@@ -129,35 +132,48 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   }
 
   Future<void> addUserMessage(String msg) {
-    return addMessage(ConversationMessage(
-      type: MessageType.user,
-      content: msg,
-      conversationId: state.current.conversationId,
-    ));
+    return addMessage(
+      ConversationMessage(
+        type: MessageType.user,
+        content: msg,
+        conversationId: state.current.conversationId,
+      ),
+      null,
+    );
   }
 
-  Future<void> addMessage(ConversationMessage msg) {
+  Future<void> addUserVoice(Stream<Uint8List> data) {
+    _log.fine('Adding voice message');
+    return addMessage(
+        ConversationMessage(
+          type: MessageType.user,
+          content: '',
+          conversationId: state.current.conversationId,
+          binaryData: [
+            BinaryData(data: 'STREAM_SOURCE', mimeType: 'audio/pcm')
+          ],
+        ),
+        data);
+  }
+
+  Future<void> addMessage(
+    ConversationMessage msg,
+    Stream<Uint8List>? data,
+  ) async {
     final callback = Completer();
-    final conversation = state.current.add([
-      msg,
-      loadingMessage(state.current.conversationId),
-    ]);
+
+    final conversation = _setLoading(msg);
     state = state.update(conversation);
-    ref
-        .read(agentClientNotifierProvider)
-        .sendMessage(conversation)
-        .listen((value) {
-      final newMessages = [];
-      for (final message in conversation.messages) {
-        if (message.type != MessageType.loading) {
-          newMessages.add(message);
-        }
-      }
+
+    final stream = _sendMessage(conversation, data);
+    stream.listen((value) {
+      if (value.messages.isEmpty) return;
+      final newMessages = conversation.messages.filterLoading();
       state = state.update(
         conversation.copyWith(
           messages: [
-            ...newMessages,
-            _handleBotMessage(value, conversation),
+            ...newMessages.take(newMessages.length - 1), // TODO
+            ..._handleBotMessages(value, conversation),
           ],
         ),
       );
@@ -166,18 +182,50 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     return callback.future;
   }
 
-  ConversationMessage _handleBotMessage(
-      MessageResult value, Conversation conversation) {
-    return switch (value.message) {
-      '<LOADING>' => loadingMessage(conversation.conversationId),
-      _ => ConversationMessage(
-          type: MessageType.bot,
-          content: value.message,
-          conversationId: conversation.conversationId,
-          responseTime: value.responseTime,
-          agent: value.agent,
-        )
-    };
+  Stream<MessageResult> _sendMessage(
+    Conversation conversation,
+    Stream<Uint8List>? data,
+  ) {
+    if (data != null) {
+      return ref
+          .read(agentStreamClientNotifierProvider)
+          .sendMessage(conversation, data);
+    }
+    return ref.read(agentClientNotifierProvider).sendMessage(conversation);
+  }
+
+  Conversation _setLoading(ConversationMessage msg) {
+    final conversation = state.current.add([
+      msg,
+      loadingMessage(state.current.conversationId),
+    ]);
+    return conversation;
+  }
+
+  List<ConversationMessage> _handleBotMessages(
+    MessageResult value,
+    Conversation conversation,
+  ) {
+    return value.messages.map((message) {
+      return switch (message) {
+        Message(content: '<LOADING>') =>
+          loadingMessage(conversation.conversationId),
+        Message(role: 'user') => ConversationMessage(
+            type: MessageType.user,
+            content: message.content,
+            conversationId: conversation.conversationId,
+            responseTime: value.responseTime,
+            agent: value.agent,
+          ),
+        _ => ConversationMessage(
+            type: MessageType.bot,
+            content: message.content,
+            conversationId: conversation.conversationId,
+            responseTime: value.responseTime,
+            agent: value.agent,
+          )
+      };
+    }).toList();
   }
 
   newConversation() {

@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:arc_view/src/client/message.dart';
+import 'package:arc_view/src/client/message_result.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
@@ -14,23 +17,23 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:logging/logging.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-class OneAIWSClient {
-  OneAIWSClient(this.agentUrl);
+class OneAIStreamClient {
+  OneAIStreamClient(this.agentUrl);
 
   final AgentUrlData agentUrl;
+  late WebSocketChannel _channel;
   final _log = Logger('OneAIClient');
 
-  Future<List<String>> getAgents() async {
-    return ['voice-agent'];
-  }
+  Stream<MessageResult> sendMessage(
+      Conversation conversation, Stream<Uint8List> data) {
+    if (conversation.messages.isEmpty) return Stream.empty();
+    final url =
+        '${agentUrl.secure ? 'https://' : 'http://'}${agentUrl.url.host}:${agentUrl.url.port}/stream/agent';
 
-  Future<Stream<MessageResult>> sendMessage(
-      Conversation conversation, Uint8List data) async {
-    if (conversation.messages.isEmpty) return const Stream.empty();
-    final channel =
-        WebSocketChannel.connect(Uri.parse('http://localhost:8080/ws/agent'));
+    _log.fine('Connecting to $url...');
+    _channel = WebSocketChannel.connect(Uri.parse(url));
+    // await _channel.ready;
 
-    await channel.ready;
     final payload = {
       "agentName": agentUrl.agent ?? 'default',
       "payload": {
@@ -56,36 +59,43 @@ class OneAIWSClient {
             .toList(),
       }
     };
-    channel.sink.add(jsonEncode(payload));
-    channel.sink.add(data);
-    channel.sink.add('<FIN>');
+    _channel.sink.add(jsonEncode(payload));
+    data.listen((d) {
+      _channel.sink.add(d);
+    });
+    //_channel.sink.add('<FIN>');
 
     _log.fine('Sent message: ${data.length}');
 
-    return channel.stream.map((message) {
+    return _channel.stream.map((message) {
       final agent = agentUrl.agent ?? 'default';
-      _log.fine('Received message: $message');
 
       if (message is String) {
-        final jsonResult = jsonDecode(message);
+        _log.fine('Received message: $message');
+        final agentResult = AgentResult.fromJson(jsonDecode(message));
         return (
-          message: jsonResult['messages'][0]['content'],
-          responseTime: -1,
+          messages: agentResult.messages,
+          responseTime: agentResult.responseTime,
           agent: agent,
-          binaryData: null
+          error: null
         );
       } else {
+        _log.fine('Received binary message');
         var player = AudioPlayer();
         player.setSourceBytes(message).then((a) {
           player.resume();
         });
-        // TODO CLOSE PLAYER
+        player.onPlayerStateChanged.listen((event) {
+          if (event == PlayerState.completed) {
+            player.dispose();
+          }
+        });
       }
       return (
-        message: null,
+        messages: List.empty(),
         responseTime: -1,
         agent: agent,
-        binaryData: message
+        error: null
       );
     });
   }
@@ -96,10 +106,3 @@ class OneAIWSClient {
 
   close() async {}
 }
-
-typedef MessageResult = ({
-  String? message,
-  double? responseTime,
-  String agent,
-  Uint8List? binaryData
-});

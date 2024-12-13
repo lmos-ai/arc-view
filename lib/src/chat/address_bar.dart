@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -38,6 +39,9 @@ class _AddressBarState extends State<AddressBar> {
               ),
               onChanged: (value) {
                 ref.read(agentClientNotifierProvider.notifier).setUrl(value);
+                ref
+                    .read(agentStreamClientNotifierProvider.notifier)
+                    .setUrl(value);
               },
             ).expand(),
           ],

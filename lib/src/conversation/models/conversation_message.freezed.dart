@@ -171,7 +171,7 @@ class __$$ConversationMessageImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ConversationMessageImpl implements _ConversationMessage {
+class _$ConversationMessageImpl extends _ConversationMessage {
   _$ConversationMessageImpl(
       {required this.type,
       required this.conversationId,
@@ -179,7 +179,8 @@ class _$ConversationMessageImpl implements _ConversationMessage {
       final List<BinaryData>? binaryData,
       this.responseTime,
       this.agent})
-      : _binaryData = binaryData;
+      : _binaryData = binaryData,
+        super._();
 
   factory _$ConversationMessageImpl.fromJson(Map<String, dynamic> json) =>
       _$$ConversationMessageImplFromJson(json);
@@ -248,7 +249,7 @@ class _$ConversationMessageImpl implements _ConversationMessage {
   }
 }
 
-abstract class _ConversationMessage implements ConversationMessage {
+abstract class _ConversationMessage extends ConversationMessage {
   factory _ConversationMessage(
       {required final MessageType type,
       required final String conversationId,
@@ -256,6 +257,7 @@ abstract class _ConversationMessage implements ConversationMessage {
       final List<BinaryData>? binaryData,
       final double? responseTime,
       final String? agent}) = _$ConversationMessageImpl;
+  _ConversationMessage._() : super._();
 
   factory _ConversationMessage.fromJson(Map<String, dynamic> json) =
       _$ConversationMessageImpl.fromJson;

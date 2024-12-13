@@ -4,7 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/audio/notifiers/voice_notifier.dart';
 import 'package:arc_view/src/chat/buttons/record_button.dart';
+import 'package:arc_view/src/chat/buttons/send_message_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
@@ -49,26 +51,33 @@ class _ChatPanelState extends State<ChatPanel> {
           children: [
             const ChatToolBar(),
             const ChatList().expand(),
-            Card(
-              elevation: 6,
-              margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-              child: Row(
-                children: [
-                  _newConversationButton(ref, theme),
-                  _previousPromptButton(ref, theme),
-                  _chatField(ref),
-                  _sendButton(ref),
-                ],
-              ).padding(),
-            ),
+            [
+              Card(
+                elevation: 6,
+                margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                child: Row(
+                  children: [
+                    _newConversationButton(ref, theme),
+                    _previousPromptButton(ref, theme),
+                    _chatField(ref),
+                    SendMessageButton(onPressed: () => _send(ref)),
+                  ],
+                ).padding(),
+              ).size(height: 100).expand(),
+              HGap.small(),
+              Card(
+                elevation: 6,
+                margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                child: RecordButton().padding(),
+              ).size(height: 100),
+            ].row(),
           ],
         );
       },
     );
   }
 
-  _chatField(WidgetRef ref) =>
-      Expanded(
+  _chatField(WidgetRef ref) => Expanded(
         child: Consumer(builder: (ctx, ref, child) {
           _textController.text = ref.watch(currentPromptNotifierProvider);
           return ChatField(
@@ -78,18 +87,15 @@ class _ChatPanelState extends State<ChatPanel> {
         }),
       );
 
-  _previousPromptButton(WidgetRef ref, ThemeData theme) =>
-      IconButton(
-          icon: Icon(
-            Icons.line_weight_sharp,
-            color: theme.colorScheme.onSurface,
-          ),
-          onPressed: () {
-            //ref.read(currentPromptControllerProvider.notifier).rotate();
-            showPromptList(context);
-          }).tip('Show previous prompts');
-
-  _sendButton(WidgetRef ref) => RecordButton(onPressed: () => _send(ref));
+  _previousPromptButton(WidgetRef ref, ThemeData theme) => IconButton(
+      icon: Icon(
+        Icons.line_weight_sharp,
+        color: theme.colorScheme.onSurface,
+      ),
+      onPressed: () {
+        //ref.read(currentPromptControllerProvider.notifier).rotate();
+        showPromptList(context);
+      }).tip('Show previous prompts');
 
   _send(WidgetRef ref) {
     if (_textController.text.isEmpty) return;
@@ -101,8 +107,7 @@ class _ChatPanelState extends State<ChatPanel> {
     _textController.text = '';
   }
 
-  _newConversationButton(WidgetRef ref, ThemeData theme) =>
-      IconButton(
+  _newConversationButton(WidgetRef ref, ThemeData theme) => IconButton(
         icon: Icon(
           Icons.add,
           color: theme.colorScheme.onSurface,

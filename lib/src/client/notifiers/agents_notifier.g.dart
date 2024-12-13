@@ -6,7 +6,7 @@ part of 'agents_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$agentsNotifierHash() => r'9f7704aa310dffaf1f06609a8e4874c4d9958ceb';
+String _$agentsNotifierHash() => r'd6997ef4010f7d0ba6131ca522b2e14a542c4d8c';
 
 /// See also [AgentsNotifier].
 @ProviderFor(AgentsNotifier)
@@ -23,4 +23,4 @@ final agentsNotifierProvider =
 
 typedef _$AgentsNotifier = AutoDisposeAsyncNotifier<Agents>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

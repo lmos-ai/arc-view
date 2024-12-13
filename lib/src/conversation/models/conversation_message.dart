@@ -22,6 +22,10 @@ class ConversationMessage with _$ConversationMessage {
     String? agent,
   }) = _ConversationMessage;
 
+  const ConversationMessage._();
+
+  isBinary() => binaryData != null && binaryData!.isNotEmpty && content.isEmpty;
+
   factory ConversationMessage.fromJson(Map<String, Object?> json) =>
       _$ConversationMessageFromJson(json);
 }
@@ -42,4 +46,19 @@ class BinaryData with _$BinaryData {
 
   factory BinaryData.fromJson(Map<String, Object?> json) =>
       _$BinaryDataFromJson(json);
+}
+
+//
+// Extension on List of ConversationMessages.
+//
+extension MessagesExtension on List<ConversationMessage> {
+  List<ConversationMessage> filterLoading() {
+    final newMessages = <ConversationMessage>[];
+    for (final message in this) {
+      if (message.type != MessageType.loading) {
+        newMessages.add(message);
+      }
+    }
+    return newMessages;
+  }
 }
