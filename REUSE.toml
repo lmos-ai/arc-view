@@ -5,7 +5,7 @@
 version = 1
 SPDX-PackageName = "arc-view"
 SPDX-PackageSupplier = "Deutsche Telekom AG <opensource@telekom.de>"
-SPDX-PackageDownloadLocation = "https://github.com/lmos-ai/arc-view"
+SPDX-PackageDownloadLocation = "https://github.com/eclipse-lmos/arc-view"
 
 [[annotations]]
 path = ["**/.gitignore", ".editorconfig", "pubspec.lock", "README.md", "analysis_options.yaml", "ios/Runner/Assets.xcassets/LaunchImage.imageset/README.md"]

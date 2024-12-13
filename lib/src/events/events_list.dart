@@ -42,7 +42,7 @@ class EventsList extends ConsumerWidget {
           tip: 'Open Help page in a browser',
           onPressed: () {
             launchUrlString(
-                'https://lmos-ai.github.io/arc/docs/graphql#event-subscriptions');
+                'https://eclipse-lmos.github.io/arc/docs/graphql#event-subscriptions');
           },
         ),
       ],
