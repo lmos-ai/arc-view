@@ -7,7 +7,7 @@ part of 'agent_client_notifier.dart';
 // **************************************************************************
 
 String _$agentClientNotifierHash() =>
-    r'8a1f03ed0ec91f658367fff4727333d20bcec983';
+    r'e783b5d4e6b036ffc2c3c1b9f2d04c2693938b53';
 
 /// See also [AgentClientNotifier].
 @ProviderFor(AgentClientNotifier)
@@ -24,4 +24,4 @@ final agentClientNotifierProvider =
 
 typedef _$AgentClientNotifier = Notifier<OneAIClient>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, inference_failure_on_uninitialized_variable, inference_failure_on_function_return_type, inference_failure_on_untyped_parameter, deprecated_member_use_from_same_package
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

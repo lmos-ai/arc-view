@@ -23,7 +23,10 @@ class ChatMessageCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
-          chatMessage.content.txt.pad(16, 16, 32, 16),
+          if (chatMessage.isBinary())
+            'Loading transcript...'.txt.pad(16, 16, 32, 16),
+          if (!chatMessage.isBinary())
+            chatMessage.content.txt.pad(16, 16, 32, 16),
           Positioned(
             bottom: 0,
             right: 0,
