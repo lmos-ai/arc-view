@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'agent_events_notifier.dart';
+part of 'usecases_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$agentEventsNotifierHash() =>
-    r'40ee64e1ab46a0cc24fdba05d90cc8ca3065b946';
+String _$useCasesNotifierHash() => r'8b121338ed2fdc477fa4cc0d7e19dfc283fc3fd1';
 
-/// See also [AgentEventsNotifier].
-@ProviderFor(AgentEventsNotifier)
-final agentEventsNotifierProvider =
-    NotifierProvider<AgentEventsNotifier, List<AgentEvent>>.internal(
-  AgentEventsNotifier.new,
-  name: r'agentEventsNotifierProvider',
+/// See also [UseCasesNotifier].
+@ProviderFor(UseCasesNotifier)
+final useCasesNotifierProvider =
+    AsyncNotifierProvider<UseCasesNotifier, UseCases>.internal(
+  UseCasesNotifier.new,
+  name: r'useCasesNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$agentEventsNotifierHash,
+      : _$useCasesNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AgentEventsNotifier = Notifier<List<AgentEvent>>;
+typedef _$UseCasesNotifier = AsyncNotifier<UseCases>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
