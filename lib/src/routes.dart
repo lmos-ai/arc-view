@@ -9,6 +9,7 @@ import 'package:arc_view/src/events/events_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
 import 'package:arc_view/src/metrics/charts_screen.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';
+import 'package:arc_view/src/usecases/usecases_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -33,6 +34,10 @@ final appRoutes = GoRouter(
         GoRoute(
           path: '/settings',
           builder: (context, state) => const SettingsScreen(),
+        ),
+        GoRoute(
+          path: '/usecases',
+          builder: (context, state) => const UseCasesScreen(),
         ),
         GoRoute(
           path: '/events',

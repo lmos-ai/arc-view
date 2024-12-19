@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/dialogs/apply_usecase_dialog.dart';
+import 'package:arc_view/src/chat/notifiers/selected_usecase_notifier.dart';
 import 'package:arc_view/src/client/notifiers/agents_notifier.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
@@ -23,7 +25,33 @@ class ChatToolBar extends ConsumerWidget {
       return const SizedBox();
     }
 
+    final selectedUsecase = ref.watch(selectedUsecaseNotifierProvider);
+
     return [
+      Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: [
+          SecondaryButton(
+            description: 'Apply Use Cases',
+            onPressed: () {
+              showDialog(
+                  context: context, builder: (_) => ApplyUsecaseDialog());
+            },
+            icon: Icons.import_contacts,
+          ),
+          if (selectedUsecase != null) ...[
+            selectedUsecase.name.small.padByUnits(0, 2, 0, 0),
+            SecondaryButton(
+              description: 'Remove Use Case',
+              icon: Icons.close,
+              onPressed: () {
+                ref.read(selectedUsecaseNotifierProvider.notifier).remove();
+              },
+            )
+          ],
+        ].row(),
+      ),
+      Spacer(),
       Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Row(
@@ -60,7 +88,7 @@ class ChatToolBar extends ConsumerWidget {
           ],
         ),
       )
-    ].row(min: true).toRight();
+    ].row();
   }
 
   _agentAvailable(WidgetRef ref) {

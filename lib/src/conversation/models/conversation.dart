@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:math';
+
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
@@ -26,6 +28,19 @@ class Conversation with _$Conversation {
 
   Conversation add(List<ConversationMessage> newMessages) {
     return copyWith(messages: [...messages, ...newMessages]);
+  }
+
+  Conversation addSystem(List<SystemContextEntry> systemEntries) {
+    if (systemEntries.isEmpty) return this;
+    final keys = systemEntries.map((e) => e.key).toSet();
+    return copyWith(
+      systemContext: systemContext.copyWith(
+        entries: [
+          ...systemContext.entries.where((e) => !keys.contains(e.key)),
+          ...systemEntries
+        ],
+      ),
+    );
   }
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>

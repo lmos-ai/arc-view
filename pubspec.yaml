@@ -38,12 +38,12 @@ dependencies:
   intl: ^0.19.0
   state_notifier: ^1.0.0
   go_router: ^14.2.7
-  flutter_riverpod: ^3.0.0-dev.3
+  flutter_riverpod: ^2.6.1
   flutter_state_notifier: ^1.0.0
-  riverpod_annotation: ^3.0.0-dev.3
+  riverpod_annotation: ^2.6.1
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
-  flutter_animate: ^4.3.0
+  flutter_animate: ^4.5.2
   shared_preferences: ^2.2.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,7 +52,7 @@ dependencies:
   google_fonts: ^6.1.0
   http: ^1.1.0
   dio: ^5.3.3
-  graphql: ^5.2.0-beta.8
+  graphql: ^5.2.0-beta.10
   loading_animation_widget: ^1.2.1
   file_selector: ^1.0.3
   flutter_launcher_icons: ^0.14.1
@@ -70,9 +70,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  build_runner: ^2.4.6
-  riverpod_generator: ^3.0.0-dev.4
-  freezed: ^2.4.5
+  build_runner: ^2.4.14
+  riverpod_generator: ^2.6.3
+  freezed: ^2.5.7
   json_serializable: ^6.7.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
@@ -81,7 +81,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  riverpod_lint: ^3.0.0-dev.3
+  riverpod_lint: ^2.6.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -135,7 +135,7 @@ flutter:
   fonts:
     - family: RobotoMono
       fonts:
-        - asset: fonts/static/RobotoMono-Bold.ttf
+        - asset: fonts/static/RobotoMono-Regular.ttf
           weight: 700
 
 # flutter pub run flutter_launcher_icons
