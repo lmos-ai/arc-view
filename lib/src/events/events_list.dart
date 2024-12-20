@@ -11,7 +11,6 @@ import 'package:arc_view/src/events/event_row_item.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
 import 'package:arc_view/src/events/prompt_view.dart';
-import 'package:arc_view/src/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -20,9 +19,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 // State provider to manage the drawer state
 final filterDrawerProvider = StateProvider<bool>((ref) => false);
 
-// State provider to manage selected filters
-final selectedFiltersProvider = StateProvider<Map<String, List<String>>>(
-    (ref) => {'EventType': [], 'ModelName': [], 'AgentName': []});
+// State provider to manage available filters
+final availableFiltersProvider = StateProvider<Map<String, List<String>>>(
+    (ref) => {'EventType': [], 'Conversation': [], 'AgentName': []});
+
+//State Provider for filter group
+final eventTypeFilterProvider = StateProvider<List<String>>((ref) => []);
+final conversationFilterProvider = StateProvider<List<String>>((ref) => []);
+final agentNameFilterProvider = StateProvider<List<String>>((ref) => []);
 
 // Provider for sorting state (ASC or DESC)
 final selectedSortProvider = StateProvider<String>((ref) => 'DESC');
@@ -44,19 +48,20 @@ class EventsList extends ConsumerWidget {
     final isFilterDrawerOpen = ref.watch(filterDrawerProvider);
 
     final events = ref.watch(agentEventsNotifierProvider).where((e) {
-      return _handleEvents.contains(e.type);
+      return _handleEvents.contains(e.type) && applyFiltersAndSorting(e, ref);
     }).toList();
 
     // Schedule the filter update after the widget tree has been built
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateFilterProvider(ref, events);
+      _updateFilterProvider(ref);
     });
 
     return Stack(children: [
       events.isEmpty
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              //mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                _buildFilterAndSortSection(ref),
                 'No events'.small,
                 SmallLinkedText(
                   'Click here for details',
@@ -69,7 +74,7 @@ class EventsList extends ConsumerWidget {
               ],
             )
           : Column(children: [
-              _buildFilterAnsSortSection(ref),
+              _buildFilterAndSortSection(ref),
               Expanded(
                 child: ListView.builder(
                   padding: const EdgeInsets.all(16),
@@ -173,8 +178,57 @@ class EventsList extends ConsumerWidget {
     }
   }
 
+  bool applyFiltersAndSorting(AgentEvent e, WidgetRef ref) {
+    final selectedEventTypes = ref.watch(eventTypeFilterProvider);
+    final selectedConversations = ref.watch(conversationFilterProvider);
+    final selectedAgents = ref.watch(agentNameFilterProvider);
+    bool matchesEventType = selectedEventTypes.isEmpty ||
+        selectedEventTypes.contains(e.type);
+    bool matchesConversations = selectedConversations.isEmpty ||
+        selectedConversations.contains(e.conversationId);
+
+    //Agent is the part of payload to decode it
+    var agentName = json.decode(e.payload)['agent']?['name'] ?? '';
+    bool matchesAgentName = selectedAgents.isEmpty || selectedAgents.contains(agentName);
+    //To-DO Sorting
+
+    return matchesEventType && matchesConversations && matchesAgentName;
+  }
+
+  //Dynamically Update Filter Group Values
+  _updateFilterProvider(WidgetRef ref) {
+    //Get All Supported Events
+    final events = ref.watch(agentEventsNotifierProvider).where((e) {
+      return _handleEvents.contains(e.type);
+    }).toList();
+
+    // Extract unique values for each filter type
+    final eventTypes = events.map((e) => e.type).toSet().toList();
+   // Extract Conversations
+    final conversationNames =
+        events.map((e) => e.conversationId!!).toSet().toList();
+    //Extract Agent Name from payload
+    final List<String> agentNames = events
+        .map((e) {
+          // Decode the JSON payload and extract the agent name
+          var agentName = json.decode(e.payload)['agent']?['name'];
+          return agentName?.toString() ??
+              ''; // Return the name, which may be null
+        })
+        .where((name) => name.isNotEmpty) // Remove null values, if any
+        .toSet() // Ensure uniqueness
+        .toList();
+
+    // Update available filters (Dynamically Calculate)
+    ref.read(availableFiltersProvider.notifier).state = {
+      'EventType': eventTypes,
+      'Conversation': conversationNames,
+      'AgentName': agentNames,
+    };
+  }
+
   //Create Filter & Sort section placeholder
-  _buildFilterAnsSortSection(WidgetRef ref) {
+  _buildFilterAndSortSection(WidgetRef ref) {
     final currentSort = ref.watch(selectedSortProvider);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -208,18 +262,17 @@ class EventsList extends ConsumerWidget {
 
   //Create Custom Filter Drawer
   _buildFilterDrawer(BuildContext context, WidgetRef ref) {
-    final selectedFilters = ref.watch(selectedFiltersProvider);
     return Positioned(
       top: 0,
       left: 0,
       bottom: 0,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        width: 300, // Adjust the width of the drawer
+        width: 300,
         color: Theme.of(context).colorScheme.surface,
         child: Column(
           children: [
-            // Drawer Header with Close Icon
+            // Drawer Header
             Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -227,7 +280,6 @@ class EventsList extends ConsumerWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Back the Drawer
                   IconButton(
                     icon: Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () {
@@ -244,12 +296,10 @@ class EventsList extends ConsumerWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      // Clear all filters
-                      ref.read(selectedFiltersProvider.notifier).state = {
-                        'EventType': [],
-                        'ModelName': [],
-                        'AgentName': [],
-                      };
+                      // Clear all selected filters
+                      ref.read(eventTypeFilterProvider.notifier).state = [];
+                      ref.read(conversationFilterProvider.notifier).state = [];
+                      ref.read(agentNameFilterProvider.notifier).state = [];
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
@@ -262,64 +312,23 @@ class EventsList extends ConsumerWidget {
                 ],
               ),
             ),
-            // Filter Types and their Values
+            // Filter List
             Expanded(
               child: ListView(
-                children: selectedFilters.entries.map((entry) {
+                children:
+                    ref.watch(availableFiltersProvider).entries.map((entry) {
                   final filterType = entry.key;
                   final options = entry.value;
-
-                  return ExpansionTile(
-                    title: Text(filterType,
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-                    children: options.map((option) {
-                      final isSelected =
-                          selectedFilters[filterType]?.contains(option) ??
-                              false;
-
-                      return CheckboxListTile(
-                        title: Text(option),
-                        value: isSelected,
-                        onChanged: (bool? value) {
-                          // Update selected filters
-                          final updatedFilters = {...selectedFilters};
-                          final selectedValues = List<String>.from(
-                              updatedFilters[filterType] ?? []);
-
-                          if (value == true) {
-                            selectedValues.add(option); // Add selected value
-                          } else {
-                            selectedValues
-                                .remove(option); // Remove unselected value
-                          }
-
-                          updatedFilters[filterType] = selectedValues;
-                          ref.read(selectedFiltersProvider.notifier).state =
-                              updatedFilters;
-                        },
-                      );
-                    }).toList(),
+                  final selectedValues = ref.watch(
+                    filterType == 'EventType'
+                        ? eventTypeFilterProvider
+                        : filterType == 'Conversation'
+                            ? conversationFilterProvider
+                            : agentNameFilterProvider,
                   );
+                  return _buildFilterGroup(
+                      filterType, selectedValues, options, ref);
                 }).toList(),
-              ),
-            ),
-            // Action Buttons: Apply and Clear Filters
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      ref.read(filterDrawerProvider.notifier).state =
-                          false; // Close the drawer
-                      // Apply filters (implement filter logic as needed)
-                      print(
-                          'Filters applied: ${ref.read(selectedFiltersProvider)}');
-                    },
-                    child: Text('Apply Filters'),
-                  ),
-                ],
               ),
             ),
           ],
@@ -328,14 +337,44 @@ class EventsList extends ConsumerWidget {
     );
   }
 
-  _updateFilterProvider(WidgetRef ref, List<AgentEvent> events) {
-    //Get the unique event types from the filtered events
-     final eventTypes = events.map((e) => e.type).toSet().toList();
-     // Update the selected filters with the new EventType values
-     ref.read(selectedFiltersProvider.notifier).state = {
-       'EventType': eventTypes,
-       'ModelName': [],  // Reset ModelName filter (or you can dynamically update it as well)
-       'AgentName': [],  // Reset AgentName filter (or dynamically update it as needed)
-     };
+  Widget _buildFilterGroup(String filterType, List<String> selectedValues,
+      List<String> options, WidgetRef ref) {
+    return ExpansionTile(
+      title: Text(
+        filterType,
+        style: TextStyle(fontWeight: FontWeight.bold),
+      ),
+      children: options.map((option) {
+        final isSelected = selectedValues.contains(option);
+
+        return CheckboxListTile(
+          title: Text(option),
+          value: isSelected,
+          onChanged: (bool? value) {
+            final updatedValues = List<String>.from(selectedValues);
+            if (value == true) {
+              updatedValues.add(option);
+            } else {
+              updatedValues.remove(option);
+            }
+
+            switch (filterType) {
+              case 'EventType':
+                ref.read(eventTypeFilterProvider.notifier).state =
+                    updatedValues;
+                break;
+              case 'Conversation':
+                ref.read(conversationFilterProvider.notifier).state =
+                    updatedValues;
+                break;
+              case 'AgentName':
+                ref.read(agentNameFilterProvider.notifier).state =
+                    updatedValues;
+                break;
+            }
+          },
+        );
+      }).toList(),
+    );
   }
 }
