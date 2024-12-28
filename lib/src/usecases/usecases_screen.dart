@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/usecase_list.dart';
 import 'package:arc_view/src/usecases/usecase_panel.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,13 @@ class _UseCasesScreenState extends State<UseCasesScreen> {
     return Consumer(
       builder: (context, ref, _) => Scaffold(
           appBar: AppBar(
-            title: Text('Use Cases'),
+            title: 'Use Cases'.txt,
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              ref.read(useCasesNotifierProvider.notifier).newUseCase();
+            },
           ),
           body: Row(
             children: [

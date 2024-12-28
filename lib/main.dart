@@ -37,6 +37,6 @@ Future<void> main() async {
 }
 
 @riverpod
-SharedPreferences sharedPreferences(SharedPreferencesRef ref) {
+SharedPreferences sharedPreferences(Ref ref) {
   return preferences;
 }

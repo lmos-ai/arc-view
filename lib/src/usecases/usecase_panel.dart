@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,9 +30,9 @@ class _UseCasePanelState extends State<UseCasePanel> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final selectedCase =
+      final UseCase? selectedCase =
           ref.watch(useCasesNotifierProvider).valueOrNull?.selectedCase;
-      _textController.text = selectedCase.content ?? '';
+      _textController.text = selectedCase?.content ?? '';
 
       return Column(
         mainAxisSize: MainAxisSize.max,
@@ -39,7 +40,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              if (selectedCase != null) selectedCase?.name?.txt.pad(8, 8, 8, 8),
+              if (selectedCase != null) selectedCase.name.txt.pad(8, 8, 8, 8),
               Spacer(),
               SecondaryButton(
                 icon: Icons.code,

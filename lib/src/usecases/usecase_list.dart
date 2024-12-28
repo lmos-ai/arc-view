@@ -15,7 +15,7 @@ class UseCaseList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final useCases = ref.watch(useCasesNotifierProvider).valueOrNull;
-    if (useCases == null) {
+    if (useCases == null || useCases.cases.isEmpty) {
       return ''.txt.pad(4, 8, 4, 8);
     }
     return Column(
