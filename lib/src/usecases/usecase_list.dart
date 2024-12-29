@@ -22,11 +22,12 @@ class UseCaseList extends ConsumerWidget {
     }
     return Column(
       children: [
-        'Use Cases'.txt.padByUnits(1, 1, 1, 2).toLeft(),
+        // 'Use Cases'.txt.padByUnits(1, 1, 1, 2).toLeft(),
         ListView.builder(
           itemCount: useCases.cases.length,
           itemBuilder: (context, index) {
             return ListTile(
+              dense: true,
               title: useCases.cases[index].name.small,
               subtitle: DateFormat.Hm()
                   .add_yMd()

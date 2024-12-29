@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/usecases/add_usecases_button.dart';
+import 'package:arc_view/src/usecases/buttons/add_usecases_button.dart';
 import 'package:arc_view/src/usecases/usecase_list.dart';
 import 'package:arc_view/src/usecases/usecase_panel.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,7 @@ class UseCasesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: 'Use Cases'.txt.animate().fadeIn()),
-      floatingActionButton: AddUsecasesButton(),
+      floatingActionButton: AddUseCasesButton(),
       body: Row(
         children: [
           UseCasePanel().expand(),

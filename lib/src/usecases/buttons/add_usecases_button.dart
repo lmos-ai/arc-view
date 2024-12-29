@@ -13,8 +13,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
 
-class AddUsecasesButton extends ConsumerWidget {
-  const AddUsecasesButton({super.key});
+class AddUseCasesButton extends ConsumerWidget {
+  const AddUseCasesButton({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
