@@ -39,9 +39,11 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final newUseCase = UseCase(
-      name: name
-          .replaceAll(' ', '_')
-          .replaceAll(useCaseNameInvalidCharacters, ''),
+      name: name.isEmpty
+          ? 'usecases'
+          : name
+              .replaceAll(' ', '_')
+              .replaceAll(useCaseNameInvalidCharacters, ''),
       createdAt: DateTime.now(),
       content: useCaseTemplate,
     );
