@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:smiles/smiles.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 ///
 /// Dark Theme
@@ -27,9 +28,14 @@ final darkTheme = ThemeData(
     ),
     textTheme: TextTheme(
       bodySmall: TextStyle(
-        fontSize: 12.0,
-        color: Colors.white.withOpacity(0.4),
+        fontSize: 10.0,
+        color: Colors.white.withOpacity(0.6),
       ),
+      bodyMedium: TextStyle(fontSize: 12.0),
+      bodyLarge: TextStyle(fontSize: 14.0),
+      titleLarge: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(fontSize: 14.0),
+      titleMedium: TextStyle(fontSize: 16.0),
     ),
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,
@@ -49,8 +55,8 @@ final lightTheme = ThemeData(
       brightness: Brightness.light,
       seedColor: const Color.fromARGB(255, 171, 0, 111),
       secondaryContainer: const Color.fromARGB(255, 247, 247, 248),
-      onSurface: Colors.black.withOpacity(0.6),
-      outline: Colors.black.withOpacity(0.2),
+      onSurface: Colors.black,
+      outline: Colors.black,
       //surface: Colors.blue
       //background: Colors.black,
     ),
@@ -61,10 +67,12 @@ final lightTheme = ThemeData(
       indicatorColor: Colors.black.withOpacity(0.5),
     ),
     textTheme: TextTheme(
-      bodySmall: TextStyle(
-        fontSize: 12.0,
-        color: Colors.black.withOpacity(0.4),
-      ),
+      bodySmall: TextStyle(fontSize: 10.0),
+      bodyMedium: TextStyle(fontSize: 12.0),
+      bodyLarge: TextStyle(fontSize: 14.0),
+      titleLarge: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+      titleSmall: TextStyle(fontSize: 14.0),
+      titleMedium: TextStyle(fontSize: 16.0),
     ),
     useMaterial3: true,
     pageTransitionsTheme: _pageTransitionsTheme,

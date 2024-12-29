@@ -23,11 +23,13 @@ Map<String, dynamic> _$$UseCasesImplToJson(_$UseCasesImpl instance) =>
 _$UseCaseImpl _$$UseCaseImplFromJson(Map<String, dynamic> json) =>
     _$UseCaseImpl(
       name: json['name'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
       content: json['content'] as String,
     );
 
 Map<String, dynamic> _$$UseCaseImplToJson(_$UseCaseImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'createdAt': instance.createdAt.toIso8601String(),
       'content': instance.content,
     };

@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:smiles/smiles.dart';
 
 class UseCaseList extends ConsumerWidget {
@@ -26,13 +28,20 @@ class UseCaseList extends ConsumerWidget {
           itemBuilder: (context, index) {
             return ListTile(
               title: useCases.cases[index].name.small,
-              trailing: useCases.selected == index
-                  ? Icon(
-                      Icons.check,
-                      size: 14,
-                      color: context.colorScheme.primary,
-                    )
-                  : null,
+              subtitle: DateFormat.Hm()
+                  .add_yMd()
+                  .format(useCases.cases[index].createdAt)
+                  .small,
+              trailing: [
+                SecondaryButton(
+                    icon: Icons.delete,
+                    description: 'Delete Use Case',
+                    onPressed: () {
+                      ref
+                          .read(useCasesNotifierProvider.notifier)
+                          .deleteUseCaseAt(index);
+                    }),
+              ].row(min: true),
               onTap: () {
                 ref.read(useCasesNotifierProvider.notifier).setSelected(index);
               },

@@ -9,6 +9,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'use_cases.freezed.dart';
 part 'use_cases.g.dart';
 
+/// The characters that are not allowed in a use case name.
+final useCaseNameInvalidCharacters = RegExp(r'[^a-zA-Z0-9_-]');
+
+/// A collection of use cases where one use case can be selected.
 @freezed
 class UseCases with _$UseCases {
   factory UseCases({
@@ -18,7 +22,7 @@ class UseCases with _$UseCases {
 
   UseCases._();
 
-  get selectedCase => cases[selected];
+  UseCase? get selectedCase => (cases.isEmpty) ? null : cases[selected];
 
   factory UseCases.fromJson(Map<String, dynamic> json) =>
       _$UseCasesFromJson(json);
@@ -28,7 +32,7 @@ class UseCases with _$UseCases {
 class UseCase with _$UseCase {
   factory UseCase({
     required String name,
-    required DateTime date,
+    required DateTime createdAt,
     required String content,
   }) = _UseCase;
 

@@ -43,7 +43,6 @@ class _InputDialogState extends State<TextInputDialog> {
           child: const Text('OK'),
           onPressed: () {
             widget.onConfirm(_textController.text);
-
             Navigator.of(context).pop();
           },
         ),

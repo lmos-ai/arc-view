@@ -6,10 +6,14 @@
 
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/repositories/usecase_repository.dart';
+import 'package:arc_view/src/usecases/usecase_template.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecases_notifier.g.dart';
 
+///
+/// Manages the creation and editing of Use Cases files.
+///
 @riverpod
 class UseCasesNotifier extends _$UseCasesNotifier {
   @override
@@ -27,29 +31,59 @@ class UseCasesNotifier extends _$UseCasesNotifier {
 
   setSelected(int index) {
     final useCases = state.valueOrNull;
-    if (useCases != null) {
-      state = AsyncData(useCases.copyWith(selected: index));
-    }
+    if (useCases == null) return;
+    state = AsyncData(useCases.copyWith(selected: index));
   }
 
-  void newUseCase() {
+  newUseCase(String name) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final newUseCase = UseCase(
-      name: 'New Use Case',
-      date: DateTime.now(),
-      content: '''
-      ### Usecase: New Use Case
-      #### Description
-      Add description here.
-
-      #### Solution 
-      Add solution here.
-
-      ----
-    ''',
+      name: name
+          .replaceAll(' ', '_')
+          .replaceAll(useCaseNameInvalidCharacters, ''),
+      createdAt: DateTime.now(),
+      content: useCaseTemplate,
     );
-    state =
-        AsyncData(useCases.copyWith(cases: [newUseCase, ...useCases.cases]));
+    _update([newUseCase, ...useCases.cases]);
+  }
+
+  deleteUseCaseAt(int index) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final toRemove = useCases.cases[index];
+    _update(useCases.cases.where((e) => e != toRemove).toList());
+  }
+
+  addUseCase() {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final selected = useCases.selectedCase;
+    if (selected == null) return;
+
+    final updatedUseCase =
+        selected.copyWith(content: selected.content + useCaseTemplate);
+    _update(useCases.cases.map((e) {
+      return e == selected ? updatedUseCase : e;
+    }).toList());
+  }
+
+  updateSelected(String text) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final selected = useCases.selectedCase;
+    if (selected == null) return;
+
+    final updatedUseCase = selected.copyWith(content: text);
+    _update(useCases.cases.map((e) {
+      return e == selected ? updatedUseCase : e;
+    }).toList());
+  }
+
+  _update(List<UseCase> updatedCases) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    state = AsyncData(useCases.copyWith(cases: updatedCases));
+    save();
   }
 }
