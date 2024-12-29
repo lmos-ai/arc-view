@@ -28,13 +28,10 @@ final eventTypeFilterProvider = StateProvider<List<String>>((ref) => []);
 final conversationFilterProvider = StateProvider<List<String>>((ref) => []);
 final agentNameFilterProvider = StateProvider<List<String>>((ref) => []);
 
-// Provider for sorting state (ASC or DESC)
-final selectedSortProvider = StateProvider<String>((ref) => 'DESC');
-
 class EventsList extends ConsumerWidget {
-  EventsList({super.key});
+  const EventsList({super.key});
 
-  final _handleEvents = [
+  static final handleEvents = [
     'AgentFinishedEvent',
     'LLMFinishedEvent',
     'LLMFunctionCalledEvent',
@@ -48,7 +45,7 @@ class EventsList extends ConsumerWidget {
     final isFilterDrawerOpen = ref.watch(filterDrawerProvider);
 
     final events = ref.watch(agentEventsNotifierProvider).where((e) {
-      return _handleEvents.contains(e.type) && applyFiltersAndSorting(e, ref);
+      return handleEvents.contains(e.type) && applyFiltersAndSorting(e, ref);
     }).toList();
 
     // Schedule the filter update after the widget tree has been built
@@ -56,63 +53,63 @@ class EventsList extends ConsumerWidget {
       _updateFilterProvider(ref);
     });
 
-    return Stack(children: [
-      events.isEmpty
-          ? Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _buildFilterAndSortSection(ref),
-                'No events'.small,
-                SmallLinkedText(
-                  'Click here for details',
-                  tip: 'Open Help page in a browser',
-                  onPressed: () {
-                    launchUrlString(
-                        'https://lmos-ai.github.io/arc/docs/spring/graphql#event-subscriptions');
-                  },
-                ),
-              ],
-            )
-          : Column(children: [
-              _buildFilterAndSortSection(ref),
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    final event = events[index];
-                    final json =
-                        jsonDecode(event.payload) as Map<String, dynamic>;
-                    final contextLabel = _getEventLabel(json);
+    return Stack(alignment: Alignment.topLeft, children: [
+      Positioned.fill(
+          child: events.isEmpty
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    'No events'.small,
+                    SmallLinkedText(
+                      'Click here for details',
+                      tip: 'Open Help page in a browser',
+                      onPressed: () {
+                        launchUrlString(
+                            'https://lmos-ai.github.io/arc/docs/spring/graphql#event-subscriptions');
+                      },
+                    ),
+                  ],
+                )
+              : Column(children: [
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: events.length,
+                      itemBuilder: (context, index) {
+                        final event = events[index];
+                        final json =
+                            jsonDecode(event.payload) as Map<String, dynamic>;
+                        final contextLabel = _getEventLabel(json);
 
-                    return Card(
-                      elevation: 0,
-                      child: ExpansionTile(
-                        expandedAlignment: Alignment.topLeft,
-                        childrenPadding:
-                            const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                        title: EventRowItem(event: event, json: json),
-                        subtitle: [
-                          SmallText(contextLabel),
-                          Spacer(),
-                          SmallText(json['duration'] != null
-                              ? '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'
-                              : ''),
-                        ].row(),
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: _transformEvent(event.type, context, json)
-                                .toList(),
+                        return Card(
+                          elevation: 0,
+                          child: ExpansionTile(
+                            expandedAlignment: Alignment.topLeft,
+                            childrenPadding:
+                                const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            title: EventRowItem(event: event, json: json),
+                            subtitle: [
+                              SmallText(contextLabel),
+                              Spacer(),
+                              SmallText(json['duration'] != null
+                                  ? '${(json['duration'] as double?)?.toStringAsPrecision(3)} seconds'
+                                  : ''),
+                            ].row(),
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:
+                                    _transformEvent(event.type, context, json)
+                                        .toList(),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              )
-            ]),
-      // Custom Filter Drawer
+                        );
+                      },
+                    ),
+                  )
+                ])),
+      //Custom Filter Drawer
       if (isFilterDrawerOpen) _buildFilterDrawer(context, ref)
     ]);
   }
@@ -178,18 +175,19 @@ class EventsList extends ConsumerWidget {
     }
   }
 
-  bool applyFiltersAndSorting(AgentEvent e, WidgetRef ref) {
+  static bool applyFiltersAndSorting(AgentEvent e, WidgetRef ref) {
     final selectedEventTypes = ref.watch(eventTypeFilterProvider);
     final selectedConversations = ref.watch(conversationFilterProvider);
     final selectedAgents = ref.watch(agentNameFilterProvider);
-    bool matchesEventType = selectedEventTypes.isEmpty ||
-        selectedEventTypes.contains(e.type);
+    bool matchesEventType =
+        selectedEventTypes.isEmpty || selectedEventTypes.contains(e.type);
     bool matchesConversations = selectedConversations.isEmpty ||
         selectedConversations.contains(e.conversationId);
 
     //Agent is the part of payload to decode it
     var agentName = json.decode(e.payload)['agent']?['name'] ?? '';
-    bool matchesAgentName = selectedAgents.isEmpty || selectedAgents.contains(agentName);
+    bool matchesAgentName =
+        selectedAgents.isEmpty || selectedAgents.contains(agentName);
     //To-DO Sorting
 
     return matchesEventType && matchesConversations && matchesAgentName;
@@ -199,12 +197,12 @@ class EventsList extends ConsumerWidget {
   _updateFilterProvider(WidgetRef ref) {
     //Get All Supported Events
     final events = ref.watch(agentEventsNotifierProvider).where((e) {
-      return _handleEvents.contains(e.type);
+      return handleEvents.contains(e.type);
     }).toList();
 
     // Extract unique values for each filter type
     final eventTypes = events.map((e) => e.type).toSet().toList();
-   // Extract Conversations
+    // Extract Conversations
     final conversationNames =
         events.map((e) => e.conversationId!!).toSet().toList();
     //Extract Agent Name from payload
@@ -227,48 +225,15 @@ class EventsList extends ConsumerWidget {
     };
   }
 
-  //Create Filter & Sort section placeholder
-  _buildFilterAndSortSection(WidgetRef ref) {
-    final currentSort = ref.watch(selectedSortProvider);
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Filter Button
-          IconButton(
-            icon: Icon(Icons.filter_alt),
-            onPressed: () {
-              ref.read(filterDrawerProvider.notifier).state =
-                  !ref.watch(filterDrawerProvider);
-            },
-          ),
-          // Sort Button
-          IconButton(
-            icon: Icon(currentSort == 'DESC'
-                ? Icons.arrow_circle_down
-                : Icons.arrow_circle_up),
-            onPressed: () {
-              // Toggle between ASC and DESC
-              ref.read(selectedSortProvider.notifier).state =
-                  currentSort == 'ASC' ? 'DESC' : 'ASC';
-            },
-            tooltip: 'Sort: $currentSort',
-          )
-        ],
-      ),
-    );
-  }
-
   //Create Custom Filter Drawer
   _buildFilterDrawer(BuildContext context, WidgetRef ref) {
     return Positioned(
       top: 0,
       left: 0,
       bottom: 0,
+      width: 300,
       child: AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        width: 300,
         color: Theme.of(context).colorScheme.surface,
         child: Column(
           children: [
