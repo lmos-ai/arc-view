@@ -65,7 +65,7 @@ class EventsList extends ConsumerWidget {
                       tip: 'Open Help page in a browser',
                       onPressed: () {
                         launchUrlString(
-                            'https://lmos-ai.github.io/arc/docs/spring/graphql#event-subscriptions');
+                            'https://eclipse.dev/lmos/docs/arc/spring/graphql#event-subscriptions');
                       },
                     ),
                   ],
@@ -85,8 +85,7 @@ class EventsList extends ConsumerWidget {
                           elevation: 0,
                           child: ExpansionTile(
                             expandedAlignment: Alignment.topLeft,
-                            childrenPadding:
-                                const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                             title: EventRowItem(event: event, json: json),
                             subtitle: [
                               SmallText(contextLabel),
@@ -99,8 +98,7 @@ class EventsList extends ConsumerWidget {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children:
-                                    _transformEvent(event.type, context, json)
-                                        .toList(),
+                                    _transformEvent(event.type, context, json).toList(),
                               ),
                             ],
                           ),

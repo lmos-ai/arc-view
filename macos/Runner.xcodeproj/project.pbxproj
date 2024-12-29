@@ -589,7 +589,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.ancf.lmos.arc.arcView;
+				PRODUCT_BUNDLE_IDENTIFIER = org.eclipse.lmos.arc.arcView;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
@@ -732,7 +732,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.6.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.ancf.lmos.arc.arcView;
+				PRODUCT_BUNDLE_IDENTIFIER = org.eclipse.lmos.arc.arcView;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -764,7 +764,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.6.0;
 				ONLY_ACTIVE_ARCH = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = ai.ancf.lmos.arc.arcView;
+				PRODUCT_BUNDLE_IDENTIFIER = org.eclipse.lmos.arc.arcView;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 			};
