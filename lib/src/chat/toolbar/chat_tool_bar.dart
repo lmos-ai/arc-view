@@ -11,7 +11,6 @@ import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart'
 import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
-import 'package:arc_view/src/usecases/usecase_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -40,8 +39,16 @@ class ChatToolBar extends ConsumerWidget {
             },
             icon: Icons.import_contacts,
           ),
-          if (selectedUsecase != null)
+          if (selectedUsecase != null) ...[
             selectedUsecase.name.small.padByUnits(0, 2, 0, 0),
+            SecondaryButton(
+              description: 'Remove Use Case',
+              icon: Icons.close,
+              onPressed: () {
+                ref.read(selectedUsecaseNotifierProvider.notifier).remove();
+              },
+            )
+          ],
         ].row(),
       ),
       Spacer(),

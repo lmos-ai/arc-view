@@ -12,7 +12,6 @@ import 'package:arc_view/src/settings/context_field.dart';
 import 'package:arc_view/src/settings/notifiers/settings_notifier.dart';
 import 'package:arc_view/src/theme_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
 
@@ -33,7 +32,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(
-        appBar: AppBar(title: 'Settings'.txt.animate().fadeIn()),
+        appBar: AppBar(title: 'Settings'.txt),
         floatingActionButton: Consumer(builder: (context, ref, _) {
           final changed = ref.watchSettingsChanged();
 
@@ -59,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         ref.read(themeNotifierProvider.notifier).toggle();
                       }).pad(8, 8, 8, 8),
-                  '1.9.0'.txt.pad(8, 8, 8, 8),
+                  '1.10.0'.txt.pad(8, 8, 8, 8),
                   'Licenses'.onPressed(() {
                     showLicensePage(context: context);
                   }).pad(8, 8, 8, 8),

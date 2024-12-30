@@ -9,7 +9,6 @@ import 'package:arc_view/src/chat/right_panel.dart';
 import 'package:arc_view/src/chat/toolbar/tool_bar.dart';
 import 'package:arc_view/src/layout/adaptive_scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
 
@@ -50,7 +49,7 @@ class _ChatScreenState extends State<ChatScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const VGap(),
-                const ToolBar().animate().fadeIn(),
+                const ToolBar(),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: bigScreen

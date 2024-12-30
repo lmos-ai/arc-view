@@ -33,7 +33,10 @@ class ApplyUsecaseDialog extends ConsumerWidget {
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          'Send custom use cases to Agent. Agent must support the feature.'.txt,
+          'Send custom use cases to Agent. Agent must support the feature.'
+              .txt
+              .padByUnits(0, 0, 1, 0),
+          Divider(),
           _buildList(context, ref)?.expand() ??
               'No use cases defined'.small.padByUnits(4, 0, 0, 0),
         ],
@@ -47,13 +50,15 @@ class ApplyUsecaseDialog extends ConsumerWidget {
       return null;
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListView.builder(
           itemCount: useCases.cases.length,
           itemBuilder: (context, index) {
             return ListTile(
-              minLeadingWidth: 4,
               dense: true,
+              contentPadding: EdgeInsets.all(0),
+              leading: Icon(Icons.circle_outlined, size: 12),
               title: useCases.cases[index].name.txt,
               subtitle: DateFormat.Hm()
                   .add_yMd()

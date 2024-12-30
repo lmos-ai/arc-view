@@ -20,4 +20,8 @@ class SelectedUsecaseNotifier extends _$SelectedUsecaseNotifier {
   setSelected(UseCase? useCase) {
     state = useCase;
   }
+
+  remove() {
+    state = null;
+  }
 }

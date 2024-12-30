@@ -8,7 +8,6 @@ import 'package:arc_view/src/usecases/buttons/add_usecases_button.dart';
 import 'package:arc_view/src/usecases/usecase_list.dart';
 import 'package:arc_view/src/usecases/usecase_panel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:smiles/smiles.dart';
 
 ///
@@ -20,7 +19,7 @@ class UseCasesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: 'Use Cases'.txt.animate().fadeIn()),
+      appBar: AppBar(title: 'Use Cases'.txt),
       floatingActionButton: AddUseCasesButton(),
       body: Row(
         children: [

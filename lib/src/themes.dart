@@ -6,7 +6,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:smiles/smiles.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 
 ///
 /// Dark Theme
@@ -51,14 +50,53 @@ final darkTheme = ThemeData(
 final lightTheme = ThemeData(
     brightness: Brightness.light,
     fontFamily: 'RobotoMono',
-    colorScheme: ColorScheme.fromSeed(
+    colorScheme: ColorScheme(
       brightness: Brightness.light,
-      seedColor: const Color.fromARGB(255, 171, 0, 111),
-      secondaryContainer: const Color.fromARGB(255, 247, 247, 248),
-      onSurface: Colors.black,
-      outline: Colors.black,
-      //surface: Colors.blue
-      //background: Colors.black,
+      primary: Color(4278216822),
+      surfaceTint: Color(4278216822),
+      onPrimary: Color(4294967295),
+      primaryContainer: Color(4288737279),
+      onPrimaryContainer: Color(4278198053),
+      secondary: Color(4283064935),
+      onSecondary: Color(4294967295),
+      secondaryContainer: Color(4291684333),
+      onSecondaryContainer: Color(4278525731),
+      tertiary: Color(4283719038),
+      onTertiary: Color(4294967295),
+      tertiaryContainer: Color(4292600319),
+      onTertiaryContainer: Color(4279245367),
+      error: Color(4290386458),
+      onError: Color(4294967295),
+      errorContainer: Color(4294957782),
+      onErrorContainer: Color(4282449922),
+      surface: Color(4294310652),
+      onSurface: Color(4279704862),
+      onSurfaceVariant: Color(4282337354),
+      outline: Color(4285495675),
+      outlineVariant: Color(4290758858),
+      shadow: Color(4278190080),
+      scrim: Color(4278190080),
+      inverseSurface: Color(4281020723),
+      inversePrimary: Color(4286764003),
+      primaryFixed: Color(4288737279),
+      onPrimaryFixed: Color(4278198053),
+      primaryFixedDim: Color(4286764003),
+      onPrimaryFixedVariant: Color(4278210137),
+      secondaryFixed: Color(4291684333),
+      onSecondaryFixed: Color(4278525731),
+      secondaryFixedDim: Color(4289842129),
+      onSecondaryFixedVariant: Color(4281551695),
+      tertiaryFixed: Color(4292600319),
+      onTertiaryFixed: Color(4279245367),
+      tertiaryFixedDim: Color(4290561515),
+      onTertiaryFixedVariant: Color(4282140261),
+      surfaceDim: Color(4292205532),
+      surfaceBright: Color(4294310652),
+      surfaceContainerLowest: Color(4294967295),
+      surfaceContainerLow: Color(4293916150),
+      surfaceContainer: Color(4293521392),
+      surfaceContainerHigh: Color(4293126635),
+      surfaceContainerHighest: Color(4292797413),
     ),
     tabBarTheme: TabBarTheme(
       labelColor: Colors.black.withOpacity(0.5),
