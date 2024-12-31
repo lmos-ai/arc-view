@@ -21,7 +21,7 @@ class ChatToolBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (!_agentAvailable(ref) != true) {
+    if (_agentAvailable(ref) != true) {
       return const SizedBox();
     }
 

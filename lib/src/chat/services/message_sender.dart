@@ -10,6 +10,7 @@ import 'package:arc_view/src/chat/chat_list.dart';
 import 'package:arc_view/src/chat/notifiers/selected_usecase_notifier.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/prompts/notifiers/current_prompt_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,11 @@ class MessageSender {
 
   sendUserMessage(String message) {
     if (message.isEmpty) return;
+    ref.read(currentPromptNotifierProvider.notifier).setPrompt(message);
     final selectedUseCase = ref.read(selectedUsecaseNotifierProvider);
-    ref.read(conversationsNotifierProvider.notifier).addUserMessage(message, selectedUseCase);
+    ref
+        .read(conversationsNotifierProvider.notifier)
+        .addUserMessage(message, useCase: selectedUseCase);
     ref.read(promptHistoryNotifierProvider.notifier).add(message);
     ref.read(currentPromptNotifierProvider.notifier).clear();
   }

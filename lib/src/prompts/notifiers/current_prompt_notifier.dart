@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/prompts/repositories/history_repository.dart';
+import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'current_prompt_notifier.g.dart';
