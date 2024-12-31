@@ -4,11 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/buttons/new_conversation_button.dart';
 import 'package:arc_view/src/chat/buttons/send_message_button.dart';
+import 'package:arc_view/src/chat/buttons/show_previous_prompts_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
+import 'package:arc_view/src/chat/notifiers/selected_usecase_notifier.dart';
+import 'package:arc_view/src/chat/services/message_sender.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/prompts/notifiers/current_prompt_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +47,6 @@ class _ChatPanelState extends State<ChatPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Consumer(
       builder: (context, ref, child) {
         return Column(
@@ -54,10 +58,10 @@ class _ChatPanelState extends State<ChatPanel> {
               margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: Row(
                 children: [
-                  _newConversationButton(ref, theme),
-                  _previousPromptButton(ref, theme),
+                  NewConversationButton(),
+                  PreviousPromptButton(),
                   _chatField(ref),
-                  _sendButton(ref),
+                  SendMessageButton(onPressed: () => _send(ref)),
                 ],
               ).padding(),
             ),
@@ -67,8 +71,7 @@ class _ChatPanelState extends State<ChatPanel> {
     );
   }
 
-  _chatField(WidgetRef ref) =>
-      Expanded(
+  _chatField(WidgetRef ref) => Expanded(
         child: Consumer(builder: (ctx, ref, child) {
           _textController.text = ref.watch(currentPromptNotifierProvider);
           return ChatField(
@@ -78,38 +81,7 @@ class _ChatPanelState extends State<ChatPanel> {
         }),
       );
 
-  _previousPromptButton(WidgetRef ref, ThemeData theme) =>
-      IconButton(
-          icon: Icon(
-            Icons.line_weight_sharp,
-            color: theme.colorScheme.onSurface,
-          ),
-          onPressed: () {
-            //ref.read(currentPromptControllerProvider.notifier).rotate();
-            showPromptList(context);
-          }).tip('Show previous prompts');
-
-  _sendButton(WidgetRef ref) => SendMessageButton(onPressed: () => _send(ref));
-
   _send(WidgetRef ref) {
-    if (_textController.text.isEmpty) return;
-    ref
-        .read(conversationsNotifierProvider.notifier)
-        .addUserMessage(_textController.text);
-    ref.read(promptHistoryNotifierProvider.notifier).add(_textController.text);
-    ref.read(currentPromptNotifierProvider.notifier).clear();
-    _textController.text = '';
+    ref.read(messageSenderProvider).sendUserMessage(_textController.text);
   }
-
-  _newConversationButton(WidgetRef ref, ThemeData theme) =>
-      IconButton(
-        icon: Icon(
-          Icons.add,
-          color: theme.colorScheme.onSurface,
-        ),
-        onPressed: () {
-          ref.read(conversationsNotifierProvider.notifier).newConversation();
-          ref.read(currentPromptNotifierProvider.notifier).clear();
-        },
-      ).tip('New Conversation');
 }

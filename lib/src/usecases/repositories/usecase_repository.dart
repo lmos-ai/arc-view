@@ -28,7 +28,7 @@ class UseCaseRepository {
 
   final SharedPreferences _preferences;
 
-  List<UseCase> loadUseCases() {
+  List<UseCase> fetch() {
     final useCases = _preferences.getStringList('usecases')?.map((e) {
       return UseCase.fromJson(jsonDecode(e));
     }).toList();

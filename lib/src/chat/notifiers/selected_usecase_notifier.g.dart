@@ -7,7 +7,7 @@ part of 'selected_usecase_notifier.dart';
 // **************************************************************************
 
 String _$selectedUsecaseNotifierHash() =>
-    r'f9d796bc75056257df539acfc8b500c2996c47b6';
+    r'946806c87fa394ec3087027f4c62325fc4324e7e';
 
 ///
 /// Holds the use case that has been selected and is sent to the Agent.

@@ -19,7 +19,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
   @override
   Future<UseCases> build() async {
     final useCaseRepository = ref.read(useCaseRepositoryProvider);
-    return UseCases(selected: 0, cases: useCaseRepository.loadUseCases());
+    return UseCases(selected: 0, cases: useCaseRepository.fetch());
   }
 
   save() {
