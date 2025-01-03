@@ -49,9 +49,12 @@ class _SwitchTabs extends ConsumerWidget {
         conversationsNotifierProvider.select((e) => e.conversations.length));
 
     //Events count
-    final eventsCount = ref.watch(agentEventsNotifierProvider).where((e) {
-      return EventsList.handleEvents.contains(e.type) && EventsList.applyFiltersAndSorting(e, ref);
-    }).length;
+    final eventsCount = ref.watch(agentEventsNotifierProvider.select(
+      (list) => list.where((e) {
+        return EventsList.handleEvents.contains(e.type) &&
+            EventsList.applyFiltersAndSorting(e, ref);
+      }).length,
+    ));
 
     return Card(
         color: context.colorScheme.surfaceContainer,
