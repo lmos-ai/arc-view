@@ -92,6 +92,9 @@ class MarkDownCodeBuilder extends MarkdownElementBuilder {
 
     return Builder(
       builder: (context) {
+        if(!hasMultipleLines) {
+          return Text(codeContent);
+        }
         return Container(
           margin: const EdgeInsets.only(top: 8, bottom: 8),
           // Space around the code block
