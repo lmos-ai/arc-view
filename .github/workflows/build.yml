@@ -20,4 +20,4 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Build for web
-        run: flutter build web
+        run: flutter build web --wasm --base-href=/chat/
