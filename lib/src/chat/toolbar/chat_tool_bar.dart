@@ -40,7 +40,7 @@ class ChatToolBar extends ConsumerWidget {
             icon: Icons.import_contacts,
           ),
           if (selectedUsecase != null) ...[
-            selectedUsecase.name.small.padByUnits(0, 2, 0, 0),
+            selectedUsecase.small.padByUnits(0, 2, 0, 0),
             SecondaryButton(
               description: 'Remove Use Case',
               icon: Icons.close,

@@ -13,6 +13,7 @@ import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart'
 import 'package:arc_view/src/prompts/notifiers/current_prompt_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
 import 'package:arc_view/src/prompts/prompt_list.dart';
+import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -33,10 +34,13 @@ class MessageSender {
 
   final Ref ref;
 
-  sendUserMessage(String message) {
+  sendUserMessage(String message) async {
     if (message.isEmpty) return;
     ref.read(currentPromptNotifierProvider.notifier).setPrompt(message);
-    final selectedUseCase = ref.read(selectedUsecaseNotifierProvider);
+    final selectedUseCaseName = ref.read(selectedUsecaseNotifierProvider);
+    final useCases = await ref.read(useCasesNotifierProvider.future);
+    final selectedUseCase = useCases.cases
+        .firstWhere((useCase) => useCase.name == selectedUseCaseName);
     ref
         .read(conversationsNotifierProvider.notifier)
         .addUserMessage(message, useCase: selectedUseCase);

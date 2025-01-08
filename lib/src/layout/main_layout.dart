@@ -29,7 +29,6 @@ class _MainLayoutState extends State<MainLayout> {
           NavigationRail(
             backgroundColor: context.colorScheme.surfaceContainer,
             selectedIndex: _selectedIndex,
-            labelType: NavigationRailLabelType.all,
             onDestinationSelected: (int index) {
               _selectedIndex = index;
               switch (index) {

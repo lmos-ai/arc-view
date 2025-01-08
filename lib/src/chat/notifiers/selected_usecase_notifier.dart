@@ -12,13 +12,13 @@ part 'selected_usecase_notifier.g.dart';
 ///
 /// Holds the use case that has been selected and is sent to the Agent.
 ///
-@riverpod
+@Riverpod(keepAlive: true)
 class SelectedUsecaseNotifier extends _$SelectedUsecaseNotifier {
   @override
-  UseCase? build() => null;
+  String? build() => null;
 
   setSelected(UseCase? useCase) {
-    state = useCase;
+    state = useCase?.name;
   }
 
   remove() {
