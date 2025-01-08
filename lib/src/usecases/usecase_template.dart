@@ -8,7 +8,7 @@
 /// Template for a new use case definition.
 ///
 const useCaseTemplate = '''
-### Usecase: New Use Case
+### UseCase: New Use Case
 #### Description
 Add description here.
 
