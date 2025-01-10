@@ -118,14 +118,14 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     state = state.addAsCurrent(conversation);
   }
 
-  replay() async {
+  replay({UseCase? useCase}) async {
     final conversation = state.current;
     newConversation();
     for (final msg in conversation.messages) {
       if (msg.type == MessageType.loading || msg.type == MessageType.bot) {
         continue;
       }
-      await addUserMessage(msg.content);
+      await addUserMessage(msg.content, useCase: useCase);
     }
   }
 

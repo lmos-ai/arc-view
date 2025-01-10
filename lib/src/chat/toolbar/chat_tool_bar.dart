@@ -11,6 +11,7 @@ import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart'
 import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -59,8 +60,16 @@ class ChatToolBar extends ConsumerWidget {
           children: [
             SecondaryButton(
               description: 'Replay conversation',
-              onPressed: () {
-                ref.read(conversationsNotifierProvider.notifier).replay();
+              onPressed: () async {
+                final selectedUseCaseName =
+                    ref.read(selectedUsecaseNotifierProvider);
+                final useCases =
+                    await ref.read(useCasesNotifierProvider.future);
+                final selectedUseCase = useCases.cases.firstWhere(
+                    (useCase) => useCase.name == selectedUseCaseName);
+                ref
+                    .read(conversationsNotifierProvider.notifier)
+                    .replay(useCase: selectedUseCase);
               },
               icon: Icons.replay_circle_filled_sharp,
             ),
