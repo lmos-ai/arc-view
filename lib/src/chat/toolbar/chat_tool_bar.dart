@@ -61,12 +61,13 @@ class ChatToolBar extends ConsumerWidget {
             SecondaryButton(
               description: 'Replay conversation',
               onPressed: () async {
-                final selectedUseCaseName =
-                    ref.read(selectedUsecaseNotifierProvider);
-                final useCases =
-                    await ref.read(useCasesNotifierProvider.future);
-                final selectedUseCase = useCases.cases.firstWhere(
-                    (useCase) => useCase.name == selectedUseCaseName);
+                final selectedUseCaseName = ref.read(selectedUsecaseNotifierProvider);
+                final useCases = await ref.read(useCasesNotifierProvider.future);
+                final selectedUseCase =
+                useCases.cases.isEmpty || selectedUseCaseName == null
+                    ? null
+                    : useCases.cases
+                    .firstWhere((useCase) => useCase.name == selectedUseCaseName);
                 ref
                     .read(conversationsNotifierProvider.notifier)
                     .replay(useCase: selectedUseCase);
