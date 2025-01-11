@@ -7,9 +7,14 @@
 import 'dart:async';
 
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/core/strings.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
+import 'package:arc_view/src/usecases/search/highlight_text.dart';
+import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
+import 'package:arc_view/src/usecases/search/search_panel.dart';
 import 'package:arc_view/src/usecases/services/usecase_exporter.dart';
+import 'package:arc_view/src/usecases/usecase_syntax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -27,7 +32,7 @@ class UseCasePanel extends StatefulWidget {
 
 class _UseCasePanelState extends State<UseCasePanel> {
   bool _showSource = false;
-  final _textController = TextEditingController();
+  final _textController = StyleableTextFieldController();
   Timer? _debounce;
 
   @override
@@ -35,6 +40,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
     return Consumer(builder: (context, ref, child) {
       final UseCase? selectedCase =
           ref.watch(useCasesNotifierProvider).valueOrNull?.selectedCase;
+
       if (_textController.text != selectedCase?.content) {
         _textController.text = selectedCase?.content ?? '';
       }
@@ -42,6 +48,15 @@ class _UseCasePanelState extends State<UseCasePanel> {
       if (selectedCase == null) {
         return 'Add new Use Cases. These are stored locally.'.small.center();
       }
+
+      final searchTerm = ref.watch(searchNotifierProvider).nullIfEmpty();
+      if (searchTerm != null) {
+        _textController.highlightText(
+            searchTerm, context.colorScheme.secondary);
+      } else {
+        _textController.clearHighlights();
+      }
+      _textController.colorText(useCaseSyntax);
 
       return Column(
         mainAxisSize: MainAxisSize.max,
@@ -51,6 +66,11 @@ class _UseCasePanelState extends State<UseCasePanel> {
             children: [
               selectedCase.name.txt.padByUnits(2, 2, 2, 3),
               Spacer(),
+              if (_showSource && searchTerm != null)
+                'Found: ${_textController.text.count(searchTerm)}'
+                    .txt
+                    .padByUnits(0, 2, 0, 0),
+              if (_showSource) SearchPanel().size(width: 300),
               SecondaryButton(
                 icon: Icons.add,
                 description: 'Add Use Case',
@@ -65,6 +85,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                   setState(() {
                     if (_showSource) _saveText(_textController.text, ref, true);
                     _showSource = !_showSource;
+                    ref.watch(searchNotifierProvider.notifier).clear();
                   });
                 },
               ),

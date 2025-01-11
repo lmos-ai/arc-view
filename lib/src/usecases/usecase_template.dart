@@ -47,3 +47,15 @@ Otherwise, ask them to visit https://telekom.de/password_forgotten.
 ----
 
 ''';
+
+const addUseCaseTemplate = '''
+### UseCase: usecase_id
+#### Description
+TODO
+
+#### Solution
+Todo
+
+----
+
+''';

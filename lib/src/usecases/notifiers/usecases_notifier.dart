@@ -64,7 +64,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     if (selected == null) return;
 
     final updatedUseCase =
-        selected.copyWith(content: selected.content + useCaseTemplate);
+        selected.copyWith(content: selected.content + addUseCaseTemplate);
     _update(useCases.cases.map((e) {
       return e == selected ? updatedUseCase : e;
     }).toList());
