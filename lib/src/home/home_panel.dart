@@ -5,6 +5,7 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:smiles/smiles.dart';
 
 class HomePanel extends StatelessWidget {
@@ -33,6 +34,6 @@ class HomePanel extends StatelessWidget {
           if (button != null) button!.toRight(),
         ],
       ).padByUnits(2, 4, 4, 4),
-    ).size(height: 220, width: 400);
+    ).size(height: 220, width: 400).animate().moveY(begin: 50).fadeIn();
   }
 }
