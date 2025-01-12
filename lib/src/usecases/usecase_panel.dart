@@ -10,9 +10,9 @@ import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/core/strings.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
-import 'package:arc_view/src/usecases/search/highlight_text.dart';
 import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
 import 'package:arc_view/src/usecases/search/search_panel.dart';
+import 'package:arc_view/src/usecases/search/syntax_text_controller.dart';
 import 'package:arc_view/src/usecases/services/usecase_exporter.dart';
 import 'package:arc_view/src/usecases/usecase_syntax.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +32,7 @@ class UseCasePanel extends StatefulWidget {
 
 class _UseCasePanelState extends State<UseCasePanel> {
   bool _showSource = false;
-  final _textController = StyleableTextFieldController();
+  final _textController = SyntaxTextController();
   Timer? _debounce;
 
   @override

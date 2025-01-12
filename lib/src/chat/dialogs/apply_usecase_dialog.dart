@@ -33,7 +33,7 @@ class ApplyUsecaseDialog extends ConsumerWidget {
       content: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          'Send custom use cases to Agent. Agent must support the feature.'
+          'Send custom use cases to Agents (The Agent must support the feature).'
               .txt
               .padByUnits(0, 0, 1, 0),
           Divider(),
