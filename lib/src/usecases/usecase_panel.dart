@@ -7,7 +7,6 @@
 import 'dart:async';
 
 import 'package:arc_view/src/core/secondary_button.dart';
-import 'package:arc_view/src/core/strings.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
@@ -39,7 +38,10 @@ class _UseCasePanelState extends State<UseCasePanel> {
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
       final UseCase? selectedCase =
-          ref.watch(useCasesNotifierProvider).valueOrNull?.selectedCase;
+          ref
+              .watch(useCasesNotifierProvider)
+              .valueOrNull
+              ?.selectedCase;
 
       if (_textController.text != selectedCase?.content) {
         _textController.text = selectedCase?.content ?? '';
@@ -110,32 +112,32 @@ class _UseCasePanelState extends State<UseCasePanel> {
           ),
           _showSource
               ? Card(
-                  margin: const EdgeInsets.all(8),
-                  child: TextField(
-                    controller: _textController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(8),
-                    ),
-                    onChanged: (text) {
-                      _saveText(text, ref);
-                    },
-                    maxLines: null,
-                    expands: true,
-                    keyboardType: TextInputType.multiline,
-                  ),
-                ).expand().animate().fadeIn(duration: 200.milliseconds)
+            margin: const EdgeInsets.all(8),
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.all(8),
+              ),
+              onChanged: (text) {
+                _saveText(text, ref);
+              },
+              maxLines: null,
+              expands: true,
+              keyboardType: TextInputType.multiline,
+            ),
+          ).expand().animate().fadeIn(duration: 200.milliseconds)
               : SingleChildScrollView(
-                  child: Card(
-                    margin: const EdgeInsets.all(8),
-                    child: MarkdownBody(
-                      data: _textController.text,
-                      onTapLink: (text, href, title) {
-                        if (href != null) launchUrlString(href);
-                      },
-                    ).padByUnits(3, 3, 3, 3),
-                  ),
-                ).expand().animate().fadeIn(duration: 500.milliseconds),
+            child: Card(
+              margin: const EdgeInsets.all(8),
+              child: MarkdownBody(
+                data: _textController.text,
+                onTapLink: (text, href, title) {
+                  if (href != null) launchUrlString(href);
+                },
+              ).padByUnits(3, 3, 3, 3),
+            ),
+          ).expand().animate().fadeIn(duration: 500.milliseconds),
         ],
       );
     });

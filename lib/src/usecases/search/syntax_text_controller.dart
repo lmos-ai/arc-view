@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/core/lists.dart';
 import 'package:flutter/material.dart';
+import 'package:smiles/smiles.dart';
 
 ///
 /// Enables syntax highlighting in a [TextField].
