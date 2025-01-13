@@ -13,7 +13,7 @@ part 'theme_notifier.g.dart';
 class ThemeNotifier extends _$ThemeNotifier {
   @override
   ThemeMode build() {
-    return ThemeMode.system;
+    return ThemeMode.dark;
   }
 
   void toggle() {
