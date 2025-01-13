@@ -300,9 +300,10 @@ class __$$UseCaseImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$UseCaseImpl implements _UseCase {
+class _$UseCaseImpl extends _UseCase {
   _$UseCaseImpl(
-      {required this.name, required this.createdAt, required this.content});
+      {required this.name, required this.createdAt, required this.content})
+      : super._();
 
   factory _$UseCaseImpl.fromJson(Map<String, dynamic> json) =>
       _$$UseCaseImplFromJson(json);
@@ -350,11 +351,12 @@ class _$UseCaseImpl implements _UseCase {
   }
 }
 
-abstract class _UseCase implements UseCase {
+abstract class _UseCase extends UseCase {
   factory _UseCase(
       {required final String name,
       required final DateTime createdAt,
       required final String content}) = _$UseCaseImpl;
+  _UseCase._() : super._();
 
   factory _UseCase.fromJson(Map<String, dynamic> json) = _$UseCaseImpl.fromJson;
 

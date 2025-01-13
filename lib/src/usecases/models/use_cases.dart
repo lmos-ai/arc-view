@@ -36,6 +36,17 @@ class UseCase with _$UseCase {
     required String content,
   }) = _UseCase;
 
+  UseCase._();
+
+  static final useCaseSplitRegex = RegExp(r'(?=###\s*UseCase\s*:\s*)');
+
+  List<(String, String)> splitContent() {
+    return content.split(useCaseSplitRegex).map((e) {
+      final name = e.substring(0, e.indexOf('\n')).trim().replaceAll('#', '');
+      return (name, e);
+    }).toList();
+  }
+
   factory UseCase.fromJson(Map<String, dynamic> json) =>
       _$UseCaseFromJson(json);
 }

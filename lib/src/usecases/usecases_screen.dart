@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/usecases/buttons/add_usecases_button.dart';
+import 'package:arc_view/src/usecases/buttons/import_usecases_button.dart';
 import 'package:arc_view/src/usecases/usecase_list.dart';
 import 'package:arc_view/src/usecases/usecase_panel.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,11 @@ class UseCasesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: 'Use Cases'.txt),
-      floatingActionButton: AddUseCasesButton(),
+      floatingActionButton: [
+        ImportUseCasesButton(),
+        HGap.small(),
+        AddUseCasesButton()
+      ].row(min: true),
       body: Row(
         children: [
           UseCasePanel().expand(),

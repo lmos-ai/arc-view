@@ -35,7 +35,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     state = AsyncData(useCases.copyWith(selected: index));
   }
 
-  newUseCase(String name) {
+  newUseCase(String name, {String? content}) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final newUseCase = UseCase(
@@ -45,7 +45,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
               .replaceAll(' ', '_')
               .replaceAll(useCaseNameInvalidCharacters, ''),
       createdAt: DateTime.now(),
-      content: useCaseTemplate,
+      content: content ?? useCaseTemplate,
     );
     _update([newUseCase, ...useCases.cases]);
   }

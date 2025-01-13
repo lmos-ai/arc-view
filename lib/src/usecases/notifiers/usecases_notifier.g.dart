@@ -6,7 +6,7 @@ part of 'usecases_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$useCasesNotifierHash() => r'71c4a9ed111393e5abd980a2434d825917cac19b';
+String _$useCasesNotifierHash() => r'4544e4243b238553a4f3e3e7af319904fc7e3307';
 
 ///
 /// Manages the creation and editing of Use Cases files.

@@ -13,14 +13,13 @@ import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
 import 'package:arc_view/src/usecases/search/search_panel.dart';
 import 'package:arc_view/src/usecases/search/syntax_text_controller.dart';
 import 'package:arc_view/src/usecases/services/usecase_exporter.dart';
+import 'package:arc_view/src/usecases/usecase_overview_panel.dart';
 import 'package:arc_view/src/usecases/usecase_syntax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class UseCasePanel extends StatefulWidget {
   const UseCasePanel({super.key});
@@ -64,7 +63,6 @@ class _UseCasePanelState extends State<UseCasePanel> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              selectedCase.name.txt.padByUnits(2, 2, 2, 3),
               Spacer(),
               if (_showSource && searchTerm != null)
                 'Found: ${_textController.text.count(searchTerm)}'
@@ -79,7 +77,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                 },
               ),
               SecondaryButton(
-                icon: Icons.code,
+                icon: _showSource ? Icons.code : Icons.edit,
                 description: 'Show Source',
                 onPressed: () {
                   setState(() {
@@ -125,17 +123,10 @@ class _UseCasePanelState extends State<UseCasePanel> {
                     keyboardType: TextInputType.multiline,
                   ),
                 ).expand().animate().fadeIn(duration: 200.milliseconds)
-              : SingleChildScrollView(
-                  child: Card(
-                    margin: const EdgeInsets.all(8),
-                    child: MarkdownBody(
-                      data: _textController.text,
-                      onTapLink: (text, href, title) {
-                        if (href != null) launchUrlString(href);
-                      },
-                    ).padByUnits(3, 3, 3, 3),
-                  ),
-                ).expand().animate().fadeIn(duration: 500.milliseconds),
+              : UsecaseOverviewPanel()
+                  .expand()
+                  .animate()
+                  .fadeIn(duration: 500.milliseconds),
         ],
       );
     });

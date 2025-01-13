@@ -14,14 +14,12 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'usecase_exporter.g.dart';
 
+///
+/// Exports a use case file.
+///
 @riverpod
-UseCaseExporter useCaseExporter(Ref ref) {
-  return UseCaseExporter();
-}
+UseCaseExporter useCaseExporter(Ref ref) => UseCaseExporter();
 
-///
-/// Exports metrics to a JSON file.
-///
 class UseCaseExporter {
   UseCaseExporter();
 

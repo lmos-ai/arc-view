@@ -26,26 +26,33 @@ class UseCaseList extends ConsumerWidget {
         ListView.builder(
           itemCount: useCases.cases.length,
           itemBuilder: (context, index) {
-            return ListTile(
-              dense: true,
-              title: useCases.cases[index].name.small,
-              subtitle: DateFormat.Hm()
-                  .add_yMd()
-                  .format(useCases.cases[index].createdAt)
-                  .small,
-              trailing: [
-                SecondaryButton(
-                    icon: Icons.delete,
-                    description: 'Delete Use Case',
-                    onPressed: () {
-                      ref
-                          .read(useCasesNotifierProvider.notifier)
-                          .deleteUseCaseAt(index);
-                    }),
-              ].row(min: true),
-              onTap: () {
-                ref.read(useCasesNotifierProvider.notifier).setSelected(index);
-              },
+            return ColoredBox(
+              color: useCases.selectedCase == useCases.cases[index]
+                  ? context.colorScheme.primary.withValues(alpha: 0.3)
+                  : Colors.transparent,
+              child: ListTile(
+                dense: true,
+                title: useCases.cases[index].name.small,
+                subtitle: DateFormat.Hm()
+                    .add_yMd()
+                    .format(useCases.cases[index].createdAt)
+                    .small,
+                trailing: [
+                  SecondaryButton(
+                      icon: Icons.delete,
+                      description: 'Delete Use Case',
+                      onPressed: () {
+                        ref
+                            .read(useCasesNotifierProvider.notifier)
+                            .deleteUseCaseAt(index);
+                      }),
+                ].row(min: true),
+                onTap: () {
+                  ref
+                      .read(useCasesNotifierProvider.notifier)
+                      .setSelected(index);
+                },
+              ),
             );
           },
         ).expand(),

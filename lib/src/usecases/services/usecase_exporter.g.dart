@@ -6,9 +6,13 @@ part of 'usecase_exporter.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$useCaseExporterHash() => r'977c6b4edbd360a0e8944a098e603dd67fbd8247';
+String _$useCaseExporterHash() => r'3722f6fabde6282463991b97a05526d96c0f5018';
 
-/// See also [useCaseExporter].
+///
+/// Exports a use case file.
+///
+///
+/// Copied from [useCaseExporter].
 @ProviderFor(useCaseExporter)
 final useCaseExporterProvider = AutoDisposeProvider<UseCaseExporter>.internal(
   useCaseExporter,
