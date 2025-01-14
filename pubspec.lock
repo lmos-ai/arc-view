@@ -1030,8 +1030,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "0.7.0"
-      resolved-ref: "6718ad48103fa83b421b7a79cbf2e805de4b010e"
+      ref: "0.8.1"
+      resolved-ref: "075c08ec15b503152a05f159541fa28b761b0965"
       url: "https://github.com/patwlan/smiles"
     source: git
     version: "0.0.1"

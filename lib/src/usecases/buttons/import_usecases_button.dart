@@ -13,8 +13,8 @@ class ImportUseCasesButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FloatingActionButton(
-      child: Icon(Icons.upload),
+    return IconButton(
+      icon: Icon(Icons.upload),
       onPressed: () {
         ref.read(useCaseImporterProvider).importUseCases();
       },

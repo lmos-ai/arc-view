@@ -26,10 +26,13 @@ class UseCaseList extends ConsumerWidget {
         ListView.builder(
           itemCount: useCases.cases.length,
           itemBuilder: (context, index) {
-            return ColoredBox(
-              color: useCases.selectedCase == useCases.cases[index]
-                  ? context.colorScheme.primary.withValues(alpha: 0.3)
-                  : Colors.transparent,
+            return Container(
+              decoration: BoxDecoration(
+                color: useCases.selectedCase == useCases.cases[index]
+                    ? context.colorScheme.primary.withValues(alpha: 0.3)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(4),
+              ),
               child: ListTile(
                 dense: true,
                 title: useCases.cases[index].name.small,

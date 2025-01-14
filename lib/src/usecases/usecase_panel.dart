@@ -47,7 +47,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
         return 'Add new Use Cases. These are stored locally.'.small.center();
       }
 
-      final searchTerm = ref.watch(searchNotifierProvider).nullIfEmpty();
+      final searchTerm = ref.watch(searchNotifierProvider)?.nullIfEmpty();
       _textController.clearHighlights();
       if (searchTerm != null) {
         _textController.highlightText(

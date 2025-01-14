@@ -17,6 +17,7 @@ class UsecaseOverviewPanel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
     final UseCase? selectedCase =
         ref.watch(useCasesNotifierProvider).valueOrNull?.selectedCase;
     if (selectedCase == null) return ''.txt;
@@ -30,7 +31,8 @@ class UsecaseOverviewPanel extends ConsumerWidget {
           child: ListView.builder(
             itemCount: sections.length,
             itemBuilder: (context, i) => ListTile(
-              title: sections[i].$1.txt,
+              dense: true,
+              title: sections[i].$1.substringAfter(':').trim().txt,
               onTap: () {
                 Scrollable.ensureVisible(sectionKeys[i].currentContext!);
               },
@@ -45,6 +47,11 @@ class UsecaseOverviewPanel extends ConsumerWidget {
                   key: sectionKeys[i],
                   margin: const EdgeInsets.all(8),
                   child: MarkdownBody(
+                    styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
+                      horizontalRuleDecoration: BoxDecoration(
+                        color: Colors.transparent,
+                      ),
+                    ),
                     data: sections[i].$2,
                     onTapLink: (text, href, title) {
                       if (href != null) launchUrlString(href);

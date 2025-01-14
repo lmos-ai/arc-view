@@ -24,7 +24,7 @@ class UseCasesScreen extends StatelessWidget {
       floatingActionButton: [
         ImportUseCasesButton(),
         HGap.small(),
-        AddUseCasesButton()
+        AddUseCasesButton(),
       ].row(min: true),
       body: Row(
         children: [
