@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+# SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
 # 
 # SPDX-License-Identifier: Apache-2.0
 
@@ -35,10 +35,10 @@ path = [
     "**/*Icon-*.png", "web/favicon.png",
     "**/*launcher.png"]
 precedence = "override"
-SPDX-FileCopyrightText = "2024 Deutsche Telekom AG"
+SPDX-FileCopyrightText = "2025 Deutsche Telekom AG and others"
 SPDX-License-Identifier = "Apache-2.0"
 [[annotations]]
 path = ["**/*.g.dart", "**/*.freezed.dart", "**/*generated_*", "**/*Generated*", "**/windows/runner/Runner.rc"]
 precedence = "override"
-SPDX-FileCopyrightText = "2024 Deutsche Telekom AG Generated Code"
+SPDX-FileCopyrightText = "2025 Deutsche Telekom AG and others Generated Code"
 SPDX-License-Identifier = "Apache-2.0"
