@@ -1,14 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/chat/dialogs/apply_usecase_dialog.dart';
+import 'package:arc_view/src/chat/notifiers/selected_usecase_notifier.dart';
 import 'package:arc_view/src/client/notifiers/agents_notifier.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +26,33 @@ class ChatToolBar extends ConsumerWidget {
       return const SizedBox();
     }
 
+    final selectedUsecase = ref.watch(selectedUsecaseNotifierProvider);
+
     return [
+      Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: [
+          SecondaryButton(
+            description: 'Apply Use Cases',
+            onPressed: () {
+              showDialog(
+                  context: context, builder: (_) => ApplyUsecaseDialog());
+            },
+            icon: Icons.import_contacts,
+          ),
+          if (selectedUsecase != null) ...[
+            selectedUsecase.small.padByUnits(0, 2, 0, 0),
+            SecondaryButton(
+              description: 'Remove Use Case',
+              icon: Icons.close,
+              onPressed: () {
+                ref.read(selectedUsecaseNotifierProvider.notifier).remove();
+              },
+            )
+          ],
+        ].row(),
+      ),
+      Spacer(),
       Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         child: Row(
@@ -31,8 +60,17 @@ class ChatToolBar extends ConsumerWidget {
           children: [
             SecondaryButton(
               description: 'Replay conversation',
-              onPressed: () {
-                ref.read(conversationsNotifierProvider.notifier).replay();
+              onPressed: () async {
+                final selectedUseCaseName = ref.read(selectedUsecaseNotifierProvider);
+                final useCases = await ref.read(useCasesNotifierProvider.future);
+                final selectedUseCase =
+                useCases.cases.isEmpty || selectedUseCaseName == null
+                    ? null
+                    : useCases.cases
+                    .firstWhere((useCase) => useCase.name == selectedUseCaseName);
+                ref
+                    .read(conversationsNotifierProvider.notifier)
+                    .replay(useCase: selectedUseCase);
               },
               icon: Icons.replay_circle_filled_sharp,
             ),
@@ -60,7 +98,7 @@ class ChatToolBar extends ConsumerWidget {
           ],
         ),
       )
-    ].row(min: true).toRight();
+    ].row();
   }
 
   _agentAvailable(WidgetRef ref) {

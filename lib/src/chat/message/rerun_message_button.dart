@@ -1,10 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/chat/services/message_sender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +18,7 @@ class RerunMessageButton extends ConsumerWidget {
     return IconButton(
       icon: const Icon(Icons.refresh, size: 16),
       onPressed: () {
-        ref.read(conversationsNotifierProvider.notifier).addUserMessage(_text);
+        ref.read(messageSenderProvider).sendUserMessage(_text);
       },
     );
   }

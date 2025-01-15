@@ -1,11 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 import 'dart:convert';
 
+import 'package:arc_view/src/chat/address_bar.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/settings/context_field.dart';
 import 'package:arc_view/src/settings/notifiers/settings_notifier.dart';
@@ -27,9 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, _) {
-      final conversation = ref
-          .read(conversationsNotifierProvider)
-          .current;
+      final conversation = ref.read(conversationsNotifierProvider).current;
       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(
@@ -59,12 +58,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         ref.read(themeNotifierProvider.notifier).toggle();
                       }).pad(8, 8, 8, 8),
-                  '1.9.0'.txt.pad(8, 8, 8, 8),
+                  '1.10.0'.txt.pad(8, 8, 8, 8),
                   'Licenses'.onPressed(() {
                     showLicensePage(context: context);
                   }).pad(8, 8, 8, 8),
                 ],
               ),
+              const AddressBar().padByUnits(1, 1, 1, 1),
+              'Set the context for outgoing requests: '
+                  .txt
+                  .padByUnits(3, 1, 1, 2),
               ContextField(
                 'User Context',
                 encoder.convert(conversation.userContext.toJson()),

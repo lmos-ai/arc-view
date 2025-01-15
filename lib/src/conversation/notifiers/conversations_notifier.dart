@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
+import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -96,7 +97,7 @@ class ConversationsNotifier extends _$ConversationsNotifier {
 
   SystemContext _loadSystemContext() {
     final json = _load('conversation_system_context');
-    final context;
+    final SystemContext context;
     if (json == null) {
       context = SystemContext(entries: []);
     } else {
@@ -117,26 +118,35 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     state = state.addAsCurrent(conversation);
   }
 
-  replay() async {
+  replay({UseCase? useCase}) async {
     final conversation = state.current;
     newConversation();
     for (final msg in conversation.messages) {
       if (msg.type == MessageType.loading || msg.type == MessageType.bot) {
         continue;
       }
-      await addUserMessage(msg.content);
+      await addUserMessage(msg.content, useCase: useCase);
     }
   }
 
-  Future<void> addUserMessage(String msg) {
-    return addMessage(ConversationMessage(
-      type: MessageType.user,
-      content: msg,
-      conversationId: state.current.conversationId,
-    ));
+  Future<void> addUserMessage(String msg, {UseCase? useCase}) {
+    final systemEntries = useCase != null
+        ? [
+            (key: 'usecase', value: useCase.content),
+            (key: 'usecaseName', value: useCase.name),
+          ]
+        : null;
+    return addMessage(
+        ConversationMessage(
+          type: MessageType.user,
+          content: msg,
+          conversationId: state.current.conversationId,
+        ),
+        systemEntries: systemEntries);
   }
 
-  Future<void> addMessage(ConversationMessage msg) {
+  Future<void> addMessage(ConversationMessage msg,
+      {List<SystemContextEntry>? systemEntries}) {
     final callback = Completer();
     final conversation = state.current.add([
       msg,
@@ -145,7 +155,7 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     state = state.update(conversation);
     ref
         .read(agentClientNotifierProvider)
-        .sendMessage(conversation)
+        .sendMessage(conversation.addSystem(systemEntries ?? []))
         .listen((value) {
       final newMessages = [];
       for (final message in conversation.messages) {
