@@ -29,13 +29,36 @@ class EventsPanel extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SecondaryButton(
-                description: 'Show Charts',
-                onPressed: () {
-                  context.push("/charts");
-                },
-                icon: Icons.bar_chart,
-              ),
+              Row(children: [
+                SecondaryButton(
+                  description: 'Show Charts',
+                  onPressed: () {
+                    context.push("/charts");
+                  },
+                  icon: Icons.bar_chart,
+                ),
+                // Filter Button
+                SecondaryButton(
+                  description: 'Filter Events',
+                  icon: Icons.filter_alt,
+                  onPressed: () {
+                    ref.read(filterDrawerProvider.notifier).state =
+                        !ref.watch(filterDrawerProvider);
+                  },
+                ),
+                // Sort Button
+                SecondaryButton(
+                  description: 'Sort $currentSort',
+                  icon: currentSort == 'DESC'
+                      ? Icons.arrow_circle_down
+                      : Icons.arrow_circle_up,
+                  onPressed: () {
+                    // Toggle between ASC and DESC
+                    ref.read(selectedSortProvider.notifier).state =
+                        currentSort == 'ASC' ? 'DESC' : 'ASC';
+                  },
+                ),
+              ]),
               SecondaryButton(
                 description: 'Reset Events',
                 onPressed: () {
@@ -43,32 +66,6 @@ class EventsPanel extends ConsumerWidget {
                 },
                 icon: Icons.delete,
               ),
-            ],
-          ),
-          //Add Filter & Sort Section
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // Filter Button
-              IconButton(
-                icon: Icon(Icons.filter_alt),
-                onPressed: () {
-                  ref.read(filterDrawerProvider.notifier).state =
-                  !ref.watch(filterDrawerProvider);
-                },
-              ),
-              // Sort Button
-              IconButton(
-                icon: Icon(currentSort == 'DESC'
-                    ? Icons.arrow_circle_down
-                    : Icons.arrow_circle_up),
-                onPressed: () {
-                  // Toggle between ASC and DESC
-                  ref.read(selectedSortProvider.notifier).state =
-                  currentSort == 'ASC' ? 'DESC' : 'ASC';
-                },
-                tooltip: 'Sort: $currentSort',
-              )
             ],
           ),
           EventsList().expand()

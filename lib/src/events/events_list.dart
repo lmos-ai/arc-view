@@ -194,9 +194,11 @@ class EventsList extends ConsumerWidget {
   //Dynamically Update Filter Group Values
   _updateFilterProvider(WidgetRef ref) {
     //Get All Supported Events
-    final events = ref.watch(agentEventsNotifierProvider).where((e) {
-      return handleEvents.contains(e.type);
-    }).toList();
+    final events = ref
+        .watch(agentEventsNotifierProvider.select((list) => list.where((e) {
+              return handleEvents.contains(e.type);
+            })))
+        .toList();
 
     // Extract unique values for each filter type
     final eventTypes = events.map((e) => e.type).toSet().toList();
