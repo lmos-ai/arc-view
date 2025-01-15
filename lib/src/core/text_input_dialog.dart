@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,6 @@ class _InputDialogState extends State<TextInputDialog> {
           child: const Text('OK'),
           onPressed: () {
             widget.onConfirm(_textController.text);
-
             Navigator.of(context).pop();
           },
         ),

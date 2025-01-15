@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ part 'theme_notifier.g.dart';
 class ThemeNotifier extends _$ThemeNotifier {
   @override
   ThemeMode build() {
-    return ThemeMode.system;
+    return ThemeMode.dark;
   }
 
   void toggle() {

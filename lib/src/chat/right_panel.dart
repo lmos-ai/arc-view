@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ * SPDX-FileCopyrightText: 2025 Deutsche Telekom AG and others
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ class RightPanel extends StatelessWidget {
 }
 
 class _SwitchTabs extends ConsumerWidget {
-  const _SwitchTabs({super.key});
+  const _SwitchTabs();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
