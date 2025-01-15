@@ -1,3 +1,7 @@
+[![CI Build](https://github.com/eclipse-lmos/arc-view/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/eclipse-lmos/arc-view/actions/workflows/build.yml)
+[![Apache 2.0 License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
 # Arc View
 
 The Arc View is a UI application for communicating with an Arc Agent service.
