@@ -12,15 +12,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smiles/smiles.dart';
 
-// Provider for sorting state (ASC or DESC)
-final selectedSortProvider = StateProvider<String>((ref) => 'DESC');
-
 class EventsPanel extends ConsumerWidget {
   const EventsPanel({super.key});
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentSort = ref.watch(selectedSortProvider);
     return Card(
       margin: const EdgeInsets.all(0),
       child: Column(
@@ -37,25 +33,12 @@ class EventsPanel extends ConsumerWidget {
                   },
                   icon: Icons.bar_chart,
                 ),
-                // Filter Button
                 SecondaryButton(
                   description: 'Filter Events',
                   icon: Icons.filter_alt,
                   onPressed: () {
                     ref.read(filterDrawerProvider.notifier).state =
-                        !ref.watch(filterDrawerProvider);
-                  },
-                ),
-                // Sort Button
-                SecondaryButton(
-                  description: 'Sort $currentSort',
-                  icon: currentSort == 'DESC'
-                      ? Icons.arrow_circle_down
-                      : Icons.arrow_circle_up,
-                  onPressed: () {
-                    // Toggle between ASC and DESC
-                    ref.read(selectedSortProvider.notifier).state =
-                        currentSort == 'ASC' ? 'DESC' : 'ASC';
+                        !ref.read(filterDrawerProvider);
                   },
                 ),
               ]),

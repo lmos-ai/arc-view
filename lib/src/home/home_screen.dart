@@ -66,7 +66,13 @@ class HomeScreen extends StatelessWidget {
                   'Open Charts'.onButtonPressed(() => context.go('/charts')),
             ),
           ]).expand(),
-          VGap(),
+          Spacer(),
+          [
+            'Powered by'.txt,
+            'Eclipse LMOS'.onPressed(() {
+              launchUrlString('https://eclipse.dev/lmos/');
+            }),
+          ].row(min: true).padByUnits(0, 0, 2, 0)
         ].column());
   }
 }

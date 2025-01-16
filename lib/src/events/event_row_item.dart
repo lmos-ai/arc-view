@@ -9,7 +9,6 @@ import 'package:arc_view/src/events/action_event.dart';
 import 'package:arc_view/src/events/milestone_event.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
 import 'package:flutter/material.dart';
-import 'package:smiles/smiles.dart';
 
 class EventRowItem extends StatelessWidget {
   const EventRowItem({
@@ -27,17 +26,13 @@ class EventRowItem extends StatelessWidget {
   }
 
   Color _getColor(AgentEvent event, BuildContext context) {
-    return switch (event.type) {
-      'AgentFinishedEvent' => color(event.conversationId ?? 'unknown'),
-      _ => context.colorScheme.tertiary,
-    };
+    return color(event.conversationId ?? 'unknown');
   }
 
   Widget _titleWidget(
       AgentEvent event, BuildContext context, Map<String, dynamic> json) {
+    final eventColor = _getColor(event, context);
     return switch (event.type) {
-      'AgentFinishedEvent' =>
-        MilestoneEvent(color: _getColor(event, context), name: event.type),
       'AgentLoadedEvent' => ActionEvent(
           name: event.type,
           success: json['errorMessage'] == null,
@@ -46,7 +41,9 @@ class EventRowItem extends StatelessWidget {
           name: event.type,
           success: json['errorMessage'] == null,
         ),
-      _ => event.type.txt,
+      'UseCaseEvent' =>
+        MilestoneEvent(color: eventColor, name: 'UseCase: ${json['name']}'),
+      _ => MilestoneEvent(color: eventColor, name: event.type),
     };
   }
 }
