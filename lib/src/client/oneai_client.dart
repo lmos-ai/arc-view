@@ -7,6 +7,7 @@
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
 import 'package:arc_view/src/client/graphql/event_subscription.dart';
+import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
@@ -117,5 +118,3 @@ class OneAIClient {
     return GraphQLClient(cache: GraphQLCache(), link: link);
   }
 }
-
-typedef MessageResult = ({String message, double? responseTime, String agent});

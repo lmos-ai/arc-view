@@ -8,10 +8,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:arc_view/main.dart';
+import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
-import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
@@ -177,7 +177,9 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   }
 
   ConversationMessage _handleBotMessage(
-      MessageResult value, Conversation conversation) {
+    MessageResult value,
+    Conversation conversation,
+  ) {
     return switch (value.message) {
       '<LOADING>' => loadingMessage(conversation.conversationId),
       _ => ConversationMessage(
