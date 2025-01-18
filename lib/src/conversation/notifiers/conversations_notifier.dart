@@ -165,12 +165,9 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   ///
   addBotResponse(MessageResult value, Conversation conversation) {
     state = state.update(
-      conversation.copyWith(
+      conversation.add(
+        _handleBotMessages(value, conversation),
         loading: false,
-        messages: [
-          ...conversation.messages,
-          ..._handleBotMessages(value, conversation),
-        ],
       ),
     );
   }

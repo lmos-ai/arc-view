@@ -25,13 +25,16 @@ class Conversation with _$Conversation {
 
   const Conversation._();
 
-  Conversation add(List<ConversationMessage> newMessages) {
-    return copyWith(messages: [...messages, ...newMessages]);
+  Conversation add(
+    List<ConversationMessage> newMessages, {
+    bool? loading,
+  }) {
+    return copyWith(loading: loading, messages: [...messages, ...newMessages]);
   }
 
   Conversation addUserMessage(
     String content, {
-    bool? loading,
+    required bool loading,
     bool? streamAudio,
   }) {
     return copyWith(
