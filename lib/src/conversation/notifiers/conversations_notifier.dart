@@ -148,32 +148,47 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   Future<void> addMessage(ConversationMessage msg,
       {List<SystemContextEntry>? systemEntries}) {
     final callback = Completer();
-    final conversation = state.current.add([
-      msg,
-      loadingMessage(state.current.conversationId),
-    ]);
-    state = state.update(conversation);
+    final conversation = markAsLoading(state.current, msg);
     ref
         .read(agentClientNotifierProvider)
         .sendMessage(conversation.addSystem(systemEntries ?? []))
         .listen((value) {
-      final newMessages = [];
-      for (final message in conversation.messages) {
-        if (message.type != MessageType.loading) {
-          newMessages.add(message);
-        }
-      }
-      state = state.update(
-        conversation.copyWith(
-          messages: [
-            ...newMessages,
-            _handleBotMessage(value, conversation),
-          ],
-        ),
-      );
+      addToConversation(value, conversation);
       if (!callback.isCompleted) callback.complete();
     });
     return callback.future;
+  }
+
+  ///
+  /// Adds the conversation as loading, ie waiting for a response.
+  ///
+  Conversation markAsLoading(
+      Conversation conversation, ConversationMessage msg) {
+    final updatedConversation = conversation.add(
+      [msg, loadingMessage(conversation.conversationId)],
+    );
+    state = state.update(updatedConversation);
+    return updatedConversation;
+  }
+
+  ///
+  /// Adds a message from the bot to the conversation.
+  ///
+  addToConversation(MessageResult value, Conversation conversation) {
+    final newMessages = [];
+    for (final message in conversation.messages) {
+      if (message.type != MessageType.loading) {
+        newMessages.add(message);
+      }
+    }
+    state = state.update(
+      conversation.copyWith(
+        messages: [
+          ...newMessages,
+          _handleBotMessage(value, conversation),
+        ],
+      ),
+    );
   }
 
   ConversationMessage _handleBotMessage(
