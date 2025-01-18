@@ -1,26 +1,27 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'voice_notifier.dart';
+part of 'agent_stream_client_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$voiceNotifierHash() => r'02f992d37f2c9a324cf370636c21b34bc0f69678';
+String _$agentStreamClientNotifierHash() =>
+    r'0e55cf4a59f8637bb5d5232e6023daf626703d30';
 
-/// See also [VoiceNotifier].
-@ProviderFor(VoiceNotifier)
-final voiceNotifierProvider =
-    AutoDisposeNotifierProvider<VoiceNotifier, VoiceStatus>.internal(
-  VoiceNotifier.new,
-  name: r'voiceNotifierProvider',
+/// See also [AgentStreamClientNotifier].
+@ProviderFor(AgentStreamClientNotifier)
+final agentStreamClientNotifierProvider =
+    NotifierProvider<AgentStreamClientNotifier, OneAIStreamClient>.internal(
+  AgentStreamClientNotifier.new,
+  name: r'agentStreamClientNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$voiceNotifierHash,
+      : _$agentStreamClientNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$VoiceNotifier = AutoDisposeNotifier<VoiceStatus>;
+typedef _$AgentStreamClientNotifier = Notifier<OneAIStreamClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

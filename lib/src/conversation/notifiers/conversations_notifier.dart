@@ -8,6 +8,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:arc_view/main.dart';
+import 'package:arc_view/src/client/models/message.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
@@ -149,6 +150,8 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       {List<SystemContextEntry>? systemEntries}) {
     final callback = Completer();
     final conversation = markAsLoading(state.current, msg);
+
+    _log.fine('Sending message: ${conversation}');
     ref
         .read(agentClientNotifierProvider)
         .sendMessage(conversation.addSystem(systemEntries ?? []))
@@ -163,7 +166,9 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   /// Adds the conversation as loading, ie waiting for a response.
   ///
   Conversation markAsLoading(
-      Conversation conversation, ConversationMessage msg) {
+    Conversation conversation,
+    ConversationMessage msg,
+  ) {
     final updatedConversation = conversation.add(
       [msg, loadingMessage(conversation.conversationId)],
     );
@@ -185,26 +190,47 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       conversation.copyWith(
         messages: [
           ...newMessages,
-          _handleBotMessage(value, conversation),
+          ..._handleBotMessages(value, conversation),
         ],
       ),
     );
   }
 
-  ConversationMessage _handleBotMessage(
+  List<ConversationMessage> _handleBotMessages(
     MessageResult value,
     Conversation conversation,
   ) {
-    return switch (value.message) {
-      '<LOADING>' => loadingMessage(conversation.conversationId),
-      _ => ConversationMessage(
+    if (value.error != null) {
+      return [
+        ConversationMessage(
           type: MessageType.bot,
-          content: value.message,
+          content: 'Error: ${value.error}',
           conversationId: conversation.conversationId,
           responseTime: value.responseTime,
           agent: value.agent,
         )
-    };
+      ];
+    }
+    return value.messages.map((message) {
+      return switch (message) {
+        Message(content: '<LOADING>') =>
+          loadingMessage(conversation.conversationId),
+        Message(role: 'user') => ConversationMessage(
+            type: MessageType.user,
+            content: message.content,
+            conversationId: conversation.conversationId,
+            responseTime: value.responseTime,
+            agent: value.agent,
+          ),
+        _ => ConversationMessage(
+            type: MessageType.bot,
+            content: message.content,
+            conversationId: conversation.conversationId,
+            responseTime: value.responseTime,
+            agent: value.agent,
+          )
+      };
+    }).toList();
   }
 
   newConversation() {

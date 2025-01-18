@@ -8,9 +8,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:arc_view/src/client/models/message.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
-import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:audioplayers/audioplayers.dart';

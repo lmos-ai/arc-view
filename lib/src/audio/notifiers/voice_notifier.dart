@@ -10,7 +10,7 @@ import 'dart:typed_data';
 import 'package:arc_view/src/audio/services/voice_recorder.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/models/system_context.dart';
-import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
@@ -53,7 +53,7 @@ class VoiceNotifier extends _$VoiceNotifier {
     stopRecording();
   }
 
-  Future<void> _streamVoiceToBot(String msg, Stream<Uint8List>? data,
+  Future<void> _streamVoiceToBot(String msg, Stream<Uint8List> data,
       {UseCase? useCase}) {
     final conversation = ref.read(conversationsNotifierProvider).current;
     final systemEntries = useCase != null
@@ -76,7 +76,7 @@ class VoiceNotifier extends _$VoiceNotifier {
         systemEntries: systemEntries);
   }
 
-  Future<void> addMessage(ConversationMessage msg, Stream<Uint8List>? data,
+  Future<void> addMessage(ConversationMessage msg, Stream<Uint8List> data,
       Conversation conversation,
       {List<SystemContextEntry>? systemEntries}) {
     final callback = Completer();
@@ -96,7 +96,7 @@ class VoiceNotifier extends _$VoiceNotifier {
 
   Stream<MessageResult> _streamAudio(
     Conversation conversation,
-    Stream<Uint8List>? data,
+    Stream<Uint8List> data,
   ) {
     return ref
         .read(agentStreamClientNotifierProvider)

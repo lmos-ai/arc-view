@@ -7,6 +7,7 @@
 import 'package:arc_view/src/client/graphql/agent_query.dart';
 import 'package:arc_view/src/client/graphql/agent_subscription.dart';
 import 'package:arc_view/src/client/graphql/event_subscription.dart';
+import 'package:arc_view/src/client/models/message.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
@@ -67,17 +68,26 @@ class OneAIClient {
       final agent = agentUrl.agent ?? 'default';
       if (e.hasException) {
         return (
-          message: e.exception.toString(),
+          messages: List.empty(),
           responseTime: -1.0,
-          agent: agent
+          agent: agent,
+          error: e.exception.toString()
         );
       }
       final data = e.data!['agent'];
       _log.fine('Received message: $data');
+
+      final List<Message> messages = [];
+      for (final m in data['messages']) {
+        // TODO
+        messages.add(Message(content: m['content'], role: 'assistant'));
+      }
+
       return (
-        message: data['messages'][0]['content'],
+        messages: messages,
         responseTime: data['responseTime'],
-        agent: agent
+        agent: agent,
+        error: null,
       );
     });
   }
