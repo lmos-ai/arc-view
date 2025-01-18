@@ -51,12 +51,11 @@ class OneAIStreamClient {
             .toList(),
         "userContext": conversation.userContext.toJson(),
         "messages": conversation.messages
-            .where((e) => e.type != MessageType.loading)
             .map((e) => {
                   'content': e.content,
                   'role': e.type == MessageType.user ? 'user' : 'assistant',
                   'format': 'text',
-                  // 'binaryData': e.binaryData
+                  'binaryData': e.binaryData
                 })
             .toList(),
       }

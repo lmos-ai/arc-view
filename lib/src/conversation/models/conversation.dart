@@ -4,8 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import 'dart:math';
-
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
@@ -22,12 +20,34 @@ class Conversation with _$Conversation {
     required SystemContext systemContext,
     required String conversationId,
     required DateTime createdAt,
+    bool? loading,
   }) = _Conversation;
 
   const Conversation._();
 
   Conversation add(List<ConversationMessage> newMessages) {
     return copyWith(messages: [...messages, ...newMessages]);
+  }
+
+  Conversation addUserMessage(
+    String content, {
+    bool? loading,
+    bool? streamAudio,
+  }) {
+    return copyWith(
+      loading: loading,
+      messages: [
+        ...messages,
+        ConversationMessage(
+          type: MessageType.user,
+          conversationId: conversationId,
+          content: content,
+          binaryData: streamAudio == true
+              ? [BinaryData(data: 'STREAM_SOURCE', mimeType: 'audio/pcm')]
+              : null,
+        ),
+      ],
+    );
   }
 
   Conversation addSystem(List<SystemContextEntry> systemEntries) {

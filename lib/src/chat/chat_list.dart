@@ -17,23 +17,24 @@ class ChatList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages = ref
-        .watch(conversationsNotifierProvider.select((c) => c.current.messages))
-        .reversed
-        .toList();
+    final conversation =
+        ref.watch(conversationsNotifierProvider.select((c) => c.current));
+    final messages = conversation.messages.map((message) {
+      return switch (message.type) {
+        MessageType.user => ChatMessageCard(chatMessage: message).toLeft(),
+        MessageType.bot => BotChatMessageCard(message: message).toRight(),
+      };
+    }).toList();
+
+    if (conversation.loading == true) {
+      messages.add(LoadingChatMessageCard().toRight());
+    }
 
     return ListView.builder(
       shrinkWrap: true,
       reverse: true,
       itemCount: messages.length,
-      itemBuilder: (context, index) {
-        final message = messages[index];
-        return switch (message.type) {
-          MessageType.user => ChatMessageCard(chatMessage: message).toLeft(),
-          MessageType.bot => BotChatMessageCard(message: message).toRight(),
-          MessageType.loading => const LoadingChatMessageCard().toRight()
-        };
-      },
+      itemBuilder: (context, index) => messages[(messages.length - 1) - index],
     );
   }
 }

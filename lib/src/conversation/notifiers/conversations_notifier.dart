@@ -123,73 +123,52 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     final conversation = state.current;
     newConversation();
     for (final msg in conversation.messages) {
-      if (msg.type == MessageType.loading || msg.type == MessageType.bot) {
-        continue;
-      }
-      await addUserMessage(msg.content, useCase: useCase);
+      if (msg.type == MessageType.bot) continue;
+      await sendUserMessage(msg.content, useCase: useCase);
     }
   }
 
-  Future<void> addUserMessage(String msg, {UseCase? useCase}) {
+  Future<void> sendUserMessage(String msg, {UseCase? useCase}) {
+    final callback = Completer();
     final systemEntries = useCase != null
         ? [
             (key: 'usecase', value: useCase.content),
             (key: 'usecaseName', value: useCase.name),
           ]
         : null;
-    return addMessage(
-        ConversationMessage(
-          type: MessageType.user,
-          content: msg,
-          conversationId: state.current.conversationId,
-        ),
-        systemEntries: systemEntries);
-  }
+    final updatedConversation = addUserRequest(msg, state.current);
 
-  Future<void> addMessage(ConversationMessage msg,
-      {List<SystemContextEntry>? systemEntries}) {
-    final callback = Completer();
-    final conversation = markAsLoading(state.current, msg);
-
-    _log.fine('Sending message: ${conversation}');
+    _log.fine('Sending message: $updatedConversation');
     ref
         .read(agentClientNotifierProvider)
-        .sendMessage(conversation.addSystem(systemEntries ?? []))
+        .sendMessage(updatedConversation.addSystem(systemEntries ?? []))
         .listen((value) {
-      addToConversation(value, conversation);
+      addBotResponse(value, updatedConversation);
       if (!callback.isCompleted) callback.complete();
     });
     return callback.future;
   }
 
   ///
-  /// Adds the conversation as loading, ie waiting for a response.
+  /// Adds a message from the user to the conversation and sets loading to true.
   ///
-  Conversation markAsLoading(
-    Conversation conversation,
-    ConversationMessage msg,
-  ) {
-    final updatedConversation = conversation.add(
-      [msg, loadingMessage(conversation.conversationId)],
-    );
+  Conversation addUserRequest(String msg, Conversation conversation,
+      {bool? streamAudio}) {
+    final updatedConversation = conversation.addUserMessage(msg,
+        loading: true, streamAudio: streamAudio);
     state = state.update(updatedConversation);
     return updatedConversation;
   }
 
   ///
-  /// Adds a message from the bot to the conversation.
+  /// Adds a message from the bot to the conversation and sets loading to false.
   ///
-  addToConversation(MessageResult value, Conversation conversation) {
-    final newMessages = [];
-    for (final message in conversation.messages) {
-      if (message.type != MessageType.loading) {
-        newMessages.add(message);
-      }
-    }
+  addBotResponse(MessageResult value, Conversation conversation) {
     state = state.update(
       conversation.copyWith(
+        loading: false,
         messages: [
-          ...newMessages,
+          ...conversation.messages,
           ..._handleBotMessages(value, conversation),
         ],
       ),
@@ -213,8 +192,6 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }
     return value.messages.map((message) {
       return switch (message) {
-        Message(content: '<LOADING>') =>
-          loadingMessage(conversation.conversationId),
         Message(role: 'user') => ConversationMessage(
             type: MessageType.user,
             content: message.content,

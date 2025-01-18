@@ -9,7 +9,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'conversation_message.freezed.dart';
 part 'conversation_message.g.dart';
 
-enum MessageType { user, bot, loading }
+enum MessageType { user, bot }
 
 @freezed
 class ConversationMessage with _$ConversationMessage {
@@ -30,13 +30,6 @@ class ConversationMessage with _$ConversationMessage {
       _$ConversationMessageFromJson(json);
 }
 
-ConversationMessage loadingMessage(String conversationId) =>
-    ConversationMessage(
-      type: MessageType.loading,
-      conversationId: conversationId,
-      content: '...',
-    );
-
 @freezed
 class BinaryData with _$BinaryData {
   factory BinaryData({
@@ -46,19 +39,4 @@ class BinaryData with _$BinaryData {
 
   factory BinaryData.fromJson(Map<String, Object?> json) =>
       _$BinaryDataFromJson(json);
-}
-
-//
-// Extension on List of ConversationMessages.
-//
-extension MessagesExtension on List<ConversationMessage> {
-  List<ConversationMessage> filterLoading() {
-    final newMessages = <ConversationMessage>[];
-    for (final message in this) {
-      if (message.type != MessageType.loading) {
-        newMessages.add(message);
-      }
-    }
-    return newMessages;
-  }
 }

@@ -17,6 +17,7 @@ _$ConversationImpl _$$ConversationImplFromJson(Map<String, dynamic> json) =>
           SystemContext.fromJson(json['systemContext'] as Map<String, dynamic>),
       conversationId: json['conversationId'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
+      loading: json['loading'] as bool?,
     );
 
 Map<String, dynamic> _$$ConversationImplToJson(_$ConversationImpl instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$$ConversationImplToJson(_$ConversationImpl instance) =>
       'systemContext': instance.systemContext,
       'conversationId': instance.conversationId,
       'createdAt': instance.createdAt.toIso8601String(),
+      'loading': instance.loading,
     };

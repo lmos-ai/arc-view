@@ -8,7 +8,6 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:arc_view/src/conversation/models/conversation_export.dart';
-import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
@@ -38,9 +37,7 @@ class ConversationExporter {
     if (result == null) return;
     final conversation = conversations.current;
     final exportConversation = conversation.copyWith(
-      messages: conversation.messages
-          .where((element) => element.type != MessageType.loading)
-          .toList(),
+      messages: conversation.messages,
     );
     final export = ConversationExport(
       conversation: exportConversation,

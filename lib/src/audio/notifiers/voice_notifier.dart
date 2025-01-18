@@ -9,10 +9,8 @@ import 'dart:typed_data';
 
 import 'package:arc_view/src/audio/services/voice_recorder.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
-import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
-import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -55,6 +53,7 @@ class VoiceNotifier extends _$VoiceNotifier {
 
   Future<void> _streamVoiceToBot(String msg, Stream<Uint8List> data,
       {UseCase? useCase}) {
+    final callback = Completer();
     final conversation = ref.read(conversationsNotifierProvider).current;
     final systemEntries = useCase != null
         ? [
@@ -62,33 +61,16 @@ class VoiceNotifier extends _$VoiceNotifier {
             (key: 'usecaseName', value: useCase.name),
           ]
         : null;
-    return addMessage(
-        ConversationMessage(
-          type: MessageType.user,
-          content: msg,
-          conversationId: conversation.conversationId,
-          binaryData: [
-            BinaryData(data: 'STREAM_SOURCE', mimeType: 'audio/pcm')
-          ],
-        ),
-        data,
-        conversation,
-        systemEntries: systemEntries);
-  }
-
-  Future<void> addMessage(ConversationMessage msg, Stream<Uint8List> data,
-      Conversation conversation,
-      {List<SystemContextEntry>? systemEntries}) {
-    final callback = Completer();
 
     final loadingConversation = ref
         .read(conversationsNotifierProvider.notifier)
-        .markAsLoading(conversation, msg);
+        .addUserRequest(msg, conversation, streamAudio: true);
 
     _streamAudio(conversation, data).listen((value) {
-      ref
-          .read(conversationsNotifierProvider.notifier)
-          .addToConversation(value, loadingConversation);
+      ref.read(conversationsNotifierProvider.notifier).addBotResponse(
+            value,
+            loadingConversation.addSystem(systemEntries ?? []),
+          );
       if (!callback.isCompleted) callback.complete();
     });
     return callback.future;

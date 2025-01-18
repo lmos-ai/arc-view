@@ -33,7 +33,6 @@ Map<String, dynamic> _$$ConversationMessageImplToJson(
 const _$MessageTypeEnumMap = {
   MessageType.user: 'user',
   MessageType.bot: 'bot',
-  MessageType.loading: 'loading',
 };
 
 _$BinaryDataImpl _$$BinaryDataImplFromJson(Map<String, dynamic> json) =>

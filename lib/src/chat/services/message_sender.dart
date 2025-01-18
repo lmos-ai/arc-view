@@ -38,7 +38,7 @@ class MessageSender {
                 .firstWhere((useCase) => useCase.name == selectedUseCaseName);
     ref
         .read(conversationsNotifierProvider.notifier)
-        .addUserMessage(message, useCase: selectedUseCase);
+        .sendUserMessage(message, useCase: selectedUseCase);
     ref.read(promptHistoryNotifierProvider.notifier).add(message);
     ref.read(currentPromptNotifierProvider.notifier).clear();
   }

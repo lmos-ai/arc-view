@@ -54,7 +54,6 @@ class OneAIClient {
                   })
               .toList(),
           'messages': conversation.messages
-              .where((e) => e.type != MessageType.loading)
               .map((e) => {
                     'content': e.content,
                     'role': e.type == MessageType.user ? 'user' : 'assistant',
