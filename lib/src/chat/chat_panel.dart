@@ -4,18 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/audio/record_button.dart';
 import 'package:arc_view/src/chat/buttons/new_conversation_button.dart';
 import 'package:arc_view/src/chat/buttons/send_message_button.dart';
 import 'package:arc_view/src/chat/buttons/show_previous_prompts_button.dart';
 import 'package:arc_view/src/chat/chat_field.dart';
 import 'package:arc_view/src/chat/chat_list.dart';
-import 'package:arc_view/src/chat/notifiers/selected_usecase_notifier.dart';
 import 'package:arc_view/src/chat/services/message_sender.dart';
 import 'package:arc_view/src/chat/toolbar/chat_tool_bar.dart';
-import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/features/notifiers/features_notifier.dart';
 import 'package:arc_view/src/prompts/notifiers/current_prompt_notifier.dart';
-import 'package:arc_view/src/prompts/notifiers/prompt_history_notifier.dart';
-import 'package:arc_view/src/prompts/prompt_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -49,22 +47,28 @@ class _ChatPanelState extends State<ChatPanel> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final features = ref.watch(featuresNotifierProvider);
         return Column(
           children: [
             const ChatToolBar(),
             const ChatList().expand(),
-            Card(
-              elevation: 6,
-              margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-              child: Row(
-                children: [
-                  NewConversationButton(),
-                  PreviousPromptButton(),
-                  _chatField(ref),
-                  SendMessageButton(onPressed: () => _send(ref)),
-                ],
-              ).padding(),
-            ),
+            [
+              Card(
+                elevation: 6,
+                margin: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                child: Row(
+                  children: [
+                    NewConversationButton(),
+                    PreviousPromptButton(),
+                    _chatField(ref),
+                    SendMessageButton(onPressed: () => _send(ref)),
+                  ],
+                ).padding(),
+              ).expand(),
+              if (features.isNotEmpty) const HGap.small(),
+              if (features.isNotEmpty)
+                Card(child: const RecordButton().padding())
+            ].row(min: true),
           ],
         );
       },

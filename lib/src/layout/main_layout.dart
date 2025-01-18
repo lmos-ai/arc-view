@@ -6,8 +6,10 @@
 
 import 'package:arc_view/src/core/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smiles/smiles.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.child, required this.index});
@@ -47,6 +49,19 @@ class _MainLayoutState extends State<MainLayout> {
                   break;
               }
             },
+            trailing: Align(
+              alignment: AlignmentDirectional.bottomEnd,
+              child: InkWell(
+                onTap: () {
+                  launchUrlString('https://eclipse.dev/lmos/');
+                },
+                child: SvgPicture.asset(
+                  'assets/lmos.svg',
+                  semanticsLabel: 'Lmos Logo',
+                  width: 30,
+                ).padByUnits(0, 0, 2, 0),
+              ),
+            ).expand(),
             minWidth: 60,
             destinations: [
               NavigationRailDestination(
