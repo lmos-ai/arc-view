@@ -14,6 +14,7 @@ import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'voice_notifier.g.dart';
@@ -21,6 +22,8 @@ part 'voice_notifier.g.dart';
 @riverpod
 class VoiceNotifier extends _$VoiceNotifier {
   VoiceRecorder? _voiceRecorder;
+
+  final _log = Logger('VoiceNotifier');
 
   @override
   VoiceStatus build() {
@@ -47,7 +50,8 @@ class VoiceNotifier extends _$VoiceNotifier {
     final data = await _voiceRecorder?.startRecordingStream();
     if (data == null) return;
     state = VoiceStatus.recording;
-    _streamVoiceToBot('voice message', data);
+    _log.fine('Recording started');
+    await _streamVoiceToBot('voice message', data);
     stopRecording();
   }
 
@@ -55,22 +59,12 @@ class VoiceNotifier extends _$VoiceNotifier {
       {UseCase? useCase}) {
     final callback = Completer();
     final conversation = ref.read(conversationsNotifierProvider).current;
-    final systemEntries = useCase != null
-        ? [
-            (key: 'usecase', value: useCase.content),
-            (key: 'usecaseName', value: useCase.name),
-          ]
-        : null;
 
-    final loadingConversation = ref
-        .read(conversationsNotifierProvider.notifier)
-        .addUserRequest(msg, conversation, streamAudio: true);
+    var loadingConversation =
+        ref.addUserRequest(msg, conversation, streamAudio: true);
 
-    _streamAudio(conversation, data).listen((value) {
-      ref.read(conversationsNotifierProvider.notifier).addBotResponse(
-            value,
-            loadingConversation.addSystem(systemEntries ?? []),
-          );
+    _streamAudio(loadingConversation.addUseCase(useCase), data).listen((value) {
+      loadingConversation = ref.addBotResponse(value, loadingConversation);
       if (!callback.isCompleted) callback.complete();
     });
     return callback.future;

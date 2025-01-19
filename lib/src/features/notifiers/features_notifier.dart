@@ -17,16 +17,11 @@ class FeaturesNotifier extends _$FeaturesNotifier {
   }
 
   List<Feature> _getFeaturesFromQueryParam() {
-    print(
-        'FeaturesNotifier:  Uri.base.queryParameters: ${Uri.base}');
-    print(
-        'FeaturesNotifier:  Uri.base.queryParameters: ${Uri.base.hasQuery}');
     if (!Uri.base.hasQuery) return List.empty();
     List<Feature> features = [];
     Uri.base.queryParameters.forEach((key, value) {
       if (value == 'true') features.add(Feature(name: key));
     });
-    print('FeaturesNotifier: $features');
     return features;
   }
 }

@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/notifiers/agent_url_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -24,7 +25,7 @@ class AgentsNotifier extends _$AgentsNotifier {
 
   setActivated(String activated, List<String> names) {
     state = AsyncData((activated: activated, names: names));
-    ref.read(agentClientNotifierProvider.notifier).setAgent(activated);
+    ref.read(agentUrlNotifierProvider.notifier).setAgent(activated);
   }
 
   refresh() async {

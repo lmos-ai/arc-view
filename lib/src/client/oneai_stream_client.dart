@@ -10,7 +10,7 @@ import 'dart:typed_data';
 
 import 'package:arc_view/src/client/models/message.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
-import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -21,7 +21,7 @@ class OneAIStreamClient {
   OneAIStreamClient(this.agentUrl);
 
   final AgentUrlData agentUrl;
-  late WebSocketChannel _channel;
+  WebSocketChannel? _channel;
   final _log = Logger('OneAIClient');
 
   Stream<MessageResult> sendMessage(
@@ -30,10 +30,12 @@ class OneAIStreamClient {
   ) {
     if (conversation.messages.isEmpty) return Stream.empty();
     final url =
-        '${agentUrl.secure ? 'https://' : 'http://'}${agentUrl.url.host}:${agentUrl.url.port}/stream/agent';
+        '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.url.host}:${agentUrl.url.port}/stream/agent';
 
     _log.fine('Connecting to $url...');
-    _channel = WebSocketChannel.connect(Uri.parse(url));
+    _channel?.sink.close();
+    final channel = WebSocketChannel.connect(Uri.parse(url));
+    _channel = channel;
     // await _channel.ready;
 
     final payload = {
@@ -60,15 +62,15 @@ class OneAIStreamClient {
             .toList(),
       }
     };
-    _channel.sink.add(jsonEncode(payload));
+    channel.sink.add(jsonEncode(payload));
     data.listen((d) {
-      _channel.sink.add(d);
+      channel.sink.add(d);
     });
     //_channel.sink.add('<FIN>');
 
-    _log.fine('Sent message: ${data.length}');
+    _log.fine('Sent message');
 
-    return _channel.stream.map((message) {
+    return channel.stream.map((message) {
       final agent = agentUrl.agent ?? 'default';
 
       if (message is String) {
@@ -102,8 +104,10 @@ class OneAIStreamClient {
   }
 
   Future<bool> isConnected() async {
-    return true;
+    return _channel != null && _channel?.closeCode != null;
   }
 
-  close() async {}
+  close() async {
+    _channel?.sink.close();
+  }
 }

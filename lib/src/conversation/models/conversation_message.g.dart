@@ -37,12 +37,14 @@ const _$MessageTypeEnumMap = {
 
 _$BinaryDataImpl _$$BinaryDataImplFromJson(Map<String, dynamic> json) =>
     _$BinaryDataImpl(
-      data: json['data'] as String,
+      dataAsBase64: json['dataAsBase64'] as String?,
       mimeType: json['mimeType'] as String,
+      source: json['source'] as String?,
     );
 
 Map<String, dynamic> _$$BinaryDataImplToJson(_$BinaryDataImpl instance) =>
     <String, dynamic>{
-      'data': instance.data,
+      'dataAsBase64': instance.dataAsBase64,
       'mimeType': instance.mimeType,
+      'source': instance.source,
     };

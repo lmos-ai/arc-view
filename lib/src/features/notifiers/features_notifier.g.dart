@@ -6,7 +6,7 @@ part of 'features_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$featuresNotifierHash() => r'5a3e4937079a9e2e35e815b80daca4afe4b5a5bb';
+String _$featuresNotifierHash() => r'91e081880a53d44109d613d997f52774006166b7';
 
 /// See also [FeaturesNotifier].
 @ProviderFor(FeaturesNotifier)

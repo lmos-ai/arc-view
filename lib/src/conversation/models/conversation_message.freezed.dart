@@ -289,8 +289,9 @@ BinaryData _$BinaryDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BinaryData {
-  String get data => throw _privateConstructorUsedError;
+  String? get dataAsBase64 => throw _privateConstructorUsedError;
   String get mimeType => throw _privateConstructorUsedError;
+  String? get source => throw _privateConstructorUsedError;
 
   /// Serializes this BinaryData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -308,7 +309,7 @@ abstract class $BinaryDataCopyWith<$Res> {
           BinaryData value, $Res Function(BinaryData) then) =
       _$BinaryDataCopyWithImpl<$Res, BinaryData>;
   @useResult
-  $Res call({String data, String mimeType});
+  $Res call({String? dataAsBase64, String mimeType, String? source});
 }
 
 /// @nodoc
@@ -326,18 +327,23 @@ class _$BinaryDataCopyWithImpl<$Res, $Val extends BinaryData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = null,
+    Object? dataAsBase64 = freezed,
     Object? mimeType = null,
+    Object? source = freezed,
   }) {
     return _then(_value.copyWith(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
+      dataAsBase64: freezed == dataAsBase64
+          ? _value.dataAsBase64
+          : dataAsBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
       mimeType: null == mimeType
           ? _value.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as String,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -350,7 +356,7 @@ abstract class _$$BinaryDataImplCopyWith<$Res>
       __$$BinaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String data, String mimeType});
+  $Res call({String? dataAsBase64, String mimeType, String? source});
 }
 
 /// @nodoc
@@ -366,18 +372,23 @@ class __$$BinaryDataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? data = null,
+    Object? dataAsBase64 = freezed,
     Object? mimeType = null,
+    Object? source = freezed,
   }) {
     return _then(_$BinaryDataImpl(
-      data: null == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as String,
+      dataAsBase64: freezed == dataAsBase64
+          ? _value.dataAsBase64
+          : dataAsBase64 // ignore: cast_nullable_to_non_nullable
+              as String?,
       mimeType: null == mimeType
           ? _value.mimeType
           : mimeType // ignore: cast_nullable_to_non_nullable
               as String,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -385,19 +396,21 @@ class __$$BinaryDataImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$BinaryDataImpl implements _BinaryData {
-  _$BinaryDataImpl({required this.data, required this.mimeType});
+  _$BinaryDataImpl({this.dataAsBase64, required this.mimeType, this.source});
 
   factory _$BinaryDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$BinaryDataImplFromJson(json);
 
   @override
-  final String data;
+  final String? dataAsBase64;
   @override
   final String mimeType;
+  @override
+  final String? source;
 
   @override
   String toString() {
-    return 'BinaryData(data: $data, mimeType: $mimeType)';
+    return 'BinaryData(dataAsBase64: $dataAsBase64, mimeType: $mimeType, source: $source)';
   }
 
   @override
@@ -405,14 +418,16 @@ class _$BinaryDataImpl implements _BinaryData {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BinaryDataImpl &&
-            (identical(other.data, data) || other.data == data) &&
+            (identical(other.dataAsBase64, dataAsBase64) ||
+                other.dataAsBase64 == dataAsBase64) &&
             (identical(other.mimeType, mimeType) ||
-                other.mimeType == mimeType));
+                other.mimeType == mimeType) &&
+            (identical(other.source, source) || other.source == source));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, data, mimeType);
+  int get hashCode => Object.hash(runtimeType, dataAsBase64, mimeType, source);
 
   /// Create a copy of BinaryData
   /// with the given fields replaced by the non-null parameter values.
@@ -432,16 +447,19 @@ class _$BinaryDataImpl implements _BinaryData {
 
 abstract class _BinaryData implements BinaryData {
   factory _BinaryData(
-      {required final String data,
-      required final String mimeType}) = _$BinaryDataImpl;
+      {final String? dataAsBase64,
+      required final String mimeType,
+      final String? source}) = _$BinaryDataImpl;
 
   factory _BinaryData.fromJson(Map<String, dynamic> json) =
       _$BinaryDataImpl.fromJson;
 
   @override
-  String get data;
+  String? get dataAsBase64;
   @override
   String get mimeType;
+  @override
+  String? get source;
 
   /// Create a copy of BinaryData
   /// with the given fields replaced by the non-null parameter values.

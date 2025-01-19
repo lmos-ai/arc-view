@@ -7,6 +7,7 @@
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'conversation.freezed.dart';
@@ -46,7 +47,7 @@ class Conversation with _$Conversation {
           conversationId: conversationId,
           content: content,
           binaryData: streamAudio == true
-              ? [BinaryData(data: 'STREAM_SOURCE', mimeType: 'audio/pcm')]
+              ? [BinaryData(source: 'STREAM_SOURCE', mimeType: 'audio/pcm')]
               : null,
         ),
       ],
@@ -64,6 +65,15 @@ class Conversation with _$Conversation {
         ],
       ),
     );
+  }
+
+  Conversation addUseCase(UseCase? useCase) {
+    if (useCase == null) return this;
+    final systemEntries = [
+      (key: 'usecase', value: useCase.content),
+      (key: 'usecaseName', value: useCase.name),
+    ];
+    return addSystem(systemEntries);
   }
 
   factory Conversation.fromJson(Map<String, dynamic> json) =>

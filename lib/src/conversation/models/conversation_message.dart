@@ -33,8 +33,9 @@ class ConversationMessage with _$ConversationMessage {
 @freezed
 class BinaryData with _$BinaryData {
   factory BinaryData({
-    required String data,
+    String? dataAsBase64,
     required String mimeType,
+    String? source,
   }) = _BinaryData;
 
   factory BinaryData.fromJson(Map<String, Object?> json) =>

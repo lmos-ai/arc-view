@@ -9,7 +9,7 @@ import 'package:arc_view/src/client/graphql/agent_subscription.dart';
 import 'package:arc_view/src/client/graphql/event_subscription.dart';
 import 'package:arc_view/src/client/models/message.dart';
 import 'package:arc_view/src/client/models/message_result.dart';
-import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
+import 'package:arc_view/src/client/notifiers/agent_stream_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';

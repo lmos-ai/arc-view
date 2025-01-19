@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'agent_client_notifier.dart';
+part of 'agent_url_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$agentClientNotifierHash() =>
-    r'd2ed1cc614fb05faccd418b76649b6f2e32a3f9d';
+String _$agentUrlNotifierHash() => r'5c70eab077c1ee60e061f49ed4037d5de88199ab';
 
-/// See also [AgentClientNotifier].
-@ProviderFor(AgentClientNotifier)
-final agentClientNotifierProvider =
-    NotifierProvider<AgentClientNotifier, OneAIClient>.internal(
-  AgentClientNotifier.new,
-  name: r'agentClientNotifierProvider',
+/// See also [AgentUrlNotifier].
+@ProviderFor(AgentUrlNotifier)
+final agentUrlNotifierProvider =
+    AutoDisposeNotifierProvider<AgentUrlNotifier, AgentUrlData>.internal(
+  AgentUrlNotifier.new,
+  name: r'agentUrlNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$agentClientNotifierHash,
+      : _$agentUrlNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AgentClientNotifier = Notifier<OneAIClient>;
+typedef _$AgentUrlNotifier = AutoDisposeNotifier<AgentUrlData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

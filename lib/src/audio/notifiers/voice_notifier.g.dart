@@ -6,7 +6,7 @@ part of 'voice_notifier.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$voiceNotifierHash() => r'eacfdbaee360f3023087428126e6e5b309b27c5e';
+String _$voiceNotifierHash() => r'172969c4addf2d73c92f8068a85aaf86c66cda85';
 
 /// See also [VoiceNotifier].
 @ProviderFor(VoiceNotifier)

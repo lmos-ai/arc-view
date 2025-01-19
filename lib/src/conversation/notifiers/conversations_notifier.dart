@@ -17,6 +17,7 @@ import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -130,18 +131,12 @@ class ConversationsNotifier extends _$ConversationsNotifier {
 
   Future<void> sendUserMessage(String msg, {UseCase? useCase}) {
     final callback = Completer();
-    final systemEntries = useCase != null
-        ? [
-            (key: 'usecase', value: useCase.content),
-            (key: 'usecaseName', value: useCase.name),
-          ]
-        : null;
     final updatedConversation = addUserRequest(msg, state.current);
 
     _log.fine('Sending message: $updatedConversation');
     ref
         .read(agentClientNotifierProvider)
-        .sendMessage(updatedConversation.addSystem(systemEntries ?? []))
+        .sendMessage(updatedConversation.addUseCase(useCase))
         .listen((value) {
       addBotResponse(value, updatedConversation);
       if (!callback.isCompleted) callback.complete();
@@ -154,8 +149,11 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   ///
   Conversation addUserRequest(String msg, Conversation conversation,
       {bool? streamAudio}) {
-    final updatedConversation = conversation.addUserMessage(msg,
-        loading: true, streamAudio: streamAudio);
+    final updatedConversation = conversation.addUserMessage(
+      msg,
+      loading: true,
+      streamAudio: streamAudio,
+    );
     state = state.update(updatedConversation);
     return updatedConversation;
   }
@@ -163,13 +161,13 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   ///
   /// Adds a message from the bot to the conversation and sets loading to false.
   ///
-  addBotResponse(MessageResult value, Conversation conversation) {
-    state = state.update(
-      conversation.add(
-        _handleBotMessages(value, conversation),
-        loading: false,
-      ),
+  Conversation addBotResponse(MessageResult value, Conversation conversation) {
+    final updatedConversation = conversation.add(
+      _handleBotMessages(value, conversation),
+      loading: false,
     );
+    state = state.update(updatedConversation);
+    return updatedConversation;
   }
 
   List<ConversationMessage> _handleBotMessages(
@@ -220,5 +218,23 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     if (state.current == conversation) {
       newConversation();
     }
+  }
+}
+
+extension ConversationsNotifierExtension on Ref {
+  Conversation addBotResponse(MessageResult value, Conversation conversation) {
+    return read(conversationsNotifierProvider.notifier).addBotResponse(
+      value,
+      conversation,
+    );
+  }
+
+  Conversation addUserRequest(String msg, Conversation conversation,
+      {bool? streamAudio}) {
+    return read(conversationsNotifierProvider.notifier).addUserRequest(
+      msg,
+      conversation,
+      streamAudio: streamAudio,
+    );
   }
 }

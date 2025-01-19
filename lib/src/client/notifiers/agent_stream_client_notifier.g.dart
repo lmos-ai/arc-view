@@ -7,7 +7,7 @@ part of 'agent_stream_client_notifier.dart';
 // **************************************************************************
 
 String _$agentStreamClientNotifierHash() =>
-    r'0e55cf4a59f8637bb5d5232e6023daf626703d30';
+    r'000176750936d9451a9c831500fd90ad756aa063';
 
 /// See also [AgentStreamClientNotifier].
 @ProviderFor(AgentStreamClientNotifier)
