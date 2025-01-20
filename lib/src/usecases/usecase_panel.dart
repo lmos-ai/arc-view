@@ -7,6 +7,7 @@
 import 'dart:async';
 
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/usecases/buttons/copy_to_clipboard_button.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
@@ -16,7 +17,6 @@ import 'package:arc_view/src/usecases/services/usecase_exporter.dart';
 import 'package:arc_view/src/usecases/usecase_overview_panel.dart';
 import 'package:arc_view/src/usecases/usecase_syntax.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
@@ -94,15 +94,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                   ref.read(useCaseExporterProvider).export(selectedCase);
                 },
               ),
-              SecondaryButton(
-                icon: Icons.copy,
-                description: 'Copy to Clipboard',
-                onPressed: () {
-                  Clipboard.setData(
-                    ClipboardData(text: _textController.text),
-                  ).then((_) {});
-                },
-              ),
+              CopyToClipboardButton(textProvider: () => _textController.text),
               HGap.small(),
             ],
           ),
