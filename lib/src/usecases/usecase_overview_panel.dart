@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
@@ -27,18 +28,23 @@ class UsecaseOverviewPanel extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Card(
-          child: ListView.builder(
-            itemCount: sections.length,
-            itemBuilder: (context, i) => ListTile(
-              dense: true,
-              title: sections[i].$1.substringAfter(':').trim().txt,
-              onTap: () {
-                Scrollable.ensureVisible(sectionKeys[i].currentContext!);
-              },
-            ),
-          ).size(width: 300),
-        ).padByUnits(0, 1, 2, 2),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionTitle(text: 'Overview').padByUnits(0, 0, 0, 2),
+            VGap(),
+            ListView.builder(
+              itemCount: sections.length,
+              itemBuilder: (context, i) => ListTile(
+                dense: true,
+                title: sections[i].$1.substringAfter(':').trim().txt,
+                onTap: () {
+                  Scrollable.ensureVisible(sectionKeys[i].currentContext!);
+                },
+              ),
+            ).expand(),
+          ],
+        ).size(width: 300),
         SingleChildScrollView(
           child: Column(
             children: [

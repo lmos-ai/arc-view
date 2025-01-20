@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,7 +23,7 @@ class UseCaseList extends ConsumerWidget {
     }
     return Column(
       children: [
-        // 'Use Cases'.txt.padByUnits(1, 1, 1, 2).toLeft(),
+        SectionTitle(text: 'Use Cases').padByUnits(1, 1, 1, 0).toLeft(),
         ListView.builder(
           itemCount: useCases.cases.length,
           itemBuilder: (context, index) {

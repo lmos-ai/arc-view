@@ -29,7 +29,6 @@ class UseCasesScreen extends StatelessWidget {
       body: Row(
         children: [
           UseCasePanel().expand(),
-          Container(width: 1, color: context.colorScheme.surfaceContainer),
           UseCaseList().size(width: 220).padByUnits(0, 1, 0, 1),
         ],
       ),

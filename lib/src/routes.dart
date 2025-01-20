@@ -31,7 +31,8 @@ final appRoutes = GoRouter(
           '/' => 0,
           '/chat' => 1,
           '/usecases' => 2,
-          '/settings' => 3,
+          '/charts' => 3,
+          '/settings' => 4,
           _ => 0,
         };
         return MainLayout(index: index, child: child);
