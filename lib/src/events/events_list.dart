@@ -9,8 +9,9 @@ import 'dart:convert';
 import 'package:arc_view/src/core/text.dart';
 import 'package:arc_view/src/events/event_filter_panel.dart';
 import 'package:arc_view/src/events/event_row_item.dart';
-import 'package:arc_view/src/events/models/agent_events.dart';
+import 'package:arc_view/src/events/models/event_filter.dart';
 import 'package:arc_view/src/events/notifiers/agent_events_notifier.dart';
+import 'package:arc_view/src/events/notifiers/event_filters_notifier.dart';
 import 'package:arc_view/src/events/prompt_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -21,41 +22,18 @@ import 'package:url_launcher/url_launcher_string.dart';
 // State provider to manage the drawer state
 final filterDrawerProvider = StateProvider<bool>((ref) => false);
 
-// State provider to manage available filters
-final availableFiltersProvider = StateProvider<Map<String, List<String>>>(
-    (ref) => {'EventType': [], 'Conversation': [], 'AgentName': []});
-
-//State Provider for filter group
-final eventTypeFilterProvider = StateProvider<List<String>>((ref) => []);
-final conversationFilterProvider = StateProvider<List<String>>((ref) => []);
-final agentNameFilterProvider = StateProvider<List<String>>((ref) => []);
-
+///
+/// Lists the Events published by Agents.
+///
 class EventsList extends ConsumerWidget {
   const EventsList({super.key});
-
-  static final handleEvents = [
-    'AgentFinishedEvent',
-    'LLMFinishedEvent',
-    'LLMFunctionCalledEvent',
-    'AgentLoadedEvent',
-    'FunctionLoadedEvent',
-    'UseCaseEvent',
-  ];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isFilterDrawerOpen = ref.watch(filterDrawerProvider);
-    final List<AgentEvent> events =
-        ref.watch(agentEventsNotifierProvider.select((events) {
-      return events.where((e) {
-        return handleEvents.contains(e.type) && applyFiltersAndSorting(e, ref);
-      }).toList();
-    }));
-
-    // Schedule the filter update after the widget tree has been built
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateFilterProvider(ref);
-    });
+    final eventFilters = ref.watch(eventFiltersNotifierProvider);
+    final events = ref.watch(agentEventsNotifierProvider
+        .select((events) => eventFilters.applyFilters(events)));
 
     return Stack(
       alignment: Alignment.topLeft,
@@ -187,57 +165,5 @@ class EventsList extends ConsumerWidget {
     } catch (e) {
       return '';
     }
-  }
-
-  static bool applyFiltersAndSorting(AgentEvent e, WidgetRef ref) {
-    final selectedEventTypes = ref.watch(eventTypeFilterProvider);
-    final selectedConversations = ref.watch(conversationFilterProvider);
-    final selectedAgents = ref.watch(agentNameFilterProvider);
-    bool matchesEventType =
-        selectedEventTypes.isEmpty || selectedEventTypes.contains(e.type);
-    bool matchesConversations = selectedConversations.isEmpty ||
-        selectedConversations.contains(e.conversationId);
-
-    //Agent is the part of payload to decode it
-    var agentName = json.decode(e.payload)['agent']?['name'] ?? '';
-    bool matchesAgentName =
-        selectedAgents.isEmpty || selectedAgents.contains(agentName);
-    //To-DO Sorting
-
-    return matchesEventType && matchesConversations && matchesAgentName;
-  }
-
-  //Dynamically Update Filter Group Values
-  _updateFilterProvider(WidgetRef ref) {
-    //Get All Supported Events
-    final events = ref
-        .watch(agentEventsNotifierProvider.select((list) => list.where((e) {
-              return handleEvents.contains(e.type);
-            })))
-        .toList();
-
-    // Extract unique values for each filter type
-    final eventTypes = events.map((e) => e.type).toSet().toList();
-    // Extract Conversations
-    final conversationNames =
-        events.map((e) => e.conversationId!!).toSet().toList();
-    //Extract Agent Name from payload
-    final List<String> agentNames = events
-        .map((e) {
-          // Decode the JSON payload and extract the agent name
-          var agentName = json.decode(e.payload)['agent']?['name'];
-          return agentName?.toString() ??
-              ''; // Return the name, which may be null
-        })
-        .where((name) => name.isNotEmpty) // Remove null values, if any
-        .toSet() // Ensure uniqueness
-        .toList();
-
-    // Update available filters (Dynamically Calculate)
-    ref.read(availableFiltersProvider.notifier).state = {
-      'EventType': eventTypes,
-      'Conversation': conversationNames,
-      'AgentName': agentNames,
-    };
   }
 }

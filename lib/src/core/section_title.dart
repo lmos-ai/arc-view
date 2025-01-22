@@ -18,7 +18,7 @@ class SectionTitle extends StatelessWidget {
       Container(
         width: 10,
         height: 10,
-        color: color,
+        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       ),
       HGap.units(2),
       text.style(color: color),

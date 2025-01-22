@@ -6,12 +6,8 @@
 
 import 'package:arc_view/src/core/text_input_dialog.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
-import 'package:arc_view/src/usecases/usecase_list.dart';
-import 'package:arc_view/src/usecases/usecase_panel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smiles/smiles.dart';
 
 class AddUseCasesButton extends ConsumerWidget {
   const AddUseCasesButton({super.key});
