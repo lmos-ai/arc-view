@@ -85,7 +85,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
   _update(List<UseCase> updatedCases) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
-    state = AsyncData(useCases.copyWith(cases: updatedCases));
+    state = AsyncData(useCases.copyWith(cases: updatedCases, selected: 0));
     save();
   }
 }
