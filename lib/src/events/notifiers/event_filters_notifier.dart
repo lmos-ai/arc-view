@@ -18,7 +18,7 @@ part 'event_filters_notifier.g.dart';
 ///
 /// Provides active filters for the events.
 ///
-@riverpod
+@Riverpod(keepAlive: true)
 class EventFiltersNotifier extends _$EventFiltersNotifier {
   @override
   List<EventFilter> build() {
@@ -38,7 +38,9 @@ class EventFiltersNotifier extends _$EventFiltersNotifier {
       final cid = conversations.current.conversationId;
       state = state.map((f) {
         if (f.label == 'Conversation') {
-          return f.copyWith(match: (e, filter) => e.conversationId == cid);
+          return f.copyWith(
+              match: (e, filter) =>
+                  e.conversationId == null || e.conversationId == cid);
         }
         return f;
       }).toList();
