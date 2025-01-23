@@ -31,6 +31,7 @@ class UseCasePanel extends StatefulWidget {
 class _UseCasePanelState extends State<UseCasePanel> {
   bool _showSource = false;
   final _textController = SyntaxTextController();
+  final _scrollController = ScrollController();
   Timer? _debounce;
 
   @override
@@ -48,12 +49,15 @@ class _UseCasePanelState extends State<UseCasePanel> {
       }
 
       final searchTerm = ref.watch(searchNotifierProvider)?.nullIfEmpty();
+      List<int> findLines = [];
+
       _textController.clearHighlights();
       if (searchTerm != null) {
         _textController.highlightText(
           searchTerm,
           context.colorScheme.secondary,
         );
+        findLines = _findLines(searchTerm);
       }
       _textController.colorText(useCaseSyntax);
 
@@ -64,10 +68,43 @@ class _UseCasePanelState extends State<UseCasePanel> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Spacer(),
+              if (_showSource && findLines.isNotEmpty) ...[
+                SecondaryButton(
+                  icon: Icons.clear,
+                  description: 'Clear Search',
+                  onPressed: () {
+                    ref.read(searchNotifierProvider.notifier).clear();
+                  },
+                ),
+                SecondaryButton(
+                  icon: Icons.arrow_back_rounded,
+                  description: 'First last occurrence',
+                  onPressed: () {
+                    for (var i = findLines.length - 1; i >= 0; i--) {
+                      final targetOffset = (findLines[i] * 20) - 20.0;
+                      if (targetOffset < _scrollController.offset) {
+                        _scrollController.jumpTo(targetOffset);
+                        break;
+                      }
+                    }
+                  },
+                ),
+                SecondaryButton(
+                  icon: Icons.arrow_forward_rounded,
+                  description: 'First next occurrence',
+                  onPressed: () {
+                    for (var i = 0; i < findLines.length; i++) {
+                      final targetOffset = (findLines[i] * 20) - 20.0;
+                      if (targetOffset > _scrollController.offset + 40) {
+                        _scrollController.jumpTo(targetOffset);
+                        break;
+                      }
+                    }
+                  },
+                )
+              ],
               if (_showSource && searchTerm != null)
-                'Found: ${_textController.text.count(searchTerm)}'
-                    .txt
-                    .padByUnits(0, 2, 0, 0),
+                'Found: ${findLines.length}'.txt.padByUnits(0, 2, 0, 0),
               if (_showSource) SearchPanel().size(width: 300),
               SecondaryButton(
                 icon: Icons.add,
@@ -103,6 +140,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                   margin: const EdgeInsets.all(8),
                   child: TextField(
                     controller: _textController,
+                    scrollController: _scrollController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       contentPadding: const EdgeInsets.all(8),
@@ -133,6 +171,18 @@ class _UseCasePanelState extends State<UseCasePanel> {
         ref.read(useCasesNotifierProvider.notifier).updateSelected(text);
       });
     }
+  }
+
+  List<int> _findLines(String searchTerm) {
+    final result = <int>[];
+    final lines = _textController.text.split('\n');
+    for (var i = 0; i < lines.length; i++) {
+      final regex = RegExp(searchTerm, caseSensitive: false);
+      if (lines[i].contains(regex)) {
+        result.add(i);
+      }
+    }
+    return result;
   }
 
   @override

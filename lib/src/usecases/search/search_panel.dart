@@ -24,6 +24,12 @@ class SearchPanelState extends ConsumerState<SearchPanel> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final cleared = ref.watch(searchNotifierProvider.select((e) => e == null));
+
+    if (cleared) {
+      _textController.clear();
+    }
+
     return SearchBar(
       controller: _textController,
       textStyle: WidgetStatePropertyAll<TextStyle>(theme.textTheme.bodyMedium!),

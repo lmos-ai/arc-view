@@ -1,27 +1,31 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'agent_events_notifier.dart';
+part of 'event_filters_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$agentEventsNotifierHash() =>
-    r'0235c78cc4a55cb0f2de3cb0b70b2ee85724b35a';
+String _$eventFiltersNotifierHash() =>
+    r'0bfa2bff10fc9e97507c9e57681f4cf51eab5211';
 
-/// See also [AgentEventsNotifier].
-@ProviderFor(AgentEventsNotifier)
-final agentEventsNotifierProvider =
-    NotifierProvider<AgentEventsNotifier, List<AgentEvent>>.internal(
-  AgentEventsNotifier.new,
-  name: r'agentEventsNotifierProvider',
+///
+/// Provides active filters for the events.
+///
+///
+/// Copied from [EventFiltersNotifier].
+@ProviderFor(EventFiltersNotifier)
+final eventFiltersNotifierProvider =
+    NotifierProvider<EventFiltersNotifier, List<EventFilter>>.internal(
+  EventFiltersNotifier.new,
+  name: r'eventFiltersNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$agentEventsNotifierHash,
+      : _$eventFiltersNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AgentEventsNotifier = Notifier<List<AgentEvent>>;
+typedef _$EventFiltersNotifier = Notifier<List<EventFilter>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

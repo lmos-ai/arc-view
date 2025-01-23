@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/client/oneai_client.dart';
 import 'package:arc_view/src/events/models/agent_events.dart';
+import 'package:arc_view/src/events/models/event_types.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'agent_events_notifier.g.dart';
@@ -38,6 +39,7 @@ class AgentEventsNotifier extends _$AgentEventsNotifier {
       _lastSubscription?.cancel();
       _lastSubscription = client.listenToEvents().listen((e) {
         if (e == null) return;
+        if (!agentEvents.contains(e.type)) return;
         state = [e, ...state];
         if (state.length > 100) {
           state = state.sublist(0, 100);
