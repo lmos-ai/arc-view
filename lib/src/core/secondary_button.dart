@@ -13,21 +13,31 @@ class SecondaryButton extends StatelessWidget {
     required this.icon,
     required this.description,
     this.color,
+    this.enabled,
+    this.disabledIcon,
   });
 
   final VoidCallback onPressed;
   final IconData icon;
   final String description;
   final Color? color;
+  final bool? enabled;
+  final IconData? disabledIcon;
 
   @override
   Widget build(BuildContext context) {
+    var applyColor = color ?? Theme.of(context).colorScheme.onSurface;
+
+    if (enabled == false) {
+      applyColor = applyColor.withValues(alpha: 0.3);
+    }
+
     return IconButton(
-      onPressed: onPressed,
+      onPressed: enabled == false ? null : onPressed,
       icon: Icon(
-        icon,
+        enabled == false ? disabledIcon ?? icon : icon,
         size: 16,
-        color: color ?? Theme.of(context).colorScheme.onSurface,
+        color: applyColor,
       ),
     ).tip(description);
   }

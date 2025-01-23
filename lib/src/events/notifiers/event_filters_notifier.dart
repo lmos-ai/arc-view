@@ -39,8 +39,11 @@ class EventFiltersNotifier extends _$EventFiltersNotifier {
       state = state.map((f) {
         if (f.label == 'Conversation') {
           return f.copyWith(
-              match: (e, filter) =>
-                  e.conversationId == null || e.conversationId == cid);
+            match: (e, filter) =>
+                e.conversationId == null ||
+                e.conversationId?.isEmpty == true ||
+                e.conversationId == cid,
+          );
         }
         return f;
       }).toList();
@@ -69,7 +72,7 @@ class EventFiltersNotifier extends _$EventFiltersNotifier {
         label: 'Conversation',
         options: ['Display only current conversation'],
         active: ['Display only current conversation'],
-        match: (e, filter) => false,
+        match: (e, filter) => true,
       ),
     ];
   }

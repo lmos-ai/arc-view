@@ -28,7 +28,9 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   final _log = Logger('ConversationNotifier');
 
   @override
-  Conversations build() {
+  Conversations build() => _build();
+
+  Conversations _build({String? conversationId}) {
     final userContext = _loadUserContext();
     final systemContext = _loadSystemContext();
     var newConversation = Conversation(
@@ -36,7 +38,8 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
-      conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
+      conversationId:
+          conversationId ?? 'cid-${DateTime.now().millisecondsSinceEpoch}',
     );
 
     newConversation = addFromQueryParam(newConversation);
@@ -120,9 +123,13 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     state = state.addAsCurrent(conversation);
   }
 
-  replay({UseCase? useCase}) async {
-    final conversation = state.current;
-    newConversation();
+  replay({
+    UseCase? useCase,
+    Conversation? replay,
+    String? conversationId,
+  }) async {
+    final conversation = replay ?? state.current;
+    newConversation(conversationId: conversationId);
     for (final msg in conversation.messages) {
       if (msg.type == MessageType.bot) continue;
       await sendUserMessage(msg.content, useCase: useCase);
@@ -205,8 +212,10 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }).toList();
   }
 
-  newConversation() {
-    state = state.copyWith(current: build().current);
+  newConversation({String? conversationId}) {
+    state = state.copyWith(
+      current: _build(conversationId: conversationId).current,
+    );
   }
 
   deleteAll() {
@@ -236,5 +245,9 @@ extension ConversationsNotifierExtension on Ref {
       conversation,
       streamAudio: streamAudio,
     );
+  }
+
+  Conversation currentConversation() {
+    return read(conversationsNotifierProvider).current;
   }
 }

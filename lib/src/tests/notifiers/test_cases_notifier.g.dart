@@ -1,30 +1,30 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'usecases_notifier.dart';
+part of 'test_cases_notifier.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$useCasesNotifierHash() => r'e7b06426400e26473a4181d6387b1f25df5a470a';
+String _$testCasesNotifierHash() => r'1559a12b78177a3be40a5c070155ae6d4d46797d';
 
 ///
-/// Manages the creation and editing of Use Cases files.
+/// Manages the test cases.
 ///
 ///
-/// Copied from [UseCasesNotifier].
-@ProviderFor(UseCasesNotifier)
-final useCasesNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<UseCasesNotifier, UseCases>.internal(
-  UseCasesNotifier.new,
-  name: r'useCasesNotifierProvider',
+/// Copied from [TestCasesNotifier].
+@ProviderFor(TestCasesNotifier)
+final testCasesNotifierProvider =
+    NotifierProvider<TestCasesNotifier, TestCases>.internal(
+  TestCasesNotifier.new,
+  name: r'testCasesNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$useCasesNotifierHash,
+      : _$testCasesNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$UseCasesNotifier = AutoDisposeAsyncNotifier<UseCases>;
+typedef _$TestCasesNotifier = Notifier<TestCases>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

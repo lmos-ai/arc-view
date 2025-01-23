@@ -39,6 +39,7 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final newUseCase = UseCase(
+      id: '$name-${DateTime.now().millisecondsSinceEpoch}',
       name: name.isEmpty
           ? 'usecases'
           : name

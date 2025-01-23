@@ -32,6 +32,7 @@ class UseCases with _$UseCases {
 class UseCase with _$UseCase {
   factory UseCase({
     required String name,
+    String? id,
     required DateTime createdAt,
     required String content,
   }) = _UseCase;
