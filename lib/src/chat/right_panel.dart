@@ -43,7 +43,7 @@ class RightPanel extends ConsumerWidget {
           _SwitchTabs().size(height: 32),
         ],
       ).percentOfScreen(width: 0.3).padByUnits(0, 2, 2, 2),
-    )..animateTo(0);
+    );
   }
 }
 

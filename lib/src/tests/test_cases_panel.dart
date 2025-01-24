@@ -41,6 +41,7 @@ class TestCasesPanel extends ConsumerWidget {
             ]),
             SecondaryButton(
               description: 'Download Test Cases',
+              enabled: tests.isNotEmpty,
               onPressed: () {
                 ref.read(testCasesExporterProvider).export();
               },
