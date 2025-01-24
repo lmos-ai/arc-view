@@ -25,7 +25,7 @@ class _AddressBarState extends State<AddressBar> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionTitle(text: 'Agent Url').padByUnits(3, 1, 1, 1),
+          SectionTitle(text: 'Agent Url').padByUnits(0, 1, 1, 1),
           Row(
             children: [
               Row(
