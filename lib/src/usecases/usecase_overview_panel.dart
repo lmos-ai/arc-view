@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/search/syntax_text_controller.dart';
@@ -44,7 +46,7 @@ class _UsecaseOverviewPanelState extends State<UsecaseOverviewPanel> {
             onSelect: (i, _) {
               Scrollable.ensureVisible(sectionKeys[i].currentContext!);
             },
-          ).size(width: 380),
+          ).size(width: 300),
           SingleChildScrollView(
             child: Column(
               children: [
@@ -52,17 +54,44 @@ class _UsecaseOverviewPanelState extends State<UsecaseOverviewPanel> {
                   Card(
                     key: sectionKeys[i],
                     margin: const EdgeInsets.all(8),
-                    child: MarkdownBody(
-                      styleSheet: MarkdownStyleSheet.fromTheme(theme).copyWith(
-                        horizontalRuleDecoration: BoxDecoration(
-                          color: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        Positioned(
+                          right: 40,
+                          top: 0,
+                          child: SecondaryButton(
+                            icon: Icons.delete,
+                            description: 'Delete Use Case',
+                            onPressed: () {
+                              _deleteUseCase(sections, i, ref);
+                            },
+                          ),
                         ),
-                      ),
-                      data: sections[i].$2,
-                      onTapLink: (text, href, title) {
-                        if (href != null) launchUrlString(href);
-                      },
-                    ).padByUnits(2, 2, 2, 2),
+                        Positioned(
+                          right: 0,
+                          top: 0,
+                          child: SecondaryButton(
+                            icon: Icons.edit,
+                            description: 'Edit Use Case',
+                            onPressed: () {
+                              showEditUseCaseDialog(context, i, sections, ref);
+                            },
+                          ),
+                        ),
+                        MarkdownBody(
+                          styleSheet:
+                              MarkdownStyleSheet.fromTheme(theme).copyWith(
+                            horizontalRuleDecoration: BoxDecoration(
+                              color: Colors.transparent,
+                            ),
+                          ),
+                          data: sections[i].$2,
+                          onTapLink: (text, href, title) {
+                            if (href != null) launchUrlString(href);
+                          },
+                        ).padByUnits(2, 2, 2, 2)
+                      ],
+                    ),
                   )
               ],
             ),
@@ -70,6 +99,30 @@ class _UsecaseOverviewPanelState extends State<UsecaseOverviewPanel> {
         ],
       );
     });
+  }
+
+  _saveUseCase(String text, List<(String, String)> sections, int sectionIndex,
+      WidgetRef ref) {
+    var newText = '';
+    for (var i = 0; i < sections.length; i++) {
+      if (i == sectionIndex) {
+        newText += '$text\n';
+      } else {
+        newText += '${sections[i].$2}\n';
+      }
+    }
+    ref.read(useCasesNotifierProvider.notifier).updateSelected(newText);
+  }
+
+  _deleteUseCase(
+      List<(String, String)> sections, int sectionIndex, WidgetRef ref) {
+    var newText = '';
+    for (var i = 0; i < sections.length; i++) {
+      if (i != sectionIndex) {
+        newText += '${sections[i].$2}\n';
+      }
+    }
+    ref.read(useCasesNotifierProvider.notifier).updateSelected(newText);
   }
 
   @override
