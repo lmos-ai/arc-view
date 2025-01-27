@@ -21,6 +21,7 @@ class EnvWrap extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final active = ref.watch(agentUrlNotifierProvider.select((a) => a.url));
         return Wrap(
           runSpacing: 1,
           children: [
@@ -46,9 +47,18 @@ class EnvWrap extends StatelessWidget {
             ...ref.watch(envNotifierProvider).map((env) {
               return Card(
                 child: [
-                  env.onPressed(() {
-                    ref.read(agentUrlNotifierProvider.notifier).setUrl(env);
-                  }),
+                  if (active.toString() != env)
+                    SecondaryButton(
+                        icon: Icons.check_box_outline_blank_sharp,
+                        description: 'Set $env as active',
+                        onPressed: () {
+                          ref
+                              .read(agentUrlNotifierProvider.notifier)
+                              .setUrl(env);
+                        }),
+                  if (active.toString() == env)
+                    Icon(Icons.check, size: 16, color: Colors.green).padding(),
+                  env.txt,
                   SecondaryButton(
                     icon: Icons.clear,
                     description: 'Delete $env as Favorite',

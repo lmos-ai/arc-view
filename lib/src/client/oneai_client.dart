@@ -116,7 +116,7 @@ class OneAIClient {
   }
 
   static GraphQLClient _buildGraphQLClient(AgentUrlData agentUrl) {
-    final httpLink = HttpLink('${agentUrl.url}/graphql');
+    final httpLink = HttpLink('${agentUrl.url}/graphql', defaultHeaders: {});
 
     final websocketLink = WebSocketLink(
       '${agentUrl.secure ? 'wss://' : 'ws://'}${agentUrl.url.host}:${agentUrl.url.port}/subscriptions',

@@ -58,14 +58,14 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     _update(useCases.cases.where((e) => e != toRemove).toList());
   }
 
-  addUseCase() {
+  addUseCase(String content) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final selected = useCases.selectedCase;
     if (selected == null) return;
 
     final updatedUseCase =
-        selected.copyWith(content: selected.content + addUseCaseTemplate);
+        selected.copyWith(content: '$content\n${selected.content}');
     _update(useCases.cases.map((e) {
       return e == selected ? updatedUseCase : e;
     }).toList());

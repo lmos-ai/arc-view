@@ -8,6 +8,7 @@ import 'dart:async';
 
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/usecases/buttons/copy_to_clipboard_button.dart';
+import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
@@ -110,7 +111,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                 icon: Icons.add,
                 description: 'Add Use Case',
                 onPressed: () {
-                  ref.read(useCasesNotifierProvider.notifier).addUseCase();
+                  showAddUseCaseDialog(context, ref);
                 },
               ),
               SecondaryButton(

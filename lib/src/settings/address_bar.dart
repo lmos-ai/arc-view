@@ -30,8 +30,8 @@ class _AddressBarState extends State<AddressBar> {
             children: [
               Row(
                 children: [
-                  'Selected Agent Url: '.h3,
-                  agentClient.agentUrl.url.toString().h3,
+                  'Selected Agent Url: '.txt,
+                  agentClient.agentUrl.url.toString().txt,
                 ],
               ).padByUnits(1, 2, 1, 1),
             ],

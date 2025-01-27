@@ -41,16 +41,14 @@ class UseCaseList extends ConsumerWidget {
                     .add_yMd()
                     .format(useCases.cases[index].createdAt)
                     .small,
-                trailing: [
-                  SecondaryButton(
-                      icon: Icons.delete,
-                      description: 'Delete Use Case',
-                      onPressed: () {
-                        ref
-                            .read(useCasesNotifierProvider.notifier)
-                            .deleteUseCaseAt(index);
-                      }),
-                ].row(min: true),
+                trailing: SecondaryButton(
+                    icon: Icons.delete,
+                    description: 'Delete Use Case',
+                    onPressed: () {
+                      ref
+                          .read(useCasesNotifierProvider.notifier)
+                          .deleteUseCaseAt(index);
+                    }),
                 onTap: () {
                   ref
                       .read(useCasesNotifierProvider.notifier)
