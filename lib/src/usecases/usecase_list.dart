@@ -36,6 +36,7 @@ class UseCaseList extends ConsumerWidget {
               ),
               child: ListTile(
                 dense: true,
+                contentPadding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 title: useCases.cases[index].name.small,
                 subtitle: DateFormat.Hm()
                     .add_yMd()
@@ -43,6 +44,7 @@ class UseCaseList extends ConsumerWidget {
                     .small,
                 trailing: SecondaryButton(
                     icon: Icons.delete,
+                    confirming: true,
                     description: 'Delete Use Case',
                     onPressed: () {
                       ref

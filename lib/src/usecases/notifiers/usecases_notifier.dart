@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:math';
+
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:arc_view/src/usecases/repositories/usecase_repository.dart';
 import 'package:arc_view/src/usecases/usecase_template.dart';
@@ -86,7 +88,13 @@ class UseCasesNotifier extends _$UseCasesNotifier {
   _update(List<UseCase> updatedCases) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
-    state = AsyncData(useCases.copyWith(cases: updatedCases));
+    final selected = useCases.selected >= updatedCases.length
+        ? max(0, updatedCases.length - 1)
+        : useCases.selected;
+    state = AsyncData(useCases.copyWith(
+      cases: updatedCases,
+      selected: selected,
+    ));
     save();
   }
 }

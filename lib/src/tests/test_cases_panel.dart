@@ -67,6 +67,7 @@ class TestCasesPanel extends ConsumerWidget {
                         DateFormat.Hm().format(tests[index].createdAt).small,
                     trailing: SecondaryButton(
                       description: 'Delete test',
+                      confirming: true,
                       icon: Icons.delete,
                       onPressed: () {
                         ref.deleteTestCase(tests[index]);

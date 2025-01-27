@@ -56,6 +56,7 @@ class MetricDetails extends ConsumerWidget {
                       SecondaryButton(
                         description: 'Delete Metric',
                         icon: Icons.delete,
+                        confirming: true,
                         onPressed: () {
                           ref
                               .read(agentMetricsNotifierProvider.notifier)

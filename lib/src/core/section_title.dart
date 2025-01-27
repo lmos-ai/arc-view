@@ -13,7 +13,7 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = context.colorScheme.onSurface.withValues(alpha: 0.5);
+    final color = context.colorScheme.onSurface;
     return [
       Container(
         width: 10,

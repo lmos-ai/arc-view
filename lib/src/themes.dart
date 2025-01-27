@@ -55,19 +55,19 @@ final lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.light,
       seedColor: const Color.fromARGB(255, 1, 10, 11),
-      onSurface: Colors.black.withOpacity(0.6),
+      onSurface: Colors.black.withOpacity(0.8),
       outline: Colors.black.withOpacity(0.2),
     ),
     tabBarTheme: TabBarTheme(
-      labelColor: Colors.black.withOpacity(0.5),
-      unselectedLabelColor: Colors.black.withOpacity(0.5),
+      labelColor: Colors.black.withOpacity(0.8),
+      unselectedLabelColor: Colors.black.withOpacity(0.8),
       labelPadding: const EdgeInsets.all(0),
-      indicatorColor: Colors.black.withOpacity(0.5),
+      indicatorColor: Colors.black.withOpacity(0.8),
     ),
     textTheme: TextTheme(
       bodySmall: TextStyle(
         fontSize: 10.0,
-        color: Colors.black.withOpacity(0.6),
+        color: Colors.black.withOpacity(0.8),
       ),
       bodyMedium: TextStyle(fontSize: 12.0),
       bodyLarge: TextStyle(fontSize: 14.0),
