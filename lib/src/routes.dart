@@ -14,6 +14,9 @@ import 'package:arc_view/src/usecases/usecases_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import 'authentication/login_screen.dart';
+import 'authentication/splash_screen.dart';
+
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _mainNavigatorKey =
@@ -21,9 +24,22 @@ final GlobalKey<NavigatorState> _mainNavigatorKey =
 
 /// Main Routing
 final appRoutes = GoRouter(
-  initialLocation: '/',
+  initialLocation: '/splash',
+  debugLogDiagnostics: true, //enable for testing and see logs
   navigatorKey: _rootNavigatorKey,
   routes: [
+    // 1. Splash route
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => SplashScreen(),
+    ),
+    // 2. Login route (outside the shell)
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => LoginScreen(),
+    ),
+
+    // 3. The ShellRoute for your main layout & tabs
     ShellRoute(
       navigatorKey: _mainNavigatorKey,
       builder: (context, state, child) {
@@ -65,4 +81,10 @@ final appRoutes = GoRouter(
       ],
     ),
   ],
+  // 4. Global redirect logic
+  redirect: (context, state) {
+    // Optionally do additional checks here,
+    // but the splash logic alone might suffice.
+    return null;
+  },
 );

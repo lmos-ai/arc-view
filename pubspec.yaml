@@ -70,7 +70,8 @@ dependencies:
   record: ^5.2.0
   web_socket_channel: ^3.0.1
   audioplayers: ^6.1.0
-
+  flutter_appauth: ^8.0.3
+  flutter_secure_storage: ^9.2.4
 dev_dependencies:
   flutter_test:
     sdk: flutter
