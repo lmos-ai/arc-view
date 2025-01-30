@@ -9,13 +9,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:arc_view/src/authentication/model/tokens.dart';
-import 'package:arc_view/src/authentication/service/token_storage_provider.dart';
+import 'package:arc_view/src/authentication/storage/token_storage_default.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config_loader.dart';
+import '../storage/token_storage.dart';
 import '../util/auth_util.dart';
 
 class OidcDesktopService {

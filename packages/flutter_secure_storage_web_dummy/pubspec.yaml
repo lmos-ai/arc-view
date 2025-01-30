@@ -1,0 +1,14 @@
+name: flutter_secure_storage_web
+description: Dummy web plugin
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+
+flutter:
+  plugin:
+    platforms:
+      web:
+        pluginClass: FlutterSecureStorageWeb
+        fileName: flutter_secure_storage_web.dart

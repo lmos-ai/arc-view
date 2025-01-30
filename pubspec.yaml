@@ -72,6 +72,11 @@ dependencies:
   audioplayers: ^6.1.0
   flutter_appauth: ^8.0.3
   flutter_secure_storage: ^9.2.4
+
+dependency_overrides:
+  flutter_secure_storage_web:
+    path: ./packages/flutter_secure_storage_web_dummy
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

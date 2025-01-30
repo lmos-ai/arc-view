@@ -4,21 +4,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import 'package:arc_view/src/authentication/model/tokens.dart';
+import 'package:arc_view/src/authentication/storage/token_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../config_loader.dart';
-
-// ────────────────────────────────────────────
-// Token Storage Factory Interface
-// ────────────────────────────────────────────
-abstract class TokenStorage {
-  Future<void> saveToken(Tokens tokens);
-
-  Future<Tokens?> getToken();
-
-  Future<void> clearToken();
-}
 
 // ────────────────────────────────────────────
 // Secure Storage Implementation (Flutter Secure Storage)

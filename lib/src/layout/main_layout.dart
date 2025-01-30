@@ -34,7 +34,7 @@ class _MainLayoutState extends State<MainLayout> {
     try {
       final desktopService = ref.read(oidcDesktopServiceProvider);
       await desktopService.logout();
-      if (mounted) return;
+      if (!mounted) return;
       navigateToLogin(context, (value) => setState(() => _isLoading = value));
     } catch (e) {
       if (!mounted) return;
