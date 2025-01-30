@@ -3,13 +3,13 @@ const bool oidcEnabled = true;
 const String oidcName = "keycloak";
 
 /// The base issuer URL for your realm/provider.
-const String issuerBase = 'https://cms-cdn.yo-digital.com/auth/realms/cms';
+const String issuerBase = '';
 
 /// The client ID for your OIDC app.
-const String clientId = 'oneai-arcview-dev';
+const String clientId = '';
 
 /// The client secret if using a confidential client.
-const String clientSecret = 'tHzd2a1aD3BuXbfprmgLOKvEa2vDEPqN';
+const String clientSecret = '';
 
 /// The local server URL base (for desktop/macOS).
 const String redirectBaseUrl = 'http://localhost:9876';
