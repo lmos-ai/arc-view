@@ -10,9 +10,9 @@ openid:
   enabled: true
   type: keycloak
   credential:
-    issuerBaseUrl: "https://cms-cdn.yo-digital.com/auth/realms/cms"
+    issuerBaseUrl: ""
     client_id: "oneai-arcview-dev"
-    client_secret: "tHzd2a1aD3BuXbfprmgLOKvEa2vDEPqN"
+    client_secret: ""
     redirect_base_url: "http://localhost:9876" #this property will be used form macos(desktop) or desktop application
     call_back_path: "/callback"
     scopes:
