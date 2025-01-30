@@ -1,0 +1,17 @@
+storage:
+  type: "default"  # type could be default or flutter_secure
+
+openid:
+  enabled: true
+  type: keycloak
+  credential:
+    issuerBaseUrl: ""
+    client_id: ""
+    client_secret: ""
+    redirect_base_url: "http://localhost:9876" #this property will be used form macos(desktop) or desktop application
+    call_back_path: "/callback"
+    scopes:
+      - "openid"
+      - "profile"
+      - "email"
+    redirect_deeplink_url: "com.example.app://callback"

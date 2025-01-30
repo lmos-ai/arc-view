@@ -1,9 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import 'package:arc_view/src/authentication/util/auth_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 
-import 'oidc_config.dart';
+import '../config_loader.dart';
 import 'service/oidc_desktop_service.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -16,16 +21,8 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isLoading = false;
   String? _errorMessage;
-  final _desktopService = OidcDesktopService(
-    issuerBase: issuerBase,
-    clientId: clientId,
-    clientSecret: clientSecret,
-    redirectBaseUrl: redirectBaseUrl,
-    scopes: scopes,
-    callbackPath: callbackPath,
-  );
+  final oidcName = Config.get("openid.type", defaultValue: false);
 
-  //Show Error Dialog
   Future<void> _showErrorDialog(String message) async {
     if (!mounted) return;
     return showDialog<void>(
@@ -44,36 +41,40 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 
   Future<void> _handleLogin() async {
-    // Recheck again just for defensive approach, If OIDC is disabled, just go home
-    if (!oidcEnabled) {
-      context.go('/');
+    // Recheck again just for the defensive approach, If OIDC is disabled, just go home
+    if (checkOidcAndNavigate(
+        context, (value) => setState(() => _isLoading = value))) {
       return;
     }
-
     try {
-      setState(() {
-        _isLoading = true;
-        _errorMessage = null;
-      });
-      bool success;
-      success = await _desktopService.login();
+      final desktopService = ref.read(oidcDesktopServiceProvider);
+      _setLoadingState(true); // Enable loader
+      final bool success = await desktopService.login();
+      if (!mounted) return;
       if (success) {
-        if (mounted) context.go('/');
+        navigateToHome(context, (value) => setState(() => _isLoading = value));
       } else {
-        // Show error and disable loader
-        setState(() {
-          _errorMessage = 'Login failed or was cancelled.';
-          _isLoading = false;
-        });
-        await _showErrorDialog(_errorMessage!);
+        _handleLoginError('Login failed or was cancelled.');
       }
     } catch (e) {
-      setState(() {
-        _errorMessage = 'Login error: $e';
-        _isLoading = false;
-      });
-      await _showErrorDialog(_errorMessage!);
+      _handleLoginError('Login error: $e');
     }
+  }
+
+  void _setLoadingState(bool isLoading) {
+    setState(() {
+      _isLoading = isLoading;
+      if (isLoading) _errorMessage = null; // Clear errors when starting login
+    });
+  }
+
+  Future<void> _handleLoginError(String errorMessage) async {
+    if (!mounted) return; // Ensure widget is still active
+    setState(() {
+      _errorMessage = errorMessage;
+      _isLoading = false;
+    });
+    await _showErrorDialog(errorMessage);
   }
 
   @override

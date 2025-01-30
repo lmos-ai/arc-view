@@ -1,11 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 import 'dart:math';
 
-import 'package:flutter_appauth/flutter_appauth.dart';
-import '../model/token.dart';
-import '../oidc_config.dart';
+import 'package:arc_view/src/authentication/model/tokens.dart';
+import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
-final FlutterAppAuth _appAuth = FlutterAppAuth();
+import '../../config_loader.dart';
 
+/**
+ * Token Specific functions
+ * */
+
+/// Check token expire
 bool isTokenExpired(int? expiresAtMs) {
   if (expiresAtMs == null) return true;
   final nowMs = DateTime.now().millisecondsSinceEpoch;
@@ -13,35 +23,23 @@ bool isTokenExpired(int? expiresAtMs) {
   return nowMs >= (expiresAtMs - 30 * 1000);
 }
 
-// Try refreshing the token if refreshToken is available
-Future<TokenResult?> tryRefresh(String refreshToken) async {
-  try {
-    final tokenResponse = await _appAuth.token(
-      TokenRequest(
-        clientId,
-        '$redirectBaseUrl$callbackPath',
-        clientSecret: clientSecret,
-        issuer: issuerBase,
-        refreshToken: refreshToken,
-        scopes: scopes,
-      ),
-    );
-    if (tokenResponse != null && tokenResponse.accessToken != null) {
-      final access = tokenResponse.accessToken!;
-      final refresh = tokenResponse.refreshToken ?? refreshToken;
-      final expiresAt =
-          tokenResponse.accessTokenExpirationDateTime?.millisecondsSinceEpoch ??
-              0;
-      return TokenResult(
-          accessToken: access, refreshToken: refresh, expiresAtMs: expiresAt);
-    }
-  } catch (e) {
-    // Log or handle refresh error
-    return null;
-  }
-  return null;
+/// Checks if the access token is valid and not expired
+bool isValidAccessToken(Tokens? tokens) {
+  return tokens?.accessToken?.isNotEmpty == true &&
+      !isTokenExpired(tokens?.expiresAt);
 }
 
+/// Determines if a refresh attempt should be made
+bool shouldTryRefresh(Tokens? tokens) {
+  return tokens?.refreshToken?.isNotEmpty == true &&
+      isTokenExpired(tokens?.expiresAt);
+}
+
+/**
+ * General specific functions
+ * */
+
+/// Generate random state hash value
 String generateRandomState(int length) {
   const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -49,4 +47,43 @@ String generateRandomState(int length) {
   final randomState = List.generate(
       length, (index) => characters[random.nextInt(characters.length)]).join();
   return randomState;
+}
+
+/// Handles OIDC check and navigates accordingly
+bool checkOidcAndNavigate(BuildContext context, Function setLoading) {
+  final oidcEnabled = Config.get("openid.enabled", defaultValue: false);
+  if (!oidcEnabled) {
+    navigateToHome(context, setLoading);
+    return true;
+  }
+  return false;
+}
+
+///Handle Error
+void handleError(BuildContext context, Function setLoading, dynamic error) {
+  debugPrint('Error at Splash Screen: $error');
+  setLoading(false);
+  if (context.mounted) {
+    context.go('/login');
+  }
+}
+
+/**
+ * Navigation specifics function
+ * */
+
+/// Navigates to the home screen
+void navigateToHome(BuildContext context, Function setLoading) {
+  setLoading(false);
+  if (context.mounted) {
+    context.go('/');
+  }
+}
+
+/// Navigates to the login screen
+void navigateToLogin(BuildContext context, Function setLoading) {
+  setLoading(false);
+  if (context.mounted) {
+    context.go('/login');
+  }
 }

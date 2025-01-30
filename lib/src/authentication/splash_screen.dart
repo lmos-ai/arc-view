@@ -1,10 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 Deutsche Telekom AG
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import 'package:arc_view/src/authentication/service/oidc_desktop_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
-import 'service/auth_storage_service.dart';
 import 'util/auth_util.dart';
-import 'oidc_config.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -20,56 +23,47 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _initCheck();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initCheck();
+    });
   }
 
   Future<void> _initCheck() async {
-    if (!oidcEnabled) {
-      // If OIDC is disabled in your config, go straight to home
-      setState(() => _isLoading = false);
-      if (mounted) context.go('/');
+    if (checkOidcAndNavigate(
+        context, (value) => setState(() => _isLoading = value))) {
       return;
     }
 
     try {
-      // 1. Read saved tokens from secure storage
-      final (accessToken, refreshToken, expiresAtMs) =
-          await AuthStorage.readTokens();
-      final bool hasToken = (accessToken != null && accessToken.isNotEmpty);
-      final bool expired = isTokenExpired(expiresAtMs);
+      final desktopService = ref.read(oidcDesktopServiceProvider);
+      final tokens = await desktopService.getStoredToken();
+      bool navigateToHomeFlag = false;
 
-      // 2. If valid token not expired, go home
-      if (hasToken && !expired) {
-        setState(() => _isLoading = false);
-        if (mounted) context.go('/');
-        return;
+      //1. check valid access-token if yes then go home
+      if (isValidAccessToken(tokens)) {
+        navigateToHomeFlag = true;
       }
 
-      // 3. Attempt refresh if expired
-      if (expired && refreshToken != null && refreshToken.isNotEmpty) {
-        final refreshed = await tryRefresh(refreshToken);
-        if (refreshed != null && refreshed.accessToken != null) {
-          await AuthStorage.saveTokens(
-            accessToken: refreshed.accessToken!,
-            refreshToken: refreshed.refreshToken,
-            expiresAtMs: refreshed.expiresAtMs!,
-          );
-          setState(() => _isLoading = false);
-          if (mounted) context.go('/');
-          return;
+      //2. try refresh token if yes then go home
+      if (shouldTryRefresh(tokens)) {
+        final refreshedTokens =
+            await desktopService.tryRefresh(tokens!.refreshToken!);
+        if (refreshedTokens != null) {
+          await desktopService.saveToken(refreshedTokens);
+          navigateToHomeFlag = true;
         }
       }
+      // 3. Perform navigation
+      if (!mounted) return;
 
-      // 4. Otherwise, go to /login
-      setState(() => _isLoading = false);
-      if (mounted) context.go('/login');
+      navigateToHomeFlag
+          ? navigateToHome(
+              context, (value) => setState(() => _isLoading = value))
+          : navigateToLogin(
+              context, (value) => setState(() => _isLoading = value));
     } catch (e) {
       // If any exception occurs, disable loading and show error or direct to login
-      setState(() {
-        _error = 'Splash error: $e';
-        _isLoading = false;
-      });
-      if (mounted) context.go('/login');
+      handleError(context, (value) => setState(() => _isLoading = value), e);
     }
   }
 

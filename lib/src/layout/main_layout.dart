@@ -4,12 +4,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/authentication/util/auth_util.dart';
 import 'package:arc_view/src/core/text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smiles/smiles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import '../authentication/service/oidc_desktop_service.dart';
+import '../config_loader.dart';
 
 class MainLayout extends StatefulWidget {
   const MainLayout({super.key, required this.child, required this.index});
@@ -22,6 +27,26 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
+  bool _isLoading = false;
+
+  Future<void> _handleLogout(BuildContext context, WidgetRef ref) async {
+    setState(() => _isLoading = true);
+    try {
+      final desktopService = ref.read(oidcDesktopServiceProvider);
+      await desktopService.logout();
+      if (mounted) return;
+      navigateToLogin(context, (value) => setState(() => _isLoading = value));
+    } catch (e) {
+      if (!mounted) return;
+      debugPrint("Logout error: $e");
+      navigateToLogin(context, (value) => setState(() => _isLoading = value));
+    } finally {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -49,18 +74,33 @@ class _MainLayoutState extends State<MainLayout> {
                   break;
               }
             },
-            trailing: Align(
-              alignment: AlignmentDirectional.bottomEnd,
-              child: InkWell(
-                onTap: () {
-                  launchUrlString('https://eclipse.dev/lmos/');
-                },
-                child: SvgPicture.asset(
-                  'assets/lmos.svg',
-                  semanticsLabel: 'Lmos Logo',
-                  width: 30,
-                ).padByUnits(0, 0, 2, 0),
-              ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const SizedBox(height: 20),
+                Consumer(
+                  builder: (context, ref, child) {
+                    final oidcEnabled = Config.get("openid.enabled", defaultValue: false);
+                    if (!oidcEnabled) return SizedBox.shrink();
+                    return IconButton(
+                        icon: _isLoading
+                            ? CircularProgressIndicator()
+                            : Icon(Icons.logout, color: Colors.red),
+                        onPressed: () => _handleLogout(context, ref));
+                  },
+                ),
+                const SizedBox(height: 10),
+                InkWell(
+                  onTap: () {
+                    launchUrlString('https://eclipse.dev/lmos/');
+                  },
+                  child: SvgPicture.asset(
+                    'assets/lmos.svg',
+                    semanticsLabel: 'Lmos Logo',
+                    width: 30,
+                  ).padByUnits(0, 0, 2, 0),
+                )
+              ],
             ).expand(),
             minWidth: 60,
             destinations: [
