@@ -70,6 +70,12 @@ dependencies:
   record: ^5.2.0
   web_socket_channel: ^3.0.1
   audioplayers: ^6.1.0
+  flutter_appauth: ^8.0.3
+  flutter_secure_storage: ^9.2.4
+
+dependency_overrides:
+  flutter_secure_storage_web:
+    path: ./packages/flutter_secure_storage_web_dummy
 
 dev_dependencies:
   flutter_test:
@@ -103,6 +109,7 @@ flutter:
     - fonts/LICENSE.txt
     - LICENSES/Apache-2.0.txt
     - assets/lmos.svg
+    - assets/config/app-config.yaml
 
     # To add assets to your application, add an assets section, like this:
     # assets:
