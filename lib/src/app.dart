@@ -15,6 +15,7 @@ class MessagingApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appRoutes = createRouter(ref);
     return MaterialApp.router(
       title: 'Arc View',
       routerConfig: appRoutes,

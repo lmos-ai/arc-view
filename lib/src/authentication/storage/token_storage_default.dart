@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../config_loader.dart';
+import '../util/auth_util.dart';
 
 // ────────────────────────────────────────────
 // Secure Storage Implementation (Flutter Secure Storage)
@@ -88,14 +89,15 @@ class RiverpodTokenStorage extends StateNotifier<Tokens?>
 // ────────────────────────────────────────────
 // Riverpod Token Storage Provider (default)
 // ────────────────────────────────────────────
-final tokenStorageProvider = Provider<TokenStorage>((ref) {
-  final storageType = Config.get('storage.type', defaultValue: "default");
-  if (storageType == 'flutter_secure') {
-    return SecureTokenStorage();
-  } else {
-    return RiverpodTokenStorage();
-  }
-});
+
+// final tokenStorageProvider = Provider<TokenStorage>((ref) {
+//   final storageType = Config.get('storage.type', defaultValue: "default");
+//   if (storageType == 'secure') {
+//     return SecureTokenStorage();
+//   } else {
+//     return RiverpodTokenStorage();
+//   }
+// });
 
 // ────────────────────────────────────────────
 // Riverpod Notifier for Reactive Token Management
@@ -108,8 +110,8 @@ class TokenNotifier extends AsyncNotifier<Tokens?> {
   late final TokenStorage _storage;
 
   TokenNotifier() {
-    final storageType = Config.get('storage.type');
-    _storage = storageType == 'flutter_secure'
+    final storageType = Config.get('storage.type', defaultValue: "default");
+    _storage = storageType == 'secure'
         ? SecureTokenStorage()
         : RiverpodTokenStorage();
   }
@@ -119,7 +121,7 @@ class TokenNotifier extends AsyncNotifier<Tokens?> {
     return await _storage.getToken();
   }
 
-  Future<void> saveToken(Tokens tokens) async {
+  Future<void>  saveToken (Tokens tokens) async {
     state = const AsyncValue.loading();
     await _storage.saveToken(tokens);
     state = AsyncValue.data(tokens);
@@ -129,5 +131,15 @@ class TokenNotifier extends AsyncNotifier<Tokens?> {
     state = const AsyncValue.loading();
     await _storage.clearToken();
     state = const AsyncValue.data(null);
+  }
+
+  Future<Tokens?> getToken() async {
+    return await _storage.getToken();
+  }
+
+  bool get hasValidToken {
+    final tokens = state.asData?.value; // This is the underlying Tokens? object
+    if (tokens == null) return false;
+    return isTokenExpired(tokens.expiresAt);
   }
 }

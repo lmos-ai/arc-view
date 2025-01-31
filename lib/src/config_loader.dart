@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:yaml/yaml.dart';
@@ -16,7 +17,18 @@ class Config {
     try {
       final yamlString =
           await rootBundle.loadString('assets/config/app-config.yaml');
-      _config = jsonDecode(jsonEncode(loadYaml(yamlString)));
+
+      // Replace placeholders with environment variables
+      final replacedYamlString = yamlString
+          .replaceAll('\${ARC_VIEW_ISSUER_BASE_URL}',
+              Platform.environment['ARC_VIEW_ISSUER_BASE_URL'] ?? '')
+          .replaceAll('\${ARC_VIEW_OIDC_CLIENT_ID}',
+              Platform.environment['ARC_VIEW_OIDC_CLIENT_ID'] ?? '')
+          .replaceAll('\${ARC_VIEW_OIDC_CLIENT_SECRET}',
+              Platform.environment['ARC_VIEW_OIDC_CLIENT_SECRET'] ?? '')
+          .replaceAll('\${ARC_VIEW_REDIRECT_BASE_URL}',
+              Platform.environment['ARC_VIEW_REDIRECT_BASE_URL'] ?? '');
+      _config = jsonDecode(jsonEncode(loadYaml(replacedYamlString)));
     } catch (e) {
       _config = {}; // Fallback to an empty map in case of error
     }

@@ -51,12 +51,16 @@ String generateRandomState(int length) {
 
 /// Handles OIDC check and navigates accordingly
 bool checkOidcAndNavigate(BuildContext context, Function setLoading) {
-  final oidcEnabled = Config.get("openid.enabled", defaultValue: false);
-  if (!oidcEnabled) {
+  if (!mandatoryLoggedInEnabled()) {
     navigateToHome(context, setLoading);
     return true;
   }
   return false;
+}
+
+/// Check Mandatory Login Enabled
+bool mandatoryLoggedInEnabled(){
+  return Config.get("openid.enabled", defaultValue: false);
 }
 
 ///Handle Error
