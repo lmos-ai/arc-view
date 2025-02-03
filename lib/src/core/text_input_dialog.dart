@@ -6,16 +6,20 @@
 import 'package:flutter/material.dart';
 
 class TextInputDialog extends StatefulWidget {
-  final String title;
-  final String hintText;
-  final Function(String) onConfirm;
-
   const TextInputDialog({
     super.key,
-    required this.title,
-    required this.hintText,
     required this.onConfirm,
+    required this.title,
+    this.value,
+    this.hintText,
+    this.actionText,
   });
+
+  final String title;
+  final String? value;
+  final String? hintText;
+  final String? actionText;
+  final Function(String) onConfirm;
 
   @override
   _InputDialogState createState() => _InputDialogState();
@@ -26,6 +30,9 @@ class _InputDialogState extends State<TextInputDialog> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.value != null) {
+      _textController.text = widget.value!;
+    }
     return AlertDialog(
       title: Text(widget.title),
       content: TextField(
@@ -40,7 +47,7 @@ class _InputDialogState extends State<TextInputDialog> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         TextButton(
-          child: const Text('OK'),
+          child: Text(widget.actionText ?? 'OK'),
           onPressed: () {
             widget.onConfirm(_textController.text);
             Navigator.of(context).pop();

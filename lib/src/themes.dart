@@ -55,6 +55,7 @@ final lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.light,
       seedColor: const Color.fromARGB(255, 1, 10, 11),
+      surface: const Color.fromARGB(255, 245, 251, 251),
       onSurface: Colors.black,
       outline: Colors.black.withOpacity(0.2),
     ),

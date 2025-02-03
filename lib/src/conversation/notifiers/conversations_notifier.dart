@@ -136,6 +136,24 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }
   }
 
+  updateAndReplay(
+    ConversationMessage oldMessage,
+    ConversationMessage newMessage, {
+    UseCase? useCase,
+  }) async {
+    final conversation = state.conversations.firstWhere(
+      (element) => element.conversationId == oldMessage.conversationId,
+    );
+    final updatedConversation = conversation.copyWith(
+        messages: conversation.messages.map((msg) {
+      if (msg == oldMessage) return newMessage;
+      return msg;
+    }).toList());
+
+    updateConversation(updatedConversation);
+    await replay(replay: updatedConversation, useCase: useCase);
+  }
+
   Future<void> sendUserMessage(String msg, {UseCase? useCase}) {
     final callback = Completer();
     final updatedConversation = addUserRequest(msg, state.current);
