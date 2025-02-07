@@ -16,8 +16,16 @@ final darkTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.dark,
       seedColor: const Color.fromARGB(255, 1, 10, 11),
-      onSurface: Colors.white.withOpacity(0.6),
+      onSurface: Colors.white.withOpacity(0.7),
       outline: Colors.white.withOpacity(0.2),
+      surface: const Color.fromARGB(255, 24, 23, 29),
+      surfaceContainer: const Color.fromARGB(255, 40, 39, 45),
+    ),
+    dialogTheme: DialogTheme(
+      backgroundColor: const Color.fromARGB(255, 40, 39, 45),
+    ),
+    cardTheme: CardTheme(
+      color: const Color.fromARGB(255, 40, 39, 45),
     ),
     tabBarTheme: TabBarTheme(
       labelColor: Colors.white.withOpacity(0.5),

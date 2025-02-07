@@ -6,7 +6,6 @@
 
 import 'package:arc_view/src/core/hoverable_list_tile.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
-import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
@@ -28,34 +27,35 @@ class UseCaseSectionList extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SectionTitle(text: 'Overview').padByUnits(0, 0, 0, 2),
         VGap(),
-        ListView.builder(
-          itemCount: sections.length,
-          itemBuilder: (context, i) => HoverableListTile(
-            title: sections[i].$1.substringAfter(':').trim().txt,
-            onTap: () {
-              onSelect(i, sections[i].$1);
-            },
-            buttons: [
-              SecondaryButton(
-                icon: Icons.edit,
-                description: 'Edit Use Case',
-                onPressed: () {
-                  showEditUseCaseDialog(context, i, sections, ref);
-                },
-              ),
-              SecondaryButton(
-                icon: Icons.delete,
-                confirming: true,
-                description: 'Delete Use Case',
-                onPressed: () {
-                  _deleteUseCase(sections, i, ref);
-                },
-              ),
-            ],
+        Card(
+          child: ListView.builder(
+            itemCount: sections.length,
+            itemBuilder: (context, i) => HoverableListTile(
+              title: '> ${sections[i].$1.substringAfter(':').trim()}'.txt,
+              onTap: () {
+                onSelect(i, sections[i].$1);
+              },
+              buttons: [
+                SecondaryButton(
+                  icon: Icons.edit,
+                  description: 'Edit Use Case',
+                  onPressed: () {
+                    showEditUseCaseDialog(context, i, sections, ref);
+                  },
+                ),
+                SecondaryButton(
+                  icon: Icons.delete,
+                  confirming: true,
+                  description: 'Delete Use Case',
+                  onPressed: () {
+                    _deleteUseCase(sections, i, ref);
+                  },
+                ),
+              ],
+            ),
           ),
-        ).expand(),
+        ).padByUnits(0, 0, 1, 1).expand(),
       ],
     );
   }

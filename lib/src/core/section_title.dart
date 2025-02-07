@@ -20,16 +20,7 @@ class SectionTitle extends StatelessWidget {
         height: 10,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment(0.8, 1),
-            colors: [
-              Color(0xffb2fefa),
-              Color(0xff0ed2f7),
-            ],
-            // Gradient from https://learnui.design/tools/gradient-generator.html
-            tileMode: TileMode.mirror,
-          ),
+          color: Color(0xff073a40),
         ),
       ),
       HGap.units(2),

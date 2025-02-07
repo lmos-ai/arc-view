@@ -7,6 +7,7 @@
 import 'dart:async';
 
 import 'package:arc_view/src/core/secondary_button.dart';
+import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/usecases/buttons/copy_to_clipboard_button.dart';
 import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
@@ -68,6 +69,8 @@ class _UseCasePanelState extends State<UseCasePanel> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              if (!_showSource)
+                SectionTitle(text: 'Overview').padByUnits(0, 0, 0, 2),
               Spacer(),
               if (_showSource && findLines.isNotEmpty) ...[
                 SecondaryButton(

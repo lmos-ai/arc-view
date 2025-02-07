@@ -11,6 +11,8 @@ import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart'
 import 'package:arc_view/src/tests/models/test_case.dart';
 import 'package:arc_view/src/tests/models/test_cases.dart';
 import 'package:arc_view/src/tests/repositories/testcases_repository.dart';
+import 'package:arc_view/src/tools/models/test_tool.dart';
+import 'package:arc_view/src/tools/notifiers/selected_tool_notifier.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -41,7 +43,11 @@ class TestCasesNotifier extends _$TestCasesNotifier {
     ref.read(testCasesRepositoryProvider).save(state);
   }
 
-  runTestCase(TestCase testCase, {UseCase? useCase}) async {
+  runTestCase(
+    TestCase testCase, {
+    UseCase? useCase,
+    Set<TestTool>? tools,
+  }) async {
     final cid = 'test-cid-${DateTime.now().millisecondsSinceEpoch}';
     state = state.addTestRun(testCase, cid);
     await ref.read(conversationsNotifierProvider.notifier).replay(
@@ -70,9 +76,11 @@ class TestCasesNotifier extends _$TestCasesNotifier {
 extension TestCasesNotifierExtension on WidgetRef {
   runTestCaseWithUseCases(TestCase testCase) {
     final useCases = read(selectedUsecaseNotifierProvider);
+    final selectedTools = read(selectedToolNotifierProvider);
     read(testCasesNotifierProvider.notifier).runTestCase(
       testCase,
       useCase: useCases,
+      tools: selectedTools,
     );
   }
 

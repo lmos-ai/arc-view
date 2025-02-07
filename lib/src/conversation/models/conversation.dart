@@ -4,9 +4,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'dart:convert';
+
 import 'package:arc_view/src/client/models/system_context.dart';
 import 'package:arc_view/src/client/models/user_context.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
+import 'package:arc_view/src/tools/models/test_tool.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -73,6 +76,19 @@ class Conversation with _$Conversation {
       (key: 'usecase', value: useCase.content),
       (key: 'usecaseName', value: useCase.name),
     ];
+    return addSystem(systemEntries);
+  }
+
+  Conversation addTools(Set<TestTool>? tools) {
+    if (tools == null) return this;
+    final systemEntries = tools
+        .map(
+          (tool) => (
+            key: 'function_${tool.name}',
+            value: jsonEncode(tool.toJson()),
+          ),
+        )
+        .toList();
     return addSystem(systemEntries);
   }
 

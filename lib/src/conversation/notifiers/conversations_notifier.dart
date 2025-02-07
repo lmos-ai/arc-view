@@ -16,6 +16,7 @@ import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
+import 'package:arc_view/src/tools/models/test_tool.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -127,12 +128,13 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     UseCase? useCase,
     Conversation? replay,
     String? conversationId,
+    Set<TestTool>? tools,
   }) async {
     final conversation = replay ?? state.current;
     newConversation(conversationId: conversationId);
     for (final msg in conversation.messages) {
       if (msg.type == MessageType.bot) continue;
-      await sendUserMessage(msg.content, useCase: useCase);
+      await sendUserMessage(msg.content, useCase: useCase, tools: tools);
     }
   }
 
@@ -140,6 +142,7 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     ConversationMessage oldMessage,
     ConversationMessage newMessage, {
     UseCase? useCase,
+    Set<TestTool>? tools,
   }) async {
     final conversation = state.conversations.firstWhere(
       (element) => element.conversationId == oldMessage.conversationId,
@@ -151,17 +154,21 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }).toList());
 
     updateConversation(updatedConversation);
-    await replay(replay: updatedConversation, useCase: useCase);
+    await replay(replay: updatedConversation, useCase: useCase, tools: tools);
   }
 
-  Future<void> sendUserMessage(String msg, {UseCase? useCase}) {
+  Future<void> sendUserMessage(
+    String msg, {
+    UseCase? useCase,
+    Set<TestTool>? tools,
+  }) {
     final callback = Completer();
     final updatedConversation = addUserRequest(msg, state.current);
 
     _log.fine('Sending message: $updatedConversation');
     ref
         .read(agentClientNotifierProvider)
-        .sendMessage(updatedConversation.addUseCase(useCase))
+        .sendMessage(updatedConversation.addUseCase(useCase).addTools(tools))
         .listen((value) {
       addBotResponse(value, updatedConversation);
       if (!callback.isCompleted) callback.complete();

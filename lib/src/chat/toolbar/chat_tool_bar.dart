@@ -12,6 +12,7 @@ import 'package:arc_view/src/conversation/services/conversation_exporter.dart';
 import 'package:arc_view/src/conversation/services/conversation_importer.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/tests/tests_tool_bar.dart';
+import 'package:arc_view/src/tools/notifiers/selected_tool_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -28,7 +29,7 @@ class ChatToolBar extends ConsumerWidget {
 
     final currentConversation =
         ref.watch(conversationsNotifierProvider.select((e) => e.current));
-    final selectedUsecase = ref.watch(selectedUsecaseNotifierProvider);
+    final selectedUseCase = ref.watch(selectedUsecaseNotifierProvider);
 
     return [
       Card(
@@ -42,8 +43,10 @@ class ChatToolBar extends ConsumerWidget {
             },
             icon: Icons.import_contacts,
           ),
-          if (selectedUsecase != null) ...[
-            selectedUsecase.name.small.padByUnits(0, 2, 0, 0),
+          if (selectedUseCase == null)
+            'No Use Case selected'.txt.padByUnits(0, 2, 0, 0),
+          if (selectedUseCase != null) ...[
+            selectedUseCase.name.txt.padByUnits(0, 2, 0, 0),
             SecondaryButton(
               description: 'Remove Use Case',
               icon: Icons.close,
@@ -53,6 +56,31 @@ class ChatToolBar extends ConsumerWidget {
             )
           ],
         ].row(),
+      ),
+      HGap.small(),
+      Consumer(
+        builder: (context, ref, _) {
+          final selected =
+              ref.watch(selectedToolNotifierProvider.select((s) => s.length));
+          return Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: selected > 0
+                  ? [
+                      '$selected Tools active'.txt.padByUnits(0, 1, 0, 3),
+                      SecondaryButton(
+                        description: 'DeSelect Tools',
+                        icon: Icons.close,
+                        onPressed: () {
+                          ref
+                              .read(selectedToolNotifierProvider.notifier)
+                              .clear();
+                        },
+                      ),
+                    ].row(min: true)
+                  : SizedBox());
+        },
       ),
       Spacer(),
       TestsToolBar(),
@@ -67,9 +95,11 @@ class ChatToolBar extends ConsumerWidget {
               onPressed: () {
                 final selectedUseCase =
                     ref.read(selectedUsecaseNotifierProvider);
-                ref
-                    .read(conversationsNotifierProvider.notifier)
-                    .replay(useCase: selectedUseCase);
+                final selectedTools = ref.read(selectedToolNotifierProvider);
+                ref.read(conversationsNotifierProvider.notifier).replay(
+                      useCase: selectedUseCase,
+                      tools: selectedTools,
+                    );
               },
               icon: Icons.replay_circle_filled_sharp,
             ),

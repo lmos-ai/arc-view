@@ -56,4 +56,10 @@ class _InputDialogState extends State<TextInputDialog> {
       ],
     );
   }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 }
