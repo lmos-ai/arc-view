@@ -44,7 +44,7 @@ class _UsecaseOverviewPanelState extends State<UsecaseOverviewPanel> {
             onSelect: (i, _) {
               Scrollable.ensureVisible(sectionKeys[i].currentContext!);
             },
-          ).size(width: 350),
+          ).size(width: 380),
           SingleChildScrollView(
             child: Column(
               children: [
