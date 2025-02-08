@@ -32,7 +32,14 @@ class UseCaseRepository {
     final useCases = _preferences.getStringList('usecases')?.map((e) {
       return UseCase.fromJson(jsonDecode(e));
     }).toList();
-    return useCases ?? List.empty();
+    return useCases
+            ?.map(
+              (e) => e.copyWith(
+                  id: e.id ??
+                      '${e.name}-${DateTime.now().millisecondsSinceEpoch}'),
+            )
+            .toList() ??
+        List.empty();
   }
 
   save(UseCases useCases) {

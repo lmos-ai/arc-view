@@ -198,6 +198,7 @@ UseCase _$UseCaseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UseCase {
   String get name => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
 
@@ -215,7 +216,7 @@ abstract class $UseCaseCopyWith<$Res> {
   factory $UseCaseCopyWith(UseCase value, $Res Function(UseCase) then) =
       _$UseCaseCopyWithImpl<$Res, UseCase>;
   @useResult
-  $Res call({String name, DateTime createdAt, String content});
+  $Res call({String name, String? id, DateTime createdAt, String content});
 }
 
 /// @nodoc
@@ -234,6 +235,7 @@ class _$UseCaseCopyWithImpl<$Res, $Val extends UseCase>
   @override
   $Res call({
     Object? name = null,
+    Object? id = freezed,
     Object? createdAt = null,
     Object? content = null,
   }) {
@@ -242,6 +244,10 @@ class _$UseCaseCopyWithImpl<$Res, $Val extends UseCase>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -261,7 +267,7 @@ abstract class _$$UseCaseImplCopyWith<$Res> implements $UseCaseCopyWith<$Res> {
       __$$UseCaseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, DateTime createdAt, String content});
+  $Res call({String name, String? id, DateTime createdAt, String content});
 }
 
 /// @nodoc
@@ -278,6 +284,7 @@ class __$$UseCaseImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
+    Object? id = freezed,
     Object? createdAt = null,
     Object? content = null,
   }) {
@@ -286,6 +293,10 @@ class __$$UseCaseImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -302,7 +313,10 @@ class __$$UseCaseImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UseCaseImpl extends _UseCase {
   _$UseCaseImpl(
-      {required this.name, required this.createdAt, required this.content})
+      {required this.name,
+      this.id,
+      required this.createdAt,
+      required this.content})
       : super._();
 
   factory _$UseCaseImpl.fromJson(Map<String, dynamic> json) =>
@@ -311,13 +325,15 @@ class _$UseCaseImpl extends _UseCase {
   @override
   final String name;
   @override
+  final String? id;
+  @override
   final DateTime createdAt;
   @override
   final String content;
 
   @override
   String toString() {
-    return 'UseCase(name: $name, createdAt: $createdAt, content: $content)';
+    return 'UseCase(name: $name, id: $id, createdAt: $createdAt, content: $content)';
   }
 
   @override
@@ -326,6 +342,7 @@ class _$UseCaseImpl extends _UseCase {
         (other.runtimeType == runtimeType &&
             other is _$UseCaseImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.content, content) || other.content == content));
@@ -333,7 +350,7 @@ class _$UseCaseImpl extends _UseCase {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, createdAt, content);
+  int get hashCode => Object.hash(runtimeType, name, id, createdAt, content);
 
   /// Create a copy of UseCase
   /// with the given fields replaced by the non-null parameter values.
@@ -354,6 +371,7 @@ class _$UseCaseImpl extends _UseCase {
 abstract class _UseCase extends UseCase {
   factory _UseCase(
       {required final String name,
+      final String? id,
       required final DateTime createdAt,
       required final String content}) = _$UseCaseImpl;
   _UseCase._() : super._();
@@ -362,6 +380,8 @@ abstract class _UseCase extends UseCase {
 
   @override
   String get name;
+  @override
+  String? get id;
   @override
   DateTime get createdAt;
   @override

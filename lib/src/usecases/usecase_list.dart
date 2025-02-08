@@ -36,21 +36,21 @@ class UseCaseList extends ConsumerWidget {
               ),
               child: ListTile(
                 dense: true,
+                contentPadding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                 title: useCases.cases[index].name.small,
                 subtitle: DateFormat.Hm()
                     .add_yMd()
                     .format(useCases.cases[index].createdAt)
                     .small,
-                trailing: [
-                  SecondaryButton(
-                      icon: Icons.delete,
-                      description: 'Delete Use Case',
-                      onPressed: () {
-                        ref
-                            .read(useCasesNotifierProvider.notifier)
-                            .deleteUseCaseAt(index);
-                      }),
-                ].row(min: true),
+                trailing: SecondaryButton(
+                    icon: Icons.delete,
+                    confirming: true,
+                    description: 'Delete Use Case',
+                    onPressed: () {
+                      ref
+                          .read(useCasesNotifierProvider.notifier)
+                          .deleteUseCaseAt(index);
+                    }),
                 onTap: () {
                   ref
                       .read(useCasesNotifierProvider.notifier)

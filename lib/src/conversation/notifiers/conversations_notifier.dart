@@ -16,6 +16,7 @@ import 'package:arc_view/src/client/notifiers/agent_client_notifier.dart';
 import 'package:arc_view/src/conversation/models/conversation.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:arc_view/src/conversation/models/conversations.dart';
+import 'package:arc_view/src/tools/models/test_tool.dart';
 import 'package:arc_view/src/usecases/models/use_cases.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logging/logging.dart';
@@ -28,7 +29,9 @@ class ConversationsNotifier extends _$ConversationsNotifier {
   final _log = Logger('ConversationNotifier');
 
   @override
-  Conversations build() {
+  Conversations build() => _build();
+
+  Conversations _build({String? conversationId}) {
     final userContext = _loadUserContext();
     final systemContext = _loadSystemContext();
     var newConversation = Conversation(
@@ -36,7 +39,8 @@ class ConversationsNotifier extends _$ConversationsNotifier {
       userContext: userContext,
       systemContext: systemContext,
       messages: List.empty(),
-      conversationId: 'cid-${DateTime.now().millisecondsSinceEpoch}',
+      conversationId:
+          conversationId ?? 'cid-${DateTime.now().millisecondsSinceEpoch}',
     );
 
     newConversation = addFromQueryParam(newConversation);
@@ -120,23 +124,51 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     state = state.addAsCurrent(conversation);
   }
 
-  replay({UseCase? useCase}) async {
-    final conversation = state.current;
-    newConversation();
+  replay({
+    UseCase? useCase,
+    Conversation? replay,
+    String? conversationId,
+    Set<TestTool>? tools,
+  }) async {
+    final conversation = replay ?? state.current;
+    newConversation(conversationId: conversationId);
     for (final msg in conversation.messages) {
       if (msg.type == MessageType.bot) continue;
-      await sendUserMessage(msg.content, useCase: useCase);
+      await sendUserMessage(msg.content, useCase: useCase, tools: tools);
     }
   }
 
-  Future<void> sendUserMessage(String msg, {UseCase? useCase}) {
+  updateAndReplay(
+    ConversationMessage oldMessage,
+    ConversationMessage newMessage, {
+    UseCase? useCase,
+    Set<TestTool>? tools,
+  }) async {
+    final conversation = state.conversations.firstWhere(
+      (element) => element.conversationId == oldMessage.conversationId,
+    );
+    final updatedConversation = conversation.copyWith(
+        messages: conversation.messages.map((msg) {
+      if (msg == oldMessage) return newMessage;
+      return msg;
+    }).toList());
+
+    updateConversation(updatedConversation);
+    await replay(replay: updatedConversation, useCase: useCase, tools: tools);
+  }
+
+  Future<void> sendUserMessage(
+    String msg, {
+    UseCase? useCase,
+    Set<TestTool>? tools,
+  }) {
     final callback = Completer();
     final updatedConversation = addUserRequest(msg, state.current);
 
     _log.fine('Sending message: $updatedConversation');
     ref
         .read(agentClientNotifierProvider)
-        .sendMessage(updatedConversation.addUseCase(useCase))
+        .sendMessage(updatedConversation.addUseCase(useCase).addTools(tools))
         .listen((value) {
       addBotResponse(value, updatedConversation);
       if (!callback.isCompleted) callback.complete();
@@ -205,8 +237,10 @@ class ConversationsNotifier extends _$ConversationsNotifier {
     }).toList();
   }
 
-  newConversation() {
-    state = state.copyWith(current: build().current);
+  newConversation({String? conversationId}) {
+    state = state.copyWith(
+      current: _build(conversationId: conversationId).current,
+    );
   }
 
   deleteAll() {
@@ -236,5 +270,9 @@ extension ConversationsNotifierExtension on Ref {
       conversation,
       streamAudio: streamAudio,
     );
+  }
+
+  Conversation currentConversation() {
+    return read(conversationsNotifierProvider).current;
   }
 }

@@ -32,6 +32,7 @@ class UseCases with _$UseCases {
 class UseCase with _$UseCase {
   factory UseCase({
     required String name,
+    String? id,
     required DateTime createdAt,
     required String content,
   }) = _UseCase;
@@ -41,8 +42,11 @@ class UseCase with _$UseCase {
   static final useCaseSplitRegex = RegExp(r'(?=###\s*UseCase\s*:\s*)');
 
   List<(String, String)> splitContent() {
+    if (content.trim().isEmpty) return [];
     return content.split(useCaseSplitRegex).map((e) {
-      final name = e.substring(0, e.indexOf('\n')).trim().replaceAll('#', '');
+      final index = e.indexOf('\n');
+      if (index == -1) return ('unknown', e);
+      final name = e.substring(0, index).trim().replaceAll('#', '');
       return (name, e);
     }).toList();
   }

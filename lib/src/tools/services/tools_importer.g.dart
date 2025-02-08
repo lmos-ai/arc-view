@@ -1,0 +1,31 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'tools_importer.dart';
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+String _$toolsImporterHash() => r'2afe5f9800da9a1be98dda0ae26c522a56122ca5';
+
+///
+/// Imports a tool.
+///
+///
+/// Copied from [toolsImporter].
+@ProviderFor(toolsImporter)
+final toolsImporterProvider = AutoDisposeProvider<ToolsImporter>.internal(
+  toolsImporter,
+  name: r'toolsImporterProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$toolsImporterHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef ToolsImporterRef = AutoDisposeProviderRef<ToolsImporter>;
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

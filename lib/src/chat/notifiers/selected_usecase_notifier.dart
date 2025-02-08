@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/usecases/models/use_cases.dart';
+import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'selected_usecase_notifier.g.dart';
@@ -15,10 +16,18 @@ part 'selected_usecase_notifier.g.dart';
 @Riverpod(keepAlive: true)
 class SelectedUsecaseNotifier extends _$SelectedUsecaseNotifier {
   @override
-  String? build() => null;
+  UseCase? build() {
+    ref.listen(useCasesNotifierProvider, (_, useCases) {
+      if (state != null) {
+        state =
+            useCases.valueOrNull?.cases.where((c) => c.id == state!.id).first;
+      }
+    });
+    return null;
+  }
 
   setSelected(UseCase? useCase) {
-    state = useCase?.name;
+    state = useCase;
   }
 
   remove() {

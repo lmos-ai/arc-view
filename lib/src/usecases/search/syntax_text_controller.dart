@@ -15,6 +15,8 @@ class SyntaxTextController extends TextEditingController {
   _StyleDefinitions? _styles;
   Pattern? _combinedPattern;
 
+  SyntaxTextController({super.text});
+
   highlightText(String pattern, Color highlight) {
     final styleDefinitions = [
       _StyleDefinition(pattern: pattern, highlight: highlight)

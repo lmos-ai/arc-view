@@ -43,7 +43,7 @@ class ChartsScreen extends ConsumerWidget {
             const VGap.units(2),
             const MetricDetails(),
             const VGap.medium(),
-            'Agent Metrics'.h3,
+            'Agent Metrics'.h2,
             const VGap.units(2),
             [
               const AgentDurationChart().percentOfScreen(width: 0.45),
@@ -51,7 +51,7 @@ class ChartsScreen extends ConsumerWidget {
               const AgentFlowBreaksChart().percentOfScreen(width: 0.45),
             ].row(),
             const VGap.medium(),
-            'LLM Metrics'.h3,
+            'LLM Metrics'.h2,
             const VGap.units(2),
             [
               const LLMDurationChart().percentOfScreen(width: 0.45),
@@ -59,7 +59,7 @@ class ChartsScreen extends ConsumerWidget {
               const FunctionCallsChart().percentOfScreen(width: 0.45),
             ].row(),
             const VGap.medium(),
-            'LLM Tokens'.h3,
+            'LLM Tokens'.h2,
             const VGap.units(2),
             [
               const TokensChart().expand(),
