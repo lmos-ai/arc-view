@@ -7,7 +7,7 @@ part of 'selected_tool_notifier.dart';
 // **************************************************************************
 
 String _$selectedToolNotifierHash() =>
-    r'603868bdb23f36aa2834e129f999644918aae27c';
+    r'8e35255f95f96cd523317ab94bd9084a799d7df2';
 
 ///
 /// Holds the use case that has been selected and is sent to the Agent.
