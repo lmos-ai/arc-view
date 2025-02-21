@@ -16,37 +16,35 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: 'Home'.txt),
         body: [
-          GradientText(
-            'Welcome to the Arc View!',
-            style: TextStyle(
-              fontSize: 40.0,
+      VGap.medium(),
+      GradientText(
+        'Welcome to the Arc View!',
+        style: TextStyle(fontSize: 40.0),
+        colors: [
+          Colors.purple,
+          context.colorScheme.primary,
+        ],
+      ).center(),
+      'What magic should we create today?'.txt.padByUnits(2, 2, 2, 2),
+      VGap.small(),
+      Wrap(children: [
+        Card(
+          child: MarkdownBody(
+            styleSheet:
+                MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+              code: TextStyle(
+                  fontSize: 12,
+                  fontFamily:
+                      Theme.of(context).textTheme.bodyLarge?.fontFamily),
+              p: TextStyle(
+                  fontSize: 14,
+                  fontFamily:
+                      Theme.of(context).textTheme.bodyLarge?.fontFamily),
             ),
-            colors: [
-              Colors.purple,
-              context.colorScheme.primary,
-            ],
-          ).center(),
-          'What magic should we create today?'.txt.padByUnits(2, 2, 2, 2),
-          VGap.small(),
-          Wrap(children: [
-            Card(
-              child: MarkdownBody(
-                styleSheet:
-                    MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
-                  code: TextStyle(
-                      fontSize: 12,
-                      fontFamily:
-                          Theme.of(context).textTheme.bodyLarge?.fontFamily),
-                  p: TextStyle(
-                      fontSize: 14,
-                      fontFamily:
-                          Theme.of(context).textTheme.bodyLarge?.fontFamily),
-                ),
-                selectable: true,
-                fitContent: true,
-                data: '''
+            selectable: true,
+            fitContent: true,
+            data: '''
 This is a tool for communicating and testing your Arc Agents.
 \\
 \\
@@ -79,19 +77,19 @@ arc:
     enabled: true
 ```
                ''',
-                onTapLink: (text, href, title) {
-                  if (href != null) launchUrlString(href);
-                },
-              ).padByUnits(2, 2, 2, 2),
-            )
-          ]).expand(),
-          Spacer(),
-          [
-            'Powered by'.txt,
-            'Eclipse LMOS'.onPressed(() {
-              launchUrlString('https://eclipse.dev/lmos/');
-            }),
-          ].row(min: true).padByUnits(0, 0, 2, 0)
-        ].column());
+            onTapLink: (text, href, title) {
+              if (href != null) launchUrlString(href);
+            },
+          ).padByUnits(3, 3, 3, 3),
+        ).percentOfScreen(width: 0.9),
+      ]).expand(),
+      Spacer(),
+      [
+        'Powered by'.txt,
+        'Eclipse LMOS'.onPressed(() {
+          launchUrlString('https://eclipse.dev/lmos/');
+        }),
+      ].row(min: true).padByUnits(0, 0, 2, 0)
+    ].column());
   }
 }

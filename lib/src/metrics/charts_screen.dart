@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/core/app_bar_title.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/metrics/charts/agent_duration_chart.dart';
 import 'package:arc_view/src/metrics/charts/agent_flowbreaks_chart.dart';
@@ -22,7 +23,7 @@ class ChartsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: 'Performance'.txt),
+      appBar: AppBarTitle('Performance'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

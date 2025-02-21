@@ -31,17 +31,25 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     useCaseRepository.save(useCases);
   }
 
-  setSelected(int index) {
+  setSelected(UseCase useCase) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
+    final index = useCases.cases.indexOf(useCase);
     state = AsyncData(useCases.copyWith(selected: index));
   }
 
-  newUseCase(String name, {String? content}) {
+  newUseCase(
+    String name, {
+    String? content,
+    String? description,
+    List<String>? tags,
+  }) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
     final newUseCase = UseCase(
       id: '$name-${DateTime.now().millisecondsSinceEpoch}',
+      description: description ?? '',
+      tags: tags ?? [],
       name: name.isEmpty
           ? 'usecases'
           : name
@@ -60,10 +68,16 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     _update(useCases.cases.where((e) => e != toRemove).toList());
   }
 
-  addUseCase(String content) {
+  deleteUseCase(UseCase toRemove) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
-    final selected = useCases.selectedCase;
+    _update(useCases.cases.where((e) => e != toRemove).toList());
+  }
+
+  addUseCaseChapter(String id, String content) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final selected = useCases.getById(id);
     if (selected == null) return;
 
     final updatedUseCase =
@@ -73,10 +87,24 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     }).toList());
   }
 
-  updateSelected(String text) {
+  addUseCase(UseCase newUseCase) {
     final useCases = state.valueOrNull;
     if (useCases == null) return;
-    final selected = useCases.selectedCase;
+    _update([newUseCase, ...useCases.cases]);
+  }
+
+  updateUseCase(UseCase updatedUseCase) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    _update(useCases.cases.map((e) {
+      return e.id == updatedUseCase.id ? updatedUseCase : e;
+    }).toList());
+  }
+
+  updateUseCaseById(String id, String text) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final selected = useCases.getById(id);
     if (selected == null) return;
 
     final updatedUseCase = selected.copyWith(content: text);

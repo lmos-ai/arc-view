@@ -201,6 +201,8 @@ mixin _$UseCase {
   String? get id => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  List<String>? get tags => throw _privateConstructorUsedError;
 
   /// Serializes this UseCase to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -216,7 +218,13 @@ abstract class $UseCaseCopyWith<$Res> {
   factory $UseCaseCopyWith(UseCase value, $Res Function(UseCase) then) =
       _$UseCaseCopyWithImpl<$Res, UseCase>;
   @useResult
-  $Res call({String name, String? id, DateTime createdAt, String content});
+  $Res call(
+      {String name,
+      String? id,
+      DateTime createdAt,
+      String content,
+      String? description,
+      List<String>? tags});
 }
 
 /// @nodoc
@@ -238,6 +246,8 @@ class _$UseCaseCopyWithImpl<$Res, $Val extends UseCase>
     Object? id = freezed,
     Object? createdAt = null,
     Object? content = null,
+    Object? description = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -256,6 +266,14 @@ class _$UseCaseCopyWithImpl<$Res, $Val extends UseCase>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tags: freezed == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ) as $Val);
   }
 }
@@ -267,7 +285,13 @@ abstract class _$$UseCaseImplCopyWith<$Res> implements $UseCaseCopyWith<$Res> {
       __$$UseCaseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String? id, DateTime createdAt, String content});
+  $Res call(
+      {String name,
+      String? id,
+      DateTime createdAt,
+      String content,
+      String? description,
+      List<String>? tags});
 }
 
 /// @nodoc
@@ -287,6 +311,8 @@ class __$$UseCaseImplCopyWithImpl<$Res>
     Object? id = freezed,
     Object? createdAt = null,
     Object? content = null,
+    Object? description = freezed,
+    Object? tags = freezed,
   }) {
     return _then(_$UseCaseImpl(
       name: null == name
@@ -305,6 +331,14 @@ class __$$UseCaseImplCopyWithImpl<$Res>
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
               as String,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tags: freezed == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
     ));
   }
 }
@@ -316,8 +350,11 @@ class _$UseCaseImpl extends _UseCase {
       {required this.name,
       this.id,
       required this.createdAt,
-      required this.content})
-      : super._();
+      required this.content,
+      this.description,
+      final List<String>? tags})
+      : _tags = tags,
+        super._();
 
   factory _$UseCaseImpl.fromJson(Map<String, dynamic> json) =>
       _$$UseCaseImplFromJson(json);
@@ -330,10 +367,21 @@ class _$UseCaseImpl extends _UseCase {
   final DateTime createdAt;
   @override
   final String content;
+  @override
+  final String? description;
+  final List<String>? _tags;
+  @override
+  List<String>? get tags {
+    final value = _tags;
+    if (value == null) return null;
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'UseCase(name: $name, id: $id, createdAt: $createdAt, content: $content)';
+    return 'UseCase(name: $name, id: $id, createdAt: $createdAt, content: $content, description: $description, tags: $tags)';
   }
 
   @override
@@ -345,12 +393,16 @@ class _$UseCaseImpl extends _UseCase {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            (identical(other.content, content) || other.content == content));
+            (identical(other.content, content) || other.content == content) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, id, createdAt, content);
+  int get hashCode => Object.hash(runtimeType, name, id, createdAt, content,
+      description, const DeepCollectionEquality().hash(_tags));
 
   /// Create a copy of UseCase
   /// with the given fields replaced by the non-null parameter values.
@@ -373,7 +425,9 @@ abstract class _UseCase extends UseCase {
       {required final String name,
       final String? id,
       required final DateTime createdAt,
-      required final String content}) = _$UseCaseImpl;
+      required final String content,
+      final String? description,
+      final List<String>? tags}) = _$UseCaseImpl;
   _UseCase._() : super._();
 
   factory _UseCase.fromJson(Map<String, dynamic> json) = _$UseCaseImpl.fromJson;
@@ -386,6 +440,10 @@ abstract class _UseCase extends UseCase {
   DateTime get createdAt;
   @override
   String get content;
+  @override
+  String? get description;
+  @override
+  List<String>? get tags;
 
   /// Create a copy of UseCase
   /// with the given fields replaced by the non-null parameter values.

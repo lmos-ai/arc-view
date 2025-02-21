@@ -7,6 +7,7 @@
 import 'dart:convert';
 
 import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart';
+import 'package:arc_view/src/core/app_bar_title.dart';
 import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/settings/address_bar.dart';
 import 'package:arc_view/src/settings/context_field.dart';
@@ -34,7 +35,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 
       return Scaffold(
-        appBar: AppBar(title: 'Settings'.txt),
+        appBar: AppBarTitle('Settings'),
         floatingActionButton: Consumer(builder: (context, ref, _) {
           final changed = ref.watchSettingsChanged();
 
@@ -60,7 +61,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       onPressed: () {
                         ref.read(themeNotifierProvider.notifier).toggle();
                       }).pad(8, 8, 8, 8),
-                  '2.0.0'.txt.pad(8, 8, 8, 8),
+                  '3.0.0'.txt.pad(8, 8, 8, 8),
                   'Licenses'.onPressed(() {
                     showLicensePage(context: context);
                   }).pad(8, 8, 8, 8),
