@@ -28,14 +28,29 @@ class _NewToolDialogState extends State<NewToolDialog> {
   final _params = <(TextEditingController, TextEditingController)>[];
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (widget.tool != null) {
       _nameController.text = widget.tool!.name;
       _descriptionController.text = widget.tool!.description;
       _valueController.text = widget.tool!.value;
       _titleController.text = widget.tool!.title;
+      _params.clear();
+      _params.addAll(
+        widget.tool!.parameters
+            .map(
+              (e) => (
+                TextEditingController(text: e.name),
+                TextEditingController(text: e.description)
+              ),
+            )
+            .toList(),
+      );
     }
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: (widget.tool != null)
           ? 'Edit Test Tool'.txt
@@ -136,6 +151,8 @@ class _NewToolDialogState extends State<NewToolDialog> {
                         description: _descriptionController.text,
                         value: _valueController.text,
                         parameters: _params
+                            .where((e) =>
+                                e.$1.text.isNotEmpty && e.$2.text.isNotEmpty)
                             .map(
                               (e) => TestToolParameter(
                                   name: e.$1.text,

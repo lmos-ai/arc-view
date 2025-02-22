@@ -84,8 +84,11 @@ class UseCaseDialogState extends State<UseCaseDialog> {
             widget.onConfirm((
               name: _textController.text,
               description: _descriptionController.text,
-              tags:
-                  _tagsController.text.split(',').map((e) => e.trim()).toList(),
+              tags: _tagsController.text
+                  .split(',')
+                  .map((e) => e.trim())
+                  .where((e) => e.isNotEmpty)
+                  .toList(),
             ));
             Navigator.of(context).pop();
           },

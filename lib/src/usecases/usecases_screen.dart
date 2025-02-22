@@ -39,15 +39,15 @@ class UseCasesScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ' Create and Manage your Use Cases.'.txt,
-                    ' For more information on Use Cases, please visit'.txt,
+                    'Create and Manage your Use Cases.'.txt,
+                    'For more information on Use Cases, please visit'.txt,
                     'https://eclipse.dev/lmos/docs/arc/use_cases/'
                         .onPressed(() {
                       launchUrlString(
                           'https://eclipse.dev/lmos/docs/arc/use_cases/');
                     }),
                   ],
-                ).padByUnits(2, 2, 2, 2),
+                ).padByUnits(2, 3, 2, 3),
               ).size(height: 100),
               HGap.small(),
               ColoredBox(
@@ -55,10 +55,10 @@ class UseCasesScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ' Predefined Tags:'.txt,
-                    ' ${tagColors.keys.join(', ')}'.txt,
+                    'Predefined Tags:'.txt,
+                    '${tagColors.keys.join(', ')}'.txt,
                   ],
-                ).padByUnits(2, 2, 2, 2),
+                ).padByUnits(2, 3, 2, 3),
               ).size(height: 100)
             ],
           ).padByUnits(3, 3, 0, 3),
