@@ -7,6 +7,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'test_tool.freezed.dart';
+
 part 'test_tool.g.dart';
 
 @freezed
@@ -17,10 +18,24 @@ class TestTool with _$TestTool {
     required String id,
     required String description,
     required String value,
+    required List<TestToolParameter> parameters,
   }) = _TestTool;
 
   TestTool._();
 
   factory TestTool.fromJson(Map<String, dynamic> json) =>
       _$TestToolFromJson(json);
+}
+
+@freezed
+class TestToolParameter with _$TestToolParameter {
+  factory TestToolParameter(
+      {required String name,
+      required String description,
+      required String type}) = _TestToolParameter;
+
+  TestToolParameter._();
+
+  factory TestToolParameter.fromJson(Map<String, dynamic> json) =>
+      _$TestToolParameterFromJson(json);
 }

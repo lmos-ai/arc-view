@@ -14,4 +14,5 @@ const agentEvents = [
   'AgentLoadedEvent',
   'FunctionLoadedEvent',
   'UseCaseEvent',
+  'FilterExecutedEvent',
 ];

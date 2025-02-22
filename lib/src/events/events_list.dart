@@ -121,12 +121,17 @@ class EventsList extends ConsumerWidget {
       'AgentLoadedEvent' => [
           SmallText('ErrorMessage: ${json['errorMessage']}'),
         ],
+      'FilterExecutedEvent' => [
+          SmallText('Name: ${json['name']}'),
+        ],
       'FunctionLoadedEvent' => [
           SmallText('ErrorMessage: ${json['errorMessage']}'),
         ],
       'LLMFinishedEvent' => [
           SmallText('Model: ${json['model']}'),
           SmallText('TotalTokens: ${json['totalTokens']}'),
+          SmallText('PromptTokens: ${json['promptTokens']}'),
+          SmallText('CompletionTokens: ${json['completionTokens']}'),
           SmallText('FunctionCallCount: ${json['functionCallCount']}'),
           [
             SmallText('System Prompt:'),

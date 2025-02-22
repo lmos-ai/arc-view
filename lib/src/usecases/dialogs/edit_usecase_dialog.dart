@@ -69,14 +69,16 @@ class _EditUseCaseDialogState extends State<EditUseCaseDialog> {
 /// Shows the [EditUseCaseDialog].
 ///
 ///
-showAddUseCaseDialog(BuildContext context, WidgetRef ref) {
+showAddUseCaseDialog(String useCaseId, BuildContext context, WidgetRef ref) {
   showDialog(
     context: context,
     builder: (context) {
       return EditUseCaseDialog(
           content: addUseCaseTemplate,
           onSave: (text) {
-            ref.read(useCasesNotifierProvider.notifier).addUseCase(text);
+            ref
+                .read(useCasesNotifierProvider.notifier)
+                .addUseCaseChapter(useCaseId, text);
           });
     },
   );
@@ -87,6 +89,7 @@ showEditUseCaseDialog(
   int selected,
   List<(String, String)> useCases,
   WidgetRef ref,
+  String useCaseId,
 ) {
   showDialog(
     context: context,
@@ -94,7 +97,7 @@ showEditUseCaseDialog(
       return EditUseCaseDialog(
           content: useCases[selected].$2,
           onSave: (text) {
-            _saveUseCase(text, useCases, selected, ref);
+            _saveUseCase(text, useCases, selected, ref, useCaseId);
           });
     },
   );
@@ -105,6 +108,7 @@ _saveUseCase(
   List<(String, String)> useCases,
   int sectionIndex,
   WidgetRef ref,
+  String useCaseId,
 ) {
   var newText = '';
   for (var i = 0; i < useCases.length; i++) {
@@ -114,5 +118,7 @@ _saveUseCase(
       newText += '${useCases[i].$2}\n';
     }
   }
-  ref.read(useCasesNotifierProvider.notifier).updateSelected(newText);
+  ref
+      .read(useCasesNotifierProvider.notifier)
+      .updateUseCaseById(useCaseId, newText);
 }

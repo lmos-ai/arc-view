@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/tools/models/test_tool.dart';
 import 'package:arc_view/src/tools/notifiers/tools_notifier.dart';
 import 'package:flutter/material.dart';
@@ -24,15 +25,32 @@ class _NewToolDialogState extends State<NewToolDialog> {
   final _valueController = TextEditingController();
   final _titleController = TextEditingController();
 
+  final _params = <(TextEditingController, TextEditingController)>[];
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     if (widget.tool != null) {
       _nameController.text = widget.tool!.name;
       _descriptionController.text = widget.tool!.description;
       _valueController.text = widget.tool!.value;
       _titleController.text = widget.tool!.title;
+      _params.clear();
+      _params.addAll(
+        widget.tool!.parameters
+            .map(
+              (e) => (
+                TextEditingController(text: e.name),
+                TextEditingController(text: e.description)
+              ),
+            )
+            .toList(),
+      );
     }
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return AlertDialog(
       title: (widget.tool != null)
           ? 'Edit Test Tool'.txt
@@ -58,6 +76,48 @@ class _NewToolDialogState extends State<NewToolDialog> {
               hintText: 'Tool Description',
             ),
           ),
+          VGap.small(),
+          'Add Parameter'.onPressed(() {
+            setState(() {
+              _params.add((
+                TextEditingController(),
+                TextEditingController(),
+              ));
+            });
+          }).toRight(),
+          for (var i = 0; i < _params.length; i++)
+            [
+              TextField(
+                controller: _params[i].$1,
+                decoration: InputDecoration(
+                  hintText: 'Parameter Name',
+                ),
+              ).size(width: 200),
+              HGap.small(),
+              TextField(
+                controller: _params[i].$2,
+                decoration: InputDecoration(
+                  hintText: 'Parameter Description',
+                ),
+              ).expand(),
+              HGap.small(),
+              TextField(
+                enabled: false,
+                decoration: InputDecoration(
+                  hintText: 'String',
+                ),
+              ).size(width: 100),
+              HGap.small(),
+              SecondaryButton(
+                icon: Icons.close,
+                description: 'description',
+                onPressed: () {
+                  setState(() {
+                    _params.remove(_params[i]);
+                  });
+                },
+              )
+            ].row(),
           VGap.small(),
           ColoredBox(
             color: context.colorScheme.surface,
@@ -90,6 +150,16 @@ class _NewToolDialogState extends State<NewToolDialog> {
                         title: _titleController.text,
                         description: _descriptionController.text,
                         value: _valueController.text,
+                        parameters: _params
+                            .where((e) =>
+                                e.$1.text.isNotEmpty && e.$2.text.isNotEmpty)
+                            .map(
+                              (e) => TestToolParameter(
+                                  name: e.$1.text,
+                                  description: e.$2.text,
+                                  type: 'string'),
+                            )
+                            .toList(),
                       ),
                     );
                 Navigator.of(context).pop();
@@ -103,6 +173,14 @@ class _NewToolDialogState extends State<NewToolDialog> {
                       title: _titleController.text,
                       description: _descriptionController.text,
                       value: _valueController.text,
+                      parameters: _params
+                          .map(
+                            (e) => TestToolParameter(
+                                name: e.$1.text,
+                                description: e.$2.text,
+                                type: 'string'),
+                          )
+                          .toList(),
                     ),
                   );
               Navigator.of(context).pop();
@@ -119,6 +197,10 @@ class _NewToolDialogState extends State<NewToolDialog> {
     _descriptionController.dispose();
     _valueController.dispose();
     _titleController.dispose();
+    for (var i = 0; i < _params.length; i++) {
+      _params[i].$1.dispose();
+      _params[i].$2.dispose();
+    }
     super.dispose();
   }
 }

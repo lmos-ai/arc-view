@@ -26,6 +26,8 @@ _$UseCaseImpl _$$UseCaseImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       content: json['content'] as String,
+      description: json['description'] as String?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$UseCaseImplToJson(_$UseCaseImpl instance) =>
@@ -34,4 +36,6 @@ Map<String, dynamic> _$$UseCaseImplToJson(_$UseCaseImpl instance) =>
       'id': instance.id,
       'createdAt': instance.createdAt.toIso8601String(),
       'content': instance.content,
+      'description': instance.description,
+      'tags': instance.tags,
     };

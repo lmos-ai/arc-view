@@ -9,8 +9,7 @@ import 'dart:async';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/core/section_title.dart';
 import 'package:arc_view/src/usecases/buttons/copy_to_clipboard_button.dart';
-import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
-import 'package:arc_view/src/usecases/models/use_cases.dart';
+import 'package:arc_view/src/usecases/dialogs/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:arc_view/src/usecases/search/notifiers/search_notifier.dart';
 import 'package:arc_view/src/usecases/search/search_panel.dart';
@@ -24,7 +23,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
 
 class UseCasePanel extends StatefulWidget {
-  const UseCasePanel({super.key});
+  const UseCasePanel({super.key, required this.useCaseId});
+
+  final String useCaseId;
 
   @override
   State<UseCasePanel> createState() => _UseCasePanelState();
@@ -39,8 +40,8 @@ class _UseCasePanelState extends State<UseCasePanel> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final UseCase? selectedCase =
-          ref.watch(useCasesNotifierProvider).valueOrNull?.selectedCase;
+      final selectedCase = ref.watch(useCasesNotifierProvider
+          .select((u) => u.valueOrNull?.getById(widget.useCaseId)));
 
       if (_textController.text != selectedCase?.content) {
         _textController.text = selectedCase?.content ?? '';
@@ -114,7 +115,7 @@ class _UseCasePanelState extends State<UseCasePanel> {
                 icon: Icons.add,
                 description: 'Add Use Case',
                 onPressed: () {
-                  showAddUseCaseDialog(context, ref);
+                  showAddUseCaseDialog(widget.useCaseId, context, ref);
                 },
               ),
               SecondaryButton(
@@ -156,11 +157,8 @@ class _UseCasePanelState extends State<UseCasePanel> {
                     expands: true,
                     keyboardType: TextInputType.multiline,
                   ),
-                ).expand().animate().fadeIn(duration: 200.milliseconds)
-              : UsecaseOverviewPanel()
-                  .expand()
-                  .animate()
-                  .fadeIn(duration: 500.milliseconds),
+                ).expand()
+              : UsecaseOverviewPanel(useCaseId: widget.useCaseId).expand(),
         ],
       );
     });
@@ -169,10 +167,14 @@ class _UseCasePanelState extends State<UseCasePanel> {
   _saveText(String text, WidgetRef ref, [bool force = false]) {
     if (_debounce?.isActive ?? false) _debounce?.cancel();
     if (force) {
-      ref.read(useCasesNotifierProvider.notifier).updateSelected(text);
+      ref
+          .read(useCasesNotifierProvider.notifier)
+          .updateUseCaseById(widget.useCaseId, text);
     } else {
       _debounce = Timer(1300.milliseconds, () {
-        ref.read(useCasesNotifierProvider.notifier).updateSelected(text);
+        ref
+            .read(useCasesNotifierProvider.notifier)
+            .updateUseCaseById(widget.useCaseId, text);
       });
     }
   }

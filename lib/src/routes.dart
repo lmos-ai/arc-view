@@ -10,6 +10,7 @@ import 'package:arc_view/src/home/home_screen.dart';
 import 'package:arc_view/src/layout/main_layout.dart';
 import 'package:arc_view/src/metrics/charts_screen.dart';
 import 'package:arc_view/src/settings/settings_screen.dart';
+import 'package:arc_view/src/usecases/edit_usecases_screen.dart';
 import 'package:arc_view/src/usecases/usecases_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -61,6 +62,11 @@ final appRoutes = GoRouter(
         GoRoute(
           path: '/charts',
           builder: (context, state) => const ChartsScreen(),
+        ),
+        GoRoute(
+          path: '/edit_usecase/:id',
+          builder: (context, state) =>
+              EditUseCasesScreen(useCaseId: state.pathParameters['id']!),
         ),
       ],
     ),

@@ -6,7 +6,7 @@
 
 import 'package:arc_view/src/core/hoverable_list_tile.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
-import 'package:arc_view/src/usecases/edit_usecase_dialog.dart';
+import 'package:arc_view/src/usecases/dialogs/edit_usecase_dialog.dart';
 import 'package:arc_view/src/usecases/notifiers/usecases_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,10 +17,12 @@ class UseCaseSectionList extends ConsumerWidget {
     super.key,
     required this.sections,
     required this.onSelect,
+    required this.useCaseId,
   });
 
   final List<(String, String)> sections;
   final void Function(int, String) onSelect;
+  final String useCaseId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,7 +43,7 @@ class UseCaseSectionList extends ConsumerWidget {
                   icon: Icons.edit,
                   description: 'Edit Use Case',
                   onPressed: () {
-                    showEditUseCaseDialog(context, i, sections, ref);
+                    showEditUseCaseDialog(context, i, sections, ref, useCaseId);
                   },
                 ),
                 SecondaryButton(
@@ -49,13 +51,13 @@ class UseCaseSectionList extends ConsumerWidget {
                   confirming: true,
                   description: 'Delete Use Case',
                   onPressed: () {
-                    _deleteUseCase(sections, i, ref);
+                    _deleteUseCase(sections, i, ref, useCaseId);
                   },
                 ),
               ],
             ),
           ),
-        ).padByUnits(0, 0, 1, 1).expand(),
+        ).expand(),
       ],
     );
   }
@@ -64,6 +66,7 @@ class UseCaseSectionList extends ConsumerWidget {
     List<(String, String)> sections,
     int sectionIndex,
     WidgetRef ref,
+    String useCaseId,
   ) {
     var newText = '';
     for (var i = 0; i < sections.length; i++) {
@@ -71,6 +74,8 @@ class UseCaseSectionList extends ConsumerWidget {
         newText += '${sections[i].$2}\n';
       }
     }
-    ref.read(useCasesNotifierProvider.notifier).updateSelected(newText);
+    ref
+        .read(useCasesNotifierProvider.notifier)
+        .updateUseCaseById(useCaseId, newText);
   }
 }
