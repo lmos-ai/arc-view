@@ -16,10 +16,14 @@ class AgentFlowBreaksChart extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final metrics = ref.watch(agentMetricsNotifierProvider).valueOrNull;
+    // Watch the selected metrics from the notifier
+    final selectedMetrics = ref.watch(agentMetricsNotifierProvider.notifier).selectedMetrics;
+    // Filter metrics based on the selected metrics
+    final filteredMetrics = metrics?.where((m) => selectedMetrics.contains(m.name)).toList() ?? [];
     return DataChart(
       title: 'Agent Breaks',
       axisName: 'Breaks',
-      metrics: metrics ?? const [],
+      metrics: filteredMetrics,
       plotType: PlotType.agentBreaks,
       maxY: 1.0,
     );
