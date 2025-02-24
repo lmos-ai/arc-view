@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+import 'package:arc_view/src/core/app_bar_title.dart';
 import 'package:arc_view/src/core/secondary_button.dart';
 import 'package:arc_view/src/metrics/charts/agent_duration_chart.dart';
 import 'package:arc_view/src/metrics/charts/agent_flowbreaks_chart.dart';
@@ -22,7 +23,7 @@ class ChartsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: 'Performance'.txt),
+      appBar: AppBarTitle('Performance'),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +44,7 @@ class ChartsScreen extends ConsumerWidget {
             const VGap.units(2),
             const MetricDetails(),
             const VGap.medium(),
-            'Agent Metrics'.h3,
+            'Agent Metrics'.h2,
             const VGap.units(2),
             [
               const AgentDurationChart().percentOfScreen(width: 0.45),
@@ -51,7 +52,7 @@ class ChartsScreen extends ConsumerWidget {
               const AgentFlowBreaksChart().percentOfScreen(width: 0.45),
             ].row(),
             const VGap.medium(),
-            'LLM Metrics'.h3,
+            'LLM Metrics'.h2,
             const VGap.units(2),
             [
               const LLMDurationChart().percentOfScreen(width: 0.45),
@@ -59,7 +60,7 @@ class ChartsScreen extends ConsumerWidget {
               const FunctionCallsChart().percentOfScreen(width: 0.45),
             ].row(),
             const VGap.medium(),
-            'LLM Tokens'.h3,
+            'LLM Tokens'.h2,
             const VGap.units(2),
             [
               const TokensChart().expand(),

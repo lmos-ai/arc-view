@@ -13,12 +13,15 @@ class SectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = context.colorScheme.onSurface.withValues(alpha: 0.5);
+    final color = context.colorScheme.onSurface;
     return [
       Container(
         width: 10,
         height: 10,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(0xff073a40),
+        ),
       ),
       HGap.units(2),
       text.style(color: color),

@@ -7,7 +7,7 @@ part of 'selected_usecase_notifier.dart';
 // **************************************************************************
 
 String _$selectedUsecaseNotifierHash() =>
-    r'0887b629b3a772b5639116ce707f3c1072ee5fb8';
+    r'c9a7b6d9ee916b3a8ca6780fd02b7ecbececd1f8';
 
 ///
 /// Holds the use case that has been selected and is sent to the Agent.
@@ -16,7 +16,7 @@ String _$selectedUsecaseNotifierHash() =>
 /// Copied from [SelectedUsecaseNotifier].
 @ProviderFor(SelectedUsecaseNotifier)
 final selectedUsecaseNotifierProvider =
-    NotifierProvider<SelectedUsecaseNotifier, String?>.internal(
+    NotifierProvider<SelectedUsecaseNotifier, UseCase?>.internal(
   SelectedUsecaseNotifier.new,
   name: r'selectedUsecaseNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -26,6 +26,6 @@ final selectedUsecaseNotifierProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedUsecaseNotifier = Notifier<String?>;
+typedef _$SelectedUsecaseNotifier = Notifier<UseCase?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

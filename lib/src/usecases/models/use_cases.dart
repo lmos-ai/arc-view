@@ -24,6 +24,10 @@ class UseCases with _$UseCases {
 
   UseCase? get selectedCase => (cases.isEmpty) ? null : cases[selected];
 
+  UseCase? getById(String id) {
+    return cases.where((element) => element.id == id).firstOrNull;
+  }
+
   factory UseCases.fromJson(Map<String, dynamic> json) =>
       _$UseCasesFromJson(json);
 }
@@ -32,8 +36,11 @@ class UseCases with _$UseCases {
 class UseCase with _$UseCase {
   factory UseCase({
     required String name,
+    String? id,
     required DateTime createdAt,
     required String content,
+    String? description,
+    List<String>? tags,
   }) = _UseCase;
 
   UseCase._();
@@ -41,10 +48,25 @@ class UseCase with _$UseCase {
   static final useCaseSplitRegex = RegExp(r'(?=###\s*UseCase\s*:\s*)');
 
   List<(String, String)> splitContent() {
+    if (content.trim().isEmpty) return [];
     return content.split(useCaseSplitRegex).map((e) {
-      final name = e.substring(0, e.indexOf('\n')).trim().replaceAll('#', '');
+      final index = e.indexOf('\n');
+      if (index == -1) return ('unknown', e);
+      final name = e.substring(0, index).trim().replaceAll('#', '');
       return (name, e);
     }).toList();
+  }
+
+  UseCase duplicate() {
+    return copyWith(
+      name: '$name (copy)',
+      id: 'uc-${DateTime.now().millisecondsSinceEpoch}-${generateHash()}',
+      createdAt: DateTime.now(),
+    );
+  }
+
+  String generateHash() {
+    return content.hashCode.toRadixString(16);
   }
 
   factory UseCase.fromJson(Map<String, dynamic> json) =>

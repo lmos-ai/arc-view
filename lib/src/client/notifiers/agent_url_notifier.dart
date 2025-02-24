@@ -14,11 +14,22 @@ typedef AgentUrlData = ({Uri url, bool secure, String? agent});
 class AgentUrlNotifier extends _$AgentUrlNotifier {
   @override
   AgentUrlData build() {
-    final url = Uri.base.isScheme('http') || Uri.base.isScheme('https')
-        ? '${Uri.base.scheme}://${Uri.base.host}:${Uri.base.port}'
+    final base = _getBaseUrl();
+    final url = base.isScheme('http') || base.isScheme('https')
+        ? '${base.scheme}://${base.host}:${base.port}'
         : 'http://localhost:8080';
-    final secure = Uri.base.isScheme('https');
+    final secure = base.isScheme('https');
     return (url: Uri.parse(url), secure: secure, agent: null);
+  }
+
+  Uri _getBaseUrl() {
+    try {
+      if (!Uri.base.hasQuery) return Uri.base;
+      final url = Uri.base.queryParameters['agentUrl'];
+      if (url == null) return Uri.base;
+      return Uri.parse(url);
+    } catch (_) {}
+    return Uri.base;
   }
 
   setUrl(String url) {

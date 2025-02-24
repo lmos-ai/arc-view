@@ -27,7 +27,7 @@ class HomePanel extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          headline.h3,
+          headline.h2,
           VGap.small(),
           ...body,
           Spacer(),

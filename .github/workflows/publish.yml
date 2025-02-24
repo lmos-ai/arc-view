@@ -1,0 +1,86 @@
+name: Arc View Publish
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  extract-application-version:
+    name: Extract application version
+    runs-on: ubuntu-latest
+    outputs:
+      app_version: ${{ steps.extract.outputs.app_version }}
+      app_version_tag: ${{ steps.extract.outputs.app_version_tag }}
+    steps:
+      - name: Checkout pubspec.yaml
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            pubspec.yaml
+          sparse-checkout-cone-mode: false
+      - name: Extract app version
+        id: extract
+        run: |
+          # Extract version from flutter's pubspec.yaml, and remove build number
+          app_version=$(yq eval '.version' pubspec.yaml)
+          app_version_tag=$(echo $app_version | cut -d '+' -f 1)
+          echo "app_version=$app_version" >> $GITHUB_OUTPUT
+          echo "app_version_tag=$app_version_tag" >> $GITHUB_OUTPUT
+
+
+  build-and-publish-docker:
+    name: Build and publish docker image
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: extract-application-version
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1'
+          cache: true
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build for web
+        run: flutter build web --wasm --base-href=/
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push docker image
+        run: |
+          imagename=ghcr.io/${{ github.repository_owner }}/arc-view-web:${{needs.extract-application-version.outputs.app_version_tag}}
+          docker build -t $imagename .
+          docker push $imagename
+
+  publish-helm:
+    name: Publish helm chart
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs:
+      - extract-application-version
+      - build-and-publish-docker
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Package and publish helm chart
+        run: |
+          # Add app version to chart.yaml
+          echo -e "\n# appVersion added by build script" >> helm/arc-view-web-chart/Chart.yaml
+          echo -e "appVersion: \"${{needs.extract-application-version.outputs.app_version_tag}}\"" >> helm/arc-view-web-chart/Chart.yaml
+          
+          # Package and publish helm chart
+          package_output=$(helm package helm/arc-view-web-chart)
+          package_file=$(echo "$package_output" | awk '{print $NF}')
+          helm push $package_file oci://ghcr.io/${{ github.repository_owner }}
+

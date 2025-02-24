@@ -9,21 +9,28 @@ import 'package:arc_view/src/conversation/notifiers/conversations_notifier.dart'
 import 'package:arc_view/src/events/events_panel.dart';
 import 'package:arc_view/src/events/models/event_filter.dart';
 import 'package:arc_view/src/events/notifiers/event_filters_notifier.dart';
+import 'package:arc_view/src/tests/notifiers/test_cases_notifier.dart';
+import 'package:arc_view/src/tests/test_cases_panel.dart';
+import 'package:arc_view/src/tools/notifiers/tools_notifier.dart';
+import 'package:arc_view/src/tools/tools_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smiles/smiles.dart';
 
 import '../events/notifiers/agent_events_notifier.dart';
 
-class RightPanel extends StatelessWidget {
+final rightPanelNavProvider = StateProvider<int>((ref) => 0);
+
+class RightPanel extends ConsumerWidget {
   const RightPanel({super.key, this.width = 300});
 
   final double width;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final tabIndex = ref.watch(rightPanelNavProvider); TODO
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -31,6 +38,8 @@ class RightPanel extends StatelessWidget {
             children: [
               EventsPanel(),
               ConversationsPanel(),
+              ToolsPanel(),
+              TestCasesPanel(),
             ],
           ).expand(),
           VGap.units(3),
@@ -61,7 +70,19 @@ class _SwitchTabs extends ConsumerWidget {
             Consumer(builder: (context, ref, child) {
               final count = ref.watch(conversationsNotifierProvider
                   .select((e) => e.conversations.length));
-              return Tab(child: ['Conversations ($count)'.txt].row(min: true));
+              return Tab(child: ['Chats ($count)'.txt].row(min: true));
+            }),
+            Consumer(builder: (context, ref, child) {
+              final count = ref.watch(
+                toolsNotifierProvider.select((e) => e.length),
+              );
+              return Tab(child: ['Tools ($count)'.txt].row(min: true));
+            }),
+            Consumer(builder: (context, ref, child) {
+              final count = ref.watch(
+                testCasesNotifierProvider.select((e) => e.testCases.length),
+              );
+              return Tab(child: ['Lab ($count)'.txt].row(min: true));
             }),
           ],
         ));

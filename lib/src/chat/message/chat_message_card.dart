@@ -5,6 +5,7 @@
  */
 
 import 'package:arc_view/src/chat/message/copy_to_clipboard_button.dart';
+import 'package:arc_view/src/chat/message/edit_message_button.dart';
 import 'package:arc_view/src/chat/message/rerun_message_button.dart';
 import 'package:arc_view/src/conversation/models/conversation_message.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +24,13 @@ class ChatMessageCard extends StatelessWidget {
       margin: const EdgeInsets.all(8),
       child: Stack(
         children: [
-          chatMessage.content.txt.pad(16, 16, 32, 16),
+          chatMessage.content.txt.padByUnits(3, 2, 6, 2),
           Positioned(
             bottom: 0,
             right: 0,
             child: Row(
               children: [
+                EditMessageButton(chatMessage),
                 CopyToClipBoardButton(chatMessage.content),
                 RerunMessageButton(chatMessage.content)
               ],
@@ -36,7 +38,7 @@ class ChatMessageCard extends StatelessWidget {
           ),
         ],
       ),
-    ).constrain(maxWidth: 600, minWidth: 100);
+    ).constrain(maxWidth: 600, minWidth: 150);
   }
 }
 
