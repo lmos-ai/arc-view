@@ -123,6 +123,7 @@ class EventsList extends ConsumerWidget {
         ],
       'FilterExecutedEvent' => [
           SmallText('Name: ${json['name']}'),
+          SmallText('Event: $type'),
         ],
       'FunctionLoadedEvent' => [
           SmallText('ErrorMessage: ${json['errorMessage']}'),
@@ -132,6 +133,7 @@ class EventsList extends ConsumerWidget {
           SmallText('TotalTokens: ${json['totalTokens']}'),
           SmallText('PromptTokens: ${json['promptTokens']}'),
           SmallText('CompletionTokens: ${json['completionTokens']}'),
+          SmallText('FinishReasons: ${json['finishReasons']}'),
           SmallText('FunctionCallCount: ${json['functionCallCount']}'),
           [
             SmallText('System Prompt:'),
@@ -145,11 +147,13 @@ class EventsList extends ConsumerWidget {
           SmallText('Content: ${_tryGetContent(json)}'),
         ],
       'LLMFunctionCalledEvent' => [
+          SmallText('Event: $type'),
           SmallText('Name: ${json['name']}'),
           SmallText('Params: ${json['param']}'),
           SmallText('Result: ${_tryGetValue(json)}')
         ],
       'UseCaseEvent' => [
+          SmallText('Event: $type'),
           SmallText('Name: ${json['name']}'),
         ],
       _ => [SmallText(json.toString())],

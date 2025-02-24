@@ -43,6 +43,12 @@ class EventRowItem extends StatelessWidget {
         ),
       'UseCaseEvent' =>
         MilestoneEvent(color: eventColor, name: 'UseCase: ${json['name']}'),
+      'LLMFunctionCalledEvent' =>
+        MilestoneEvent(color: eventColor, name: 'Tool: ${json['name']}'),
+      'LLMFinishedEvent' =>
+        MilestoneEvent(color: eventColor, name: 'LLM: ${json['model']}'),
+      'FilterExecutedEvent' =>
+        MilestoneEvent(color: eventColor, name: 'Filter: ${json['name']}'),
       _ => MilestoneEvent(color: eventColor, name: event.type),
     };
   }

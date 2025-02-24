@@ -49,7 +49,7 @@ class LoadingChatMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      color: Theme.of(context).colorScheme.primary,
+      color: Theme.of(context).colorScheme.surfaceContainer,
       margin: const EdgeInsets.all(8),
       child: LoadingAnimationWidget.staggeredDotsWave(
         color: Colors.white,
