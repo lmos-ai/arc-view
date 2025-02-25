@@ -125,6 +125,11 @@ class EventsList extends ConsumerWidget {
           SmallText('Name: ${json['name']}'),
           SmallText('Event: $type'),
         ],
+      'DataAddedEvent' => [
+          SmallText('Event: $type'),
+          SmallText('Name: ${json['name']}'),
+          SmallText('Data: ${json['data']}'),
+        ],
       'FunctionLoadedEvent' => [
           SmallText('ErrorMessage: ${json['errorMessage']}'),
         ],

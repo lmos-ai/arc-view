@@ -36,14 +36,15 @@ class _NewToolDialogState extends State<NewToolDialog> {
       _titleController.text = widget.tool!.title;
       _params.clear();
       _params.addAll(
-        widget.tool!.parameters
-            .map(
-              (e) => (
-                TextEditingController(text: e.name),
-                TextEditingController(text: e.description)
-              ),
-            )
-            .toList(),
+        widget.tool?.parameters
+                ?.map(
+                  (e) => (
+                    TextEditingController(text: e.name),
+                    TextEditingController(text: e.description)
+                  ),
+                )
+                .toList() ??
+            [],
       );
     }
     super.initState();

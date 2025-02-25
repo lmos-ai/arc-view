@@ -25,7 +25,7 @@ mixin _$TestTool {
   String get id => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   String get value => throw _privateConstructorUsedError;
-  List<TestToolParameter> get parameters => throw _privateConstructorUsedError;
+  List<TestToolParameter>? get parameters => throw _privateConstructorUsedError;
 
   /// Serializes this TestTool to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $TestToolCopyWith<$Res> {
       String id,
       String description,
       String value,
-      List<TestToolParameter> parameters});
+      List<TestToolParameter>? parameters});
 }
 
 /// @nodoc
@@ -71,7 +71,7 @@ class _$TestToolCopyWithImpl<$Res, $Val extends TestTool>
     Object? id = null,
     Object? description = null,
     Object? value = null,
-    Object? parameters = null,
+    Object? parameters = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -94,10 +94,10 @@ class _$TestToolCopyWithImpl<$Res, $Val extends TestTool>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      parameters: null == parameters
+      parameters: freezed == parameters
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as List<TestToolParameter>,
+              as List<TestToolParameter>?,
     ) as $Val);
   }
 }
@@ -116,7 +116,7 @@ abstract class _$$TestToolImplCopyWith<$Res>
       String id,
       String description,
       String value,
-      List<TestToolParameter> parameters});
+      List<TestToolParameter>? parameters});
 }
 
 /// @nodoc
@@ -137,7 +137,7 @@ class __$$TestToolImplCopyWithImpl<$Res>
     Object? id = null,
     Object? description = null,
     Object? value = null,
-    Object? parameters = null,
+    Object? parameters = freezed,
   }) {
     return _then(_$TestToolImpl(
       name: null == name
@@ -160,10 +160,10 @@ class __$$TestToolImplCopyWithImpl<$Res>
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as String,
-      parameters: null == parameters
+      parameters: freezed == parameters
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as List<TestToolParameter>,
+              as List<TestToolParameter>?,
     ));
   }
 }
@@ -177,7 +177,7 @@ class _$TestToolImpl extends _TestTool {
       required this.id,
       required this.description,
       required this.value,
-      required final List<TestToolParameter> parameters})
+      final List<TestToolParameter>? parameters})
       : _parameters = parameters,
         super._();
 
@@ -194,12 +194,14 @@ class _$TestToolImpl extends _TestTool {
   final String description;
   @override
   final String value;
-  final List<TestToolParameter> _parameters;
+  final List<TestToolParameter>? _parameters;
   @override
-  List<TestToolParameter> get parameters {
+  List<TestToolParameter>? get parameters {
+    final value = _parameters;
+    if (value == null) return null;
     if (_parameters is EqualUnmodifiableListView) return _parameters;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_parameters);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -250,7 +252,7 @@ abstract class _TestTool extends TestTool {
       required final String id,
       required final String description,
       required final String value,
-      required final List<TestToolParameter> parameters}) = _$TestToolImpl;
+      final List<TestToolParameter>? parameters}) = _$TestToolImpl;
   _TestTool._() : super._();
 
   factory _TestTool.fromJson(Map<String, dynamic> json) =
@@ -267,7 +269,7 @@ abstract class _TestTool extends TestTool {
   @override
   String get value;
   @override
-  List<TestToolParameter> get parameters;
+  List<TestToolParameter>? get parameters;
 
   /// Create a copy of TestTool
   /// with the given fields replaced by the non-null parameter values.

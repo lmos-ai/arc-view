@@ -7,7 +7,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'test_tool.freezed.dart';
-
 part 'test_tool.g.dart';
 
 @freezed
@@ -18,7 +17,7 @@ class TestTool with _$TestTool {
     required String id,
     required String description,
     required String value,
-    required List<TestToolParameter> parameters,
+    List<TestToolParameter>? parameters,
   }) = _TestTool;
 
   TestTool._();

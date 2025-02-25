@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:smiles/smiles.dart';
 
-const _columnSizes = <double>[240, 300, 180, 180, 200];
+const _columnSizes = <double>[240, 300, 180, 180, 220];
 
 class UseCaseTable extends ConsumerWidget {
   const UseCaseTable({super.key});
@@ -34,156 +34,134 @@ class UseCaseTable extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ColoredBox(
-          color: context.colorScheme.surfaceContainer,
-          child: Row(
-            children: [
-              'Name'.txt.size(width: _columnSizes[0]),
-              'Description'.txt.expand(),
-              if (!smallScreen) 'Tags'.txt.size(width: _columnSizes[1]),
-              'Created At'.txt.size(width: _columnSizes[2]),
-              if (largeScreen) 'Hash'.txt.size(width: _columnSizes[3]),
-              'Actions'.txt.size(width: _columnSizes[4]),
-            ],
-          ).padByUnits(1, 1, 1, 1),
-        ),
-        ListView.separated(
-          separatorBuilder: (context, index) => Divider(height: 1),
-          itemCount: useCases.cases.length,
-          itemBuilder: (context, index) {
-            final uc = useCases.cases[index];
-            return TableItem(
-                useCase: uc,
-                largeScreen: largeScreen,
-                smallScreen: smallScreen);
-          },
+        SingleChildScrollView(
+          child: DataTable(
+              showCheckboxColumn: false,
+              headingRowHeight: 40,
+              headingRowColor: WidgetStateColor.resolveWith(
+                (states) => context.colorScheme.surfaceContainer,
+              ),
+              columns: [
+                DataColumn(
+                    numeric: false,
+                    label: 'Name'.txt,
+                    onSort: (columnIndex, ascending) {
+                      ref
+                          .read(useCasesNotifierProvider.notifier)
+                          .sortByName(ascending: ascending);
+                    },
+                    columnWidth: FixedColumnWidth(_columnSizes[0])),
+                DataColumn(
+                    label: 'Description'.txt, columnWidth: FlexColumnWidth()),
+                if (!smallScreen)
+                  DataColumn(
+                      label: 'Tags'.txt,
+                      columnWidth: FixedColumnWidth(_columnSizes[1])),
+                DataColumn(
+                    label: 'Created At'.txt,
+                    columnWidth: FixedColumnWidth(_columnSizes[2])),
+                if (largeScreen)
+                  DataColumn(
+                      label: 'Hash'.txt,
+                      columnWidth: FixedColumnWidth(_columnSizes[3])),
+                DataColumn(
+                    label: 'Actions'.txt,
+                    columnWidth: FixedColumnWidth(_columnSizes[4])),
+              ],
+              rows: [
+                for (var i = 0; i < useCases.cases.length; i++)
+                  DataRow(
+                    onSelectChanged: (selected) {
+                      if (selected == true) {
+                        _gotoUseCase(useCases.cases[i], context);
+                      }
+                    },
+                    cells: [
+                      DataCell(
+                        [
+                          Icon(
+                            Icons.file_open_rounded,
+                            size: 16,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          HGap.units(2),
+                          useCases.cases[i].name.txt,
+                        ].row(),
+                      ),
+                      DataCell(
+                        (useCases.cases[i].description ?? '').txt,
+                      ),
+                      if (!smallScreen)
+                        DataCell(
+                          UseCaseTags(useCase: useCases.cases[i]),
+                        ),
+                      DataCell(DateFormat.Hm()
+                          .add_yMd()
+                          .format(useCases.cases[i].createdAt)
+                          .txt),
+                      if (largeScreen)
+                        DataCell(
+                          useCases.cases[i].generateHash().txt,
+                        ),
+                      DataCell([
+                        SecondaryButton(
+                            icon: Icons.edit,
+                            description: 'Edit Use Case Details',
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => UseCaseDialog(
+                                  title: 'Edit UseCases Details',
+                                  value: useCases.cases[i],
+                                  onConfirm: (details) {
+                                    ref
+                                        .read(useCasesNotifierProvider.notifier)
+                                        .updateUseCase(
+                                            useCases.cases[i].copyWith(
+                                          name: details.name,
+                                          description: details.description,
+                                          tags: details.tags,
+                                        ));
+                                  },
+                                ),
+                              );
+                            }),
+                        SecondaryButton(
+                            icon: Icons.download,
+                            description: 'Export Use Case',
+                            onPressed: () {
+                              ref
+                                  .read(useCaseExporterProvider)
+                                  .export(useCases.cases[i]);
+                            }),
+                        SecondaryButton(
+                            icon: Icons.copy,
+                            description: 'Duplicate Use Case',
+                            onPressed: () {
+                              ref
+                                  .read(useCasesNotifierProvider.notifier)
+                                  .addUseCase(useCases.cases[i].duplicate());
+                            }),
+                        SecondaryButton(
+                            icon: Icons.delete,
+                            confirming: true,
+                            description: 'Delete Use Case',
+                            onPressed: () {
+                              ref
+                                  .read(useCasesNotifierProvider.notifier)
+                                  .deleteUseCase(useCases.cases[i]);
+                            }),
+                      ].row()),
+                    ],
+                  )
+              ]),
         ).expand(),
       ],
     );
   }
-}
 
-class TableItem extends StatefulWidget {
-  const TableItem({
-    super.key,
-    required this.useCase,
-    required this.largeScreen,
-    required this.smallScreen,
-    this.onTap,
-  });
-
-  final UseCase useCase;
-  final bool largeScreen;
-  final bool smallScreen;
-  final GestureTapCallback? onTap;
-
-  @override
-  State<TableItem> createState() => TableItemState();
-}
-
-class TableItemState extends State<TableItem> {
-  bool _onOver = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final useCase = widget.useCase;
-    return Consumer(
-      builder: (context, ref, _) => MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (e) {
-          if (!mounted) return;
-          setState(() {
-            _onOver = true;
-          });
-        },
-        onExit: (e) {
-          if (!mounted) return;
-          setState(() {
-            _onOver = false;
-          });
-        },
-        child: InkWell(
-          onTap: () => context.push('/edit_usecase/${useCase.id}'),
-          child: ColoredBox(
-            color: _onOver
-                ? context.colorScheme.surfaceContainer
-                : Colors.transparent,
-            child: Row(
-              key: ValueKey(useCase.id ?? useCase.generateHash()),
-              children: [
-                Icon(
-                  Icons.file_open_rounded,
-                  size: 16,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                HGap.units(2),
-                useCase.name.txt.size(width: _columnSizes[0]),
-                (useCase.description ?? '').txt.expand(),
-                if (!widget.smallScreen)
-                  UseCaseTags(useCase: useCase).size(width: _columnSizes[1]),
-                DateFormat.Hm()
-                    .add_yMd()
-                    .format(useCase.createdAt)
-                    .txt
-                    .size(width: _columnSizes[2]),
-                if (widget.largeScreen)
-                  useCase.generateHash().txt.size(width: _columnSizes[3]),
-                [
-                  SecondaryButton(
-                      icon: Icons.edit,
-                      description: 'Edit Use Case Details',
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) => UseCaseDialog(
-                            title: 'Edit UseCases Details',
-                            value: useCase,
-                            onConfirm: (details) {
-                              ref
-                                  .read(useCasesNotifierProvider.notifier)
-                                  .updateUseCase(useCase.copyWith(
-                                    name: details.name,
-                                    description: details.description,
-                                    tags: details.tags,
-                                  ));
-                            },
-                          ),
-                        );
-                      }),
-                  SecondaryButton(
-                      icon: Icons.download,
-                      description: 'Export Use Case',
-                      onPressed: () {
-                        ref.read(useCaseExporterProvider).export(useCase);
-                      }),
-                  SecondaryButton(
-                      icon: Icons.copy,
-                      description: 'Duplicate Use Case',
-                      onPressed: () {
-                        ref
-                            .read(useCasesNotifierProvider.notifier)
-                            .addUseCase(useCase.duplicate());
-                      }),
-                  SecondaryButton(
-                      icon: Icons.delete,
-                      confirming: true,
-                      description: 'Delete Use Case',
-                      onPressed: () {
-                        ref
-                            .read(useCasesNotifierProvider.notifier)
-                            .deleteUseCase(useCase);
-                      }),
-                ].row().size(width: _columnSizes[4]),
-                // ref
-                //   .read(useCasesNotifierProvider.notifier)
-                //  .setSelected(index);
-                HGap.units(2),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+  _gotoUseCase(UseCase useCase, BuildContext context) {
+    context.push('/edit_usecase/${useCase.id}');
   }
 }
 

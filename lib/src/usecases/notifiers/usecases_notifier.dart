@@ -125,4 +125,14 @@ class UseCasesNotifier extends _$UseCasesNotifier {
     ));
     save();
   }
+
+  void sortByName({required bool ascending}) {
+    final useCases = state.valueOrNull;
+    if (useCases == null) return;
+    final sorted = useCases.cases.toList()
+      ..sort((a, b) {
+        return ascending ? a.name.compareTo(b.name) : b.name.compareTo(a.name);
+      });
+    state = AsyncData(useCases.copyWith(cases: sorted));
+  }
 }

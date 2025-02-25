@@ -13,8 +13,8 @@ _$TestToolImpl _$$TestToolImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       description: json['description'] as String,
       value: json['value'] as String,
-      parameters: (json['parameters'] as List<dynamic>)
-          .map((e) => TestToolParameter.fromJson(e as Map<String, dynamic>))
+      parameters: (json['parameters'] as List<dynamic>?)
+          ?.map((e) => TestToolParameter.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
